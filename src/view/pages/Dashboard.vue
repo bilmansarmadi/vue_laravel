@@ -1,58 +1,30 @@
 <template>
   <div>
     <!--begin::Dashboard-->
-
     <div class="row">
-      <div class="col-xl-4">
-        <MixedWidget1></MixedWidget1>
-      </div>
-      <div class="col-xl-4">
-        <ListWidget3></ListWidget3>
-      </div>
-      <div class="col-xl-4">
-        <ListWidget2></ListWidget2>
-      </div>
-    </div>
+      <div class="col-xl-4" 
+        v-for="data in data_menu" :key="data.menu_id">
+        
+        <router-link :to="`${data.menu_url}`">
+          <div
+            class="card card-custom bgi-no-repeat gutter-b card-stretch cardHover"
+            :style="`background-position: right top; background-size: 30% auto; background-image: url(media/svg/shapes/${data.menu_icon})`"
+          >
+            <!--begin::Body-->
+            <div class="card-body">
+              <div class="card-title font-weight-bold text-muted text-hover-primary font-size-h5">{{ data.menu_nama }}</div>
 
-    <div class="row">
-      <div class="col-xl-4">
-        <ListWidget14></ListWidget14>
-      </div>
-      <div class="col-xl-4">
-        <ListWidget15></ListWidget15>
-      </div>
-      <div class="col-xl-4">
-        <ListWidget16></ListWidget16>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-xl-6">
-        <ListWidget10></ListWidget10>
-      </div>
-      <div class="col-xl-6">
-        <ListWidget4></ListWidget4>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-xl-4">
-        <ListWidget11></ListWidget11>
-      </div>
-      <div class="col-xl-4">
-        <ListWidget12></ListWidget12>
-      </div>
-      <div class="col-xl-4">
-        <ListWidget13></ListWidget13>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-lg-4">
-        <ListWidget5></ListWidget5>
-      </div>
-      <div class="col-lg-8">
-        <AdvancedTableWidget2></AdvancedTableWidget2>
+              <div class="font-weight-bold text-success font-size-h5 mt-9 mb-5">
+                {{ data.arab_deskripsi }}
+              </div>
+              <router-link :to="{ name: data.menu_url }"></router-link>
+              <p class="text-dark-75 font-weight-bolder font-size-h7 m-0">
+                {{ data.menu_deskripsi }}
+              </p>
+            </div>
+            <!--end::Body-->
+          </div>
+        </router-link>
       </div>
     </div>
     <!--end::Dashboard-->
@@ -61,66 +33,62 @@
 
 <script>
 import { SET_BREADCRUMB } from "@/core/services/store/breadcrumbs.module";
-import AdvancedTableWidget2 from "@/view/content/widgets/advance-table/Widget2.vue";
-import MixedWidget1 from "@/view/content/widgets/mixed/Widget1.vue";
-import ListWidget2 from "@/view/content/widgets/list/Widget2.vue";
-import ListWidget3 from "@/view/content/widgets/list/Widget3.vue";
-import ListWidget4 from "@/view/content/widgets/list/Widget4.vue";
-import ListWidget5 from "@/view/content/widgets/list/Widget5.vue";
-import ListWidget10 from "@/view/content/widgets/list/Widget10.vue";
-import ListWidget11 from "@/view/content/widgets/list/Widget11.vue";
-import ListWidget12 from "@/view/content/widgets/list/Widget12.vue";
-import ListWidget13 from "@/view/content/widgets/list/Widget12.vue";
-import ListWidget14 from "@/view/content/widgets/list/Widget14.vue";
-import ListWidget15 from "@/view/content/widgets/list/Widget15.vue";
-import ListWidget16 from "@/view/content/widgets/list/Widget16.vue";
+import Services from "@/core/services/aljazary-api/Services";
+import ApiService from "@/core/services/api.service";
+import localStorage from "@/core/services/store/localStorage";
 
 export default {
   name: "dashboard",
+  data() {
+    return {
+      data_menu: [],
+    }
+  },
   components: {
-    AdvancedTableWidget2,
-    MixedWidget1,
-    ListWidget2,
-    ListWidget3,
-    ListWidget4,
-    ListWidget5,
-    ListWidget10,
-    ListWidget11,
-    ListWidget12,
-    ListWidget13,
-    ListWidget14,
-    ListWidget15,
-    ListWidget16
   },
   mounted() {
+    this.load();
     this.$store.dispatch(SET_BREADCRUMB, [{ title: "Dashboard" }]);
   },
   methods: {
-    setActiveTab1(event) {
-      this.tabIndex = this.setActiveTab(event);
-    },
-    setActiveTab2(event) {
-      this.tabIndex2 = this.setActiveTab(event);
-    },
-    /**
-     * Set current active on click
-     * @param event
-     */
-    setActiveTab(event) {
-      // get all tab links
-      const tab = event.target.closest('[role="tablist"]');
-      const links = tab.querySelectorAll(".nav-link");
-      // remove active tab links
-      for (let i = 0; i < links.length; i++) {
-        links[i].classList.remove("active");
-      }
+    getDataMenu() {
+      return new Promise(resolve => {
+        var mydata = {
+          UID                 : localStorage.getLocalStorage("uid"),
+          Token               : localStorage.getLocalStorage("token"),
+          Trigger             : "R",
+          Route               : "DEFAULT",
+          menu_lvl            : 0,
+          role_id             : localStorage.getLocalStorage('role_id')
+        };
 
-      // set current active tab
-      event.target.classList.add("active");
+        let contentType = `application/x-www-form-urlencoded`;
 
-      // set clicked tab index to bootstrap tab
-      return parseInt(event.target.getAttribute("data-tab"));
-    }
-  }
+        const qs = require("qs");
+
+        Services.PostData(
+          ApiService,
+          "Master/Menu",
+          qs.stringify(mydata),
+          contentType,
+          response => {
+            resolve(response.data);
+            this.data_menu = response.data;
+          },
+          err => {
+            err;
+          }
+        );
+      });
+    },
+
+    async load() {
+      Promise.all([
+        await this.getDataMenu()
+      ]).then(function(results) {
+        results;
+      });
+    },
+  },
 };
 </script>

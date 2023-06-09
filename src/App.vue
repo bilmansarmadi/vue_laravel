@@ -22,6 +22,31 @@
 /*@import "assets/css/style.vue.rtl";*/
 </style>
 
+<style>
+.cardHover:hover{
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+}
+
+.theme--light.v-data-table > .v-data-table__wrapper > table > thead > tr > th {
+  font-size: 14px !important;
+  color: #000 !important;
+}
+
+/* .theme--light.v-data-table > .v-data-table__wrapper > table > thead {
+  background-color: #e9effd;
+} */
+
+.theme--light.v-data-table > .v-data-table__wrapper > table > tbody > tr > td {
+  font-size: 13px !important;
+}
+
+@media (max-width: 575.98px) {
+  .hideText {
+    display:none;
+  }
+}
+</style>
+
 <script>
 import { OVERRIDE_LAYOUT_CONFIG } from "@/core/services/store/config.module";
 

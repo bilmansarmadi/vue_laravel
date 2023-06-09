@@ -15,6 +15,101 @@ export default new Router({
           name: "dashboard",
           component: () => import("@/view/pages/Dashboard.vue")
         },
+
+
+        {
+          path: "/master",
+          name: "master",
+          component: () => import("@/view/pages/master/Master.vue")
+        },
+        {
+          path: "/master/kelas",
+          name: "master-kelas",
+          component: () => import("@/view/pages/master/data-kelas/DataKelas.vue")
+        },
+        {
+          path: "/master/kurikulum",
+          name: "master-kurikulum",
+          component: () => import("@/view/pages/master/kurikulum/Kurikulum.vue")
+        },
+        {
+          path: "/master/tahunajaran",
+          name: "master-tahun-ajaran",
+          component: () => import("@/view/pages/master/tahun-ajaran/TahunAjaran.vue")
+        },
+        {
+          path: "/master/datasantri",
+          name: "master-data-santri",
+          component: () => import("@/view/pages/master/data-santri/DataSantri.vue")
+        },
+        {
+          path: "/master/pengajar",
+          name: "master-data-pengajar",
+          component: () => import("@/view/pages/master/data-pengajar/DataPengajar.vue")
+        },
+
+
+        {
+          path: "/manajemen",
+          name: "manajemen",
+          component: () => import("@/view/pages/manajemen/Manajemen.vue")
+        },
+        {
+          path: "/manajemen/user",
+          name: "manajemen-data-user",
+          component: () => import("@/view/pages/manajemen/data-user/DataUser.vue")
+        },
+        {
+          path: "/manajemen/Akses",
+          name: "manajemen-web-akses",
+          component: () => import("@/view/pages/manajemen/web-akses/WebAkses.vue")
+        },
+        {
+          path: "/manajemen/roleuser",
+          name: "manajemen-data-role",
+          component: () => import("@/view/pages/manajemen/data-role/DataRole.vue")
+        },
+
+        
+        {
+          path: "/pengajaran",
+          name: "pengajaran",
+          component: () => import("@/view/pages/pengajaran/Pengajaran.vue")
+        },
+        {
+          path: "/jadwal",
+          name: "jadwal",
+          component: () => import("@/view/pages/jadwal-kelas/Jadwal.vue")
+        },
+        {
+          path: "/profil",
+          name: "data_diri",
+          component: () => import("@/view/pages/data-diri/DataDiri.vue")
+        },
+        {
+          path: "/caripengajar",
+          name: "cari_data_pengajar",
+          component: () => import("@/view/pages/cari-pengajar/CariPengajar.vue")
+        },
+        {
+          path: "/carisantri",
+          name: "cari_data_santri",
+          component: () => import("@/view/pages/cari-santri/CariSantri.vue")
+        },
+        {
+          path: "/inputnilai",
+          name: "input_nilai_santri",
+          component: () => import("@/view/pages/input-nilai-santri/InputNilai.vue")
+        },
+        {
+          path: "/absensi",
+          name: "absensi",
+          component: () => import("@/view/pages/absensi/Absensi.vue")
+        },
+
+
+
+
         {
           path: "/builder",
           name: "builder",

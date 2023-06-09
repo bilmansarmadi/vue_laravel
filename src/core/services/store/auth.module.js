@@ -1,6 +1,10 @@
 import ApiService from "@/core/services/api.service";
 import JwtService from "@/core/services/jwt.service";
 
+import Service from '@/core/services/aljazary-api/Services';
+import localStorage from './localStorage'
+import Swal from 'sweetalert2'
+
 // action types
 export const VERIFY_AUTH = "verifyAuth";
 export const LOGIN = "login";
@@ -32,18 +36,77 @@ const getters = {
 const actions = {
   [LOGIN](context, credentials) {
     return new Promise(resolve => {
-      ApiService.post("login", credentials)
-        .then(({ data }) => {
-          // console.log("Here what post returns", data);
-          context.commit(SET_AUTH, data);
-          resolve(data);
-        })
-        .catch(({ response }) => {
-          context.commit(SET_ERROR, response.data.errors);
-        });
+      var mydata = {
+        Trigger             : "R",
+        Route               : 'LOGIN',
+        Token               : '_:>$%#%&%$522*(*&^%',
+        UID                 : 'R',
+        user_email          : credentials.user_email,
+        user_password       : credentials.user_password
+      };
+
+      let contentType = `application/x-www-form-urlencoded`;
+
+      const qs = require("qs");
+
+      Service.PostData(
+        ApiService,
+        "Master/Users",
+        qs.stringify(mydata),
+        contentType,
+        response => {
+          resolve(response);
+          if (response.status == 1000) {
+            context.commit(SET_AUTH, response.data[0]);
+            localStorage.setLocalStorage('role_id', response.data[0].role_id);
+            localStorage.setLocalStorage('uid', response.data[0].User_Id);
+            localStorage.setLocalStorage('user_fullname', response.data[0].user_fullname);
+            localStorage.setLocalStorage('token', response.data[0].token);
+
+            const Toast = Swal.mixin({
+              toast: true,
+              position: 'top-end',
+              showConfirmButton: false,
+              timer: 3000,
+              timerProgressBar: true,
+              didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+              }
+            })
+            
+            Toast.fire({
+              icon: 'success',
+              title: 'Berhasil login...'
+            })
+          } else if(response.status == 3004){
+            Swal.fire({
+              title: "Email belum terdaftar",
+              icon: "warning",
+              confirmButtonClass: "btn btn-secondary",
+              heightAuto: true,
+              timer: 3000
+            });
+          }
+        },
+        err => {
+          Swal.fire({
+            title: "Gagal Login",
+            icon: "error",
+            confirmButtonClass: "btn btn-secondary",
+            heightAuto: true,
+            timer: 1500
+          });
+          context.commit(SET_ERROR, err);
+        }
+      );
     });
   },
   [LOGOUT](context) {
+    localStorage.deleteLocalStorage("uid");
+    localStorage.deleteLocalStorage("token");
+    localStorage.deleteLocalStorage("role_id");
+    localStorage.deleteLocalStorage("user_fullname");
     context.commit(PURGE_AUTH);
   },
   [REGISTER](context, credentials) {
@@ -60,14 +123,11 @@ const actions = {
   },
   [VERIFY_AUTH](context) {
     if (JwtService.getToken()) {
-      ApiService.setHeader();
-      ApiService.get("verify")
-        .then(({ data }) => {
-          context.commit(SET_AUTH, data);
-        })
-        .catch(({ response }) => {
-          context.commit(SET_ERROR, response.data.errors);
-        });
+      if(context.state.user.data > 0){
+        context.commit(SET_AUTH, context.state.user.data);
+      }else{
+        context.commit(SET_ERROR, context.state.user.error);
+      }
     } else {
       context.commit(PURGE_AUTH);
     }

@@ -6,7 +6,7 @@
     >
       <div class="d-flex flex-column text-right pr-3">
         <span
-          class="text-white opacity-50 font-weight-bold font-size-sm d-none d-md-inline"
+          class="text-white font-weight-bold font-size-h6-xl d-none d-md-inline"
           >Sean</span
         >
         <span
@@ -16,7 +16,7 @@
       </div>
       <span class="symbol symbol-35">
         <span
-          class="symbol-label font-size-h5 font-weight-bold text-white bg-white-o-30"
+          class="symbol-label font-size-h5 font-weight-bold text-black bg-white"
           >S</span
         >
       </span>

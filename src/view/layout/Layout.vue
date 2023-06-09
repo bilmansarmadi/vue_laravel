@@ -17,41 +17,33 @@
           id="kt_content"
           class="content  d-flex flex-column flex-column-fluid"
         >
-          <!-- begin:: Content Head -->
-          <KTSubheader
-            v-if="subheaderDisplay && displaySubheaderOnDashboard"
-            v-bind:breadcrumbs="breadcrumbs"
-            v-bind:title="pageTitle"
-          />
-          <!-- end:: Content Head -->
-
           <!-- begin:: Content Body -->
-          <div class="d-flex flex-column-fluid">
-            <div
-              :class="{
-                'container-fluid': contentFluid,
-                container: !contentFluid
-              }"
-            >
-              <div class="d-lg-flex flex-row-fluid">
-                <!-- begin:: Aside Left -->
-                <KTAside v-if="asideEnabled"></KTAside>
-                <!-- end:: Aside Left -->
-                <div class="content-wrapper flex-row-fluid">
-                  <transition name="fade-in-up">
-                    <router-view />
-                  </transition>
+          <v-app>
+            <div class="d-flex flex-column-fluid mt-5">
+              <div
+                :class="{
+                  'container-fluid': contentFluid,
+                  container: !contentFluid
+                }"
+              >
+                <div class="d-lg-flex flex-row-fluid">
+                  <!-- begin:: Aside Left -->
+                  <KTAside v-if="asideEnabled"></KTAside>
+                  <!-- end:: Aside Left -->
+                  <div class="content-wrapper flex-row-fluid">
+                    <transition name="fade-in-up">
+                      <router-view />
+                    </transition>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          </v-app>
         </div>
 
         <KTFooter></KTFooter>
       </div>
     </div>
-
-    <KTStickyToolbar v-if="toolbarDisplay"></KTStickyToolbar>
     <KTScrollTop></KTScrollTop>
   </div>
 </template>
@@ -64,7 +56,6 @@ import KTHeaderMobile from "@/view/layout/header/HeaderMobile.vue";
 import KTSubheader from "@/view/layout/subheader/Subheader.vue";
 import KTFooter from "@/view/layout/footer/Footer.vue";
 import HtmlClass from "@/core/services/htmlclass.service";
-import KTStickyToolbar from "@/view/layout/extras/StickyToolbar.vue";
 import KTScrollTop from "@/view/layout/extras/ScrollTop";
 import Loader from "@/view/content/Loader.vue";
 import {
@@ -80,7 +71,6 @@ export default {
     KTHeaderMobile,
     KTSubheader,
     KTFooter,
-    KTStickyToolbar,
     KTScrollTop,
     Loader
   },

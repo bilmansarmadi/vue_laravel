@@ -4,17 +4,17 @@
       <div class="container">
         <div class="d-none d-lg-flex align-items-center mr-3">
           <!--begin::Logo-->
-          <div class="mr-20">
+          <div class="mr-5">
             <router-link to="/">
               <img
                 alt="Logo"
                 :src="layoutConfig('self.logo.default')"
-                class="max-h-35px"
+                class="max-h-65px"
               />
             </router-link>
           </div>
           <!--end::Logo-->
-          <ul
+          <!-- <ul
             class="header-tabs nav align-self-end font-size-lg"
             role="tablist"
           >
@@ -66,7 +66,13 @@
                 >Help Ceter</a
               >
             </li>
-          </ul>
+          </ul> -->
+          <h4
+            class="font-weight-boldest text-center font-size-h3 "
+            style="color: #FFFFF0;"
+          >
+            Pondok Pesantren Qur'an Al Jazary
+          </h4>
         </div>
         <KTTopbar></KTTopbar>
       </div>
@@ -78,100 +84,19 @@
           id="kt_header_navs"
           ref="kt_header_navs"
         >
-          <ul
-            class="header-tabs p-5 p-lg-0 d-flex d-lg-none nav nav-bold nav-tabs"
-            role="tablist"
-          >
-            <li class="nav-item mr-2">
-              <a
-                href="#"
-                class="nav-link btn btn-clean active"
-                @click="setActiveTab"
-                data-tab="0"
-                data-toggle="tab"
-                data-target="#kt_header_tab_1"
-                role="tab"
-                >Home</a
-              >
-            </li>
-            <li class="nav-item mr-2">
-              <a
-                href="#"
-                class="nav-link btn btn-clean"
-                @click="setActiveTab"
-                data-tab="1"
-                data-toggle="tab"
-                data-target="#kt_header_tab_2"
-                role="tab"
-                >Reports</a
-              >
-            </li>
-            <li class="nav-item mr-2">
-              <a
-                href="#"
-                class="nav-link btn btn-clean"
-                @click="setActiveTab"
-                data-tab="1"
-                data-toggle="tab"
-                data-target="#kt_header_tab_2"
-                role="tab"
-                >Orders</a
-              >
-            </li>
-            <li class="nav-item mr-2">
-              <a
-                href="#"
-                class="nav-link btn btn-clean"
-                @click="setActiveTab"
-                data-tab="1"
-                data-toggle="tab"
-                data-target="#kt_header_tab_2"
-                role="tab"
-                >Help Ceter</a
-              >
-            </li>
-          </ul>
-          <b-tabs class="hide-tabs" v-model="tabIndex">
-            <b-tab>
-              <div class="tab-pane py-5 show active">
-                <!--begin::Menu-->
-                <div
-                  id="kt_header_menu"
-                  ref="kt_header_menu"
-                  class="header-menu header-menu-mobile header-menu-layout-default"
-                >
-                  <KTMenu></KTMenu>
-                </div>
-                <!--end::Menu-->
-              </div>
-            </b-tab>
-
-            <b-tab class="tab-pane p-5 justify-content-between">
+          <div v-if="$route.name != 'dashboard'">
+            <div class="tab-pane py-5 show active">
+              <!--begin::Menu-->
               <div
-                class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center"
+                id="kt_header_menu"
+                ref="kt_header_menu"
+                class="header-menu header-menu-mobile header-menu-layout-default"
               >
-                <!--begin::Actions-->
-                <a
-                  href="#"
-                  class="btn btn-light-success font-weight-bold mr-3 my-2 my-lg-0"
-                  >Latest Orders</a
-                >
-                <a
-                  href="#"
-                  class="btn btn-light-primary font-weight-bold my-2 my-lg-0"
-                  >Customer Service</a
-                >
-                <!--end::Actions-->
+                <KTMenu></KTMenu>
               </div>
-              <div class="d-flex align-items-center">
-                <!--begin::Actions-->
-                <a href="#" class="btn btn-danger font-weight-bold my-2 my-lg-0"
-                  >Generate Reports</a
-                >
-                <!--end::Actions-->
-              </div>
-            </b-tab>
-          </b-tabs>
+              <!--end::Menu-->
+            </div>
+          </div>
         </div>
       </div>
     </div>
