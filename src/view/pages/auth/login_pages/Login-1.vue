@@ -100,7 +100,7 @@
                   <button
                     :disabled='isDisabled'
                     ref="kt_login_signin_submit"
-                    class="btn btn-primary btn-sm font-weight-bolder font-size-h6 rounded-lg px-5 py-3 mt-8"
+                    class="btn btn-primary btn-sm font-weight-bolder font-size-h6 rounded-lg py-3 mt-8"
                   >
                     Sign In
                   </button>

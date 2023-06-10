@@ -72,7 +72,7 @@
                                             :rules="rulesNotNull"
                                             required
                                             clearable
-                                            color="#005EAB"
+                                            color="#ee8b3d"
                                         ></v-text-field>
                                     </v-col>
                                     <v-col
@@ -85,7 +85,7 @@
                                             :rules="rulesNotNull"
                                             required
                                             clearable
-                                            color="#005EAB"
+                                            color="#ee8b3d"
                                         ></v-text-field>
                                     </v-col>
                                     <v-col
@@ -99,6 +99,7 @@
                                             item-value="value"
                                             label="Status Kelas"
                                             clearable
+                                            color="#ee8b3d"
                                         ></v-select>
                                     </v-col>
                                 </v-row>
@@ -227,7 +228,7 @@ export default {
                     sortable: false 
                 },
                 { 
-                    text: 'Actions', 
+                    text: 'Aksi', 
                     value: 'actions', 
                     align: 'center',
                     width: "150px",
@@ -391,7 +392,7 @@ export default {
                             if (response.status == 1000) {
                                 Swal.fire({
                                     title: "",
-                                    text: response.message,
+                                    text: "Berhasil menghapus data.",
                                     icon: "success",
                                     heightAuto: true,
                                     timer: 1500

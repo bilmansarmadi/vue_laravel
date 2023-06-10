@@ -7,11 +7,11 @@
         
         <router-link :to="`${data.menu_url}`">
           <div
-            class="card card-custom bgi-no-repeat gutter-b card-stretch cardHover"
+            class="card card-custom border border-primary bgi-no-repeat gutter-b card-stretch cardHover"
             :style="`background-position: right top; background-size: 30% auto; background-image: url(media/svg/shapes/${data.menu_icon})`"
           >
             <!--begin::Body-->
-            <div class="card-body">
+            <div class="card-body shadow-xs">
               <div class="card-title font-weight-bold text-muted text-hover-primary font-size-h5">{{ data.menu_nama }}</div>
 
               <div class="font-weight-bold text-success font-size-h5 mt-9 mb-5">

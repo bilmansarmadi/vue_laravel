@@ -40,6 +40,24 @@
   font-size: 13px !important;
 }
 
+.input_images{
+  display: flex;
+  justify-content: center;
+}
+.input_images i{
+  font-size: 3.2rem;
+}
+.input_images .file_upload{
+  overflow: hidden;
+  position: relative;
+}
+.input_images .file_upload #file{
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+}
+
 @media (max-width: 575.98px) {
   .hideText {
     display:none;
