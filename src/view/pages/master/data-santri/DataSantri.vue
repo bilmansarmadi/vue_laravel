@@ -301,6 +301,20 @@
                                         cols="12"
                                         md="6"
                                     >
+                                        <v-select
+                                            v-model="formInput.status"
+                                            :items="dropdown_status"
+                                            item-text="text"
+                                            item-value="value"
+                                            label="Status"
+                                            clearable
+                                            color="#ee8b3d"
+                                        ></v-select>
+                                    </v-col>
+                                    <v-col
+                                        cols="12"
+                                        md="6"
+                                    >
                                         <v-text-field
                                             v-model="formInput.nama_ibu"
                                             label="Nama Ibu"
@@ -493,7 +507,7 @@ export default {
                 hp_ortu: "",
                 nama_ayah: "",
                 nama_ibu: "",
-                foto: "",
+                status: "",
             },
             headers: [
                 { 
@@ -616,6 +630,13 @@ export default {
                     sortable: false 
                 },
                 { 
+                    text: 'Status', 
+                    value: 'status',
+                    align: 'start',
+                    width: "150px",
+                    sortable: false 
+                },
+                { 
                     text: 'Aksi', 
                     value: 'actions', 
                     align: 'center',
@@ -626,6 +647,10 @@ export default {
             dropdown_jenkel: [
                 { value: 'L', text: "Laki-laki" },
                 { value: 'P', text: "Perempuan" },
+            ],
+            dropdown_status: [
+                { value: 0, text: "Tidak Aktif" },
+                { value: 1, text: "Aktif" },
             ],
             rulesNotNull: [
                 value => !!value || 'Tidak boleh kosong.',
