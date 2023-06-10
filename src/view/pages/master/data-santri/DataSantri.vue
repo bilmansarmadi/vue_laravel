@@ -395,7 +395,7 @@
     
                         <v-card-actions>
                             <v-spacer></v-spacer>
-                            <v-btn class="mb-3 text-xl-subtitle-1" color="#005EAB" text @click="dialogSeenBill = false">
+                            <v-btn class="mb-3 text-xl-subtitle-1" color="#73a4ef" text @click="dialogSeenBill = false">
                             Tutup
                             </v-btn>
                         </v-card-actions>
@@ -444,13 +444,13 @@
                 <template v-slot:[`item.foto`]="{ item }">
                     <img :src="item.foto" class="rounded" alt="Foto" style="max-width: 100px;" v-show="item.foto.length > 40"/>
                     <v-btn
-                        color="blue"
+                        color="#73a4ef"
                         light
                         small
                         class="ml-3"
                         @click="seenFileBill(item)"
                         data-toggle="tooltip"
-                        title="Lihat Detail"
+                        title="Lihat Foto"
                         v-show="item.foto.length > 40"
                         style="text-transform: capitalize !important; min-width: 0px; padding: 0 6px;"
                     >
