@@ -81,7 +81,7 @@ const actions = {
             })
           } else if(response.status == 3004){
             Swal.fire({
-              title: "Email belum terdaftar",
+              title: response.message,
               icon: "warning",
               confirmButtonClass: "btn btn-secondary",
               heightAuto: true,

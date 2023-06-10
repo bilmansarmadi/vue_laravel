@@ -135,7 +135,7 @@
                                             color="#ee8b3d"
                                         ></v-text-field>
                                     </v-col>
-                                    <v-col
+                                    <!-- <v-col
                                     cols="12"
                                     md="6"
                                     >
@@ -165,6 +165,37 @@
                                             @input="addDate = false"
                                             ></v-date-picker>
                                         </v-menu>
+                                    </v-col> -->
+                                    <v-col
+                                    cols="12"
+                                    lg="6"
+                                    >
+                                    <v-menu
+                                        ref="menu1"
+                                        v-model="menu1"
+                                        :close-on-content-click="false"
+                                        transition="scale-transition"
+                                        offset-y
+                                        max-width="290px"
+                                        min-width="auto"
+                                    >
+                                        <template v-slot:activator="{ on, attrs }">
+                                        <v-text-field
+                                            v-model="dateFormatted"
+                                            label="Tanggal Lahir"
+                                            persistent-hint
+                                            prepend-icon="mdi-calendar"
+                                            v-bind="attrs"
+                                            @blur="date = parseDate(dateFormatted)"
+                                            v-on="on"
+                                        ></v-text-field>
+                                        </template>
+                                        <v-date-picker
+                                        v-model="date"
+                                        no-title
+                                        @input="menu1 = false"
+                                        ></v-date-picker>
+                                    </v-menu>
                                     </v-col>
                                     <v-col
                                         cols="12"
@@ -423,6 +454,7 @@ import Services from "@/core/services/aljazary-api/Services";
 import ApiService from "@/core/services/api.service";
 import Swal from 'sweetalert2'
 import localStorage from "@/core/services/store/localStorage";
+import { formatDate } from "@/helpers/helper.js";
 
 export default {
     name:"master-data-santri",
@@ -451,7 +483,7 @@ export default {
                 hafalan_ziyadah: "",
                 hafalan_mutqin: "",
                 tempat_lahir: "",
-                tanggal_lahir: "",
+                // tanggal_lahir: "",
                 jenis_kelamin: "",
                 anak_ke: "",
                 berat_badan: "",
@@ -598,11 +630,14 @@ export default {
             rulesNotNull: [
                 value => !!value || 'Tidak boleh kosong.',
             ],
-            addDate: false,
+            // addDate: false,
             dialogSeenBill: false,
             tabelFoto: "",
             images: "",
             img: "",
+            menu1: false,
+            date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+            dateFormatted: formatDate((new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)),
         }
     },
 
@@ -626,11 +661,12 @@ export default {
         formSubmit() {
             return this.editedIndex === -1
                 ? this.createDataSantri
-                : this.updateTahunAjaran;
+                : this.updateDataSantri;
         },
         isDisabledSimpan(){
             return !this.formInput.kode_santri || !this.formInput.nama_lengkap_santri
-            || !this.formInput.panggilan || !this.formInput.tanggal_lahir
+            || !this.formInput.panggilan 
+            // || !this.formInput.tanggal_lahir
             || !this.formInput.tempat_lahir || !this.formInput.alamat
             || !this.formInput.berat_badan || !this.formInput.tinggi_badan
             || !this.formInput.email || !this.formInput.nama_ayah
@@ -638,7 +674,27 @@ export default {
         }
     },
 
+    watch: {
+        date (val) {
+            this.dateFormatted = this.formatDate(this.date)
+        },
+    },
+
     methods:{
+        formatDate (date) {
+            if (!date) return null
+
+            const [year, month, day] = date.split('-')
+            return `${day}/${month}/${year}`
+        },
+
+        parseDate (date) {
+            if (!date) return null
+
+            const [month, day, year] = date.split('/')
+            return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
+        },
+
         gerMasterDataSantri(){
             return new Promise(resolve => {
                 var mydata = {
@@ -682,7 +738,7 @@ export default {
                 formData.append("hafalan_ziyadah", this.add_data_santri.hafalan_ziyadah)
                 formData.append("hafalan_mutqin", this.add_data_santri.hafalan_mutqin)
                 formData.append("tempat_lahir", this.add_data_santri.tempat_lahir)
-                formData.append("tanggal_lahir", this.add_data_santri.tanggal_lahir)
+                formData.append("tanggal_lahir", this.dateFormatted)
                 formData.append("jenis_kelamin", this.add_data_santri.jenis_kelamin)
                 formData.append("anak_ke", this.add_data_santri.anak_ke)
                 formData.append("berat_badan", this.add_data_santri.berat_badan)
@@ -734,6 +790,7 @@ export default {
         editItem (item) {
             this.editedIndex = this.data_santri.indexOf(item)
             this.editedItem = Object.assign({}, item)
+            this.dateFormatted = item.tanggal_lahir
             this.data_item = item
             this.dialog = true
         },
@@ -821,18 +878,19 @@ export default {
                 this.add_data_santri.nama_ayah = ""
                 this.add_data_santri.nama_ibu = ""
                 this.images = ""
+                this.img = ""
                 this.editedItem = Object.assign({}, this.defaultItem)
                 this.editedIndex = -1
             })
         },
 
-        updateTahunAjaran() {
+        updateDataSantri() {
             let media = "";
             var check = this.editedItem.foto;
             if (this.images != null && check.length < 40 ) {
                 media =  this.images
             } else {
-                media = check
+                media = ""
             }
             return new Promise(resolve => {
                 const formData = new FormData()
@@ -848,7 +906,7 @@ export default {
                 formData.append("hafalan_ziyadah", this.editedItem.hafalan_ziyadah)
                 formData.append("hafalan_mutqin", this.editedItem.hafalan_mutqin)
                 formData.append("tempat_lahir", this.editedItem.tempat_lahir)
-                formData.append("tanggal_lahir", this.editedItem.tanggal_lahir)
+                formData.append("tanggal_lahir", this.dateFormatted)
                 formData.append("jenis_kelamin", this.editedItem.jenis_kelamin)
                 formData.append("anak_ke", this.editedItem.anak_ke)
                 formData.append("berat_badan", this.editedItem.berat_badan)
