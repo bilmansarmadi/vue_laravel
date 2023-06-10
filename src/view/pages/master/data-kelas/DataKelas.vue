@@ -1,5 +1,5 @@
 <template>
-    <div class="container-fluid col-md-8">
+    <div class="container-fluid col-md-10">
         <div class="card cardHover">
             <v-data-table responsive show-empty
                 :headers="headers"
@@ -94,7 +94,7 @@
                                     >
                                         <v-select
                                             v-model="formInput.status_kelas"
-                                            :items="status_kelas"
+                                            :items="dropdown_status"
                                             item-text="text"
                                             item-value="value"
                                             label="Status Kelas"
@@ -201,7 +201,7 @@ export default {
                 deskripsi_kelas: "",
                 status_kelas: ""
             },
-            status_kelas: [
+            dropdown_status: [
                 { value: 0, text: "Tidak Aktif" },
                 { value: 1, text: "Aktif" },
             ],
@@ -269,7 +269,7 @@ export default {
     },
 
     methods:{
-        gerMasterDataKelas(){
+        getMasterDataKelas(){
             return new Promise(resolve => {
                 var mydata = {
                     UID: localStorage.getLocalStorage("uid"),
@@ -341,7 +341,7 @@ export default {
                     this.create_data_kelas = response.data;
                     this.submitted = true;
                     this.save("add_data_kelas");
-                    this.gerMasterDataKelas();
+                    this.getMasterDataKelas();
                 },
                 err => {
                     err;
@@ -409,7 +409,7 @@ export default {
                             this.delete_data_kelas = response.data;
                             this.submitted = true;
                             this.data_kelas.splice(this.deletedIndex, 1);
-                            this.gerMasterDataKelas()
+                            this.getMasterDataKelas()
                         },
                         err => {
                             err;
@@ -475,7 +475,7 @@ export default {
                         this.update_data_kelas = response.data;
                         this.submitted = true;
                         this.save("edit_data_kelas");
-                        this.gerMasterDataKelas();
+                        this.getMasterDataKelas();
                     },
                     err => {
                         err;
@@ -506,7 +506,7 @@ export default {
 
         async load() {
             Promise.all([
-                await this.gerMasterDataKelas()
+                await this.getMasterDataKelas()
             ]).then(function(results) {
                 results;
             });

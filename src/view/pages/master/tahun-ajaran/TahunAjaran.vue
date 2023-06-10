@@ -1,5 +1,5 @@
 <template>
-    <div class="container-fluid col-md-8">
+    <div class="container-fluid col-md-10">
         <div class="card cardHover">
             <v-data-table responsive show-empty
                 :headers="headers"
