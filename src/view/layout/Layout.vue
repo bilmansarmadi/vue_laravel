@@ -19,7 +19,7 @@
         >
           <!-- begin:: Content Body -->
           <v-app>
-            <div class="d-flex flex-column-fluid mt-5">
+            <div class="d-flex flex-column-fluid">
               <div
                 :class="{
                   'container-fluid': contentFluid,

@@ -41,7 +41,6 @@ export default {
   mounted() {
     this.route = (this.$route.path).split('/');
     this.routePath = '/'+this.route[1]
-    console.log(this.routePath);
     this.load();
   },
 
@@ -55,7 +54,6 @@ export default {
     },
 
     getDataMenu() {
-      this.dMenu = [];
         return new Promise(resolve => {
         let contentType = `application/x-www-form-urlencoded`;
         var mydata = {
@@ -66,14 +64,8 @@ export default {
           menu_url: this.routePath,
           role_id: localStorage.getLocalStorage('role_id'),
         };
-        this.loadingTable = true;
         Services.PostData(ApiService, "Master/Menu", mydata, contentType, async response => {
-          var responseCace = response.data;
-          this.dMenu = responseCace;
-          this.tdMenu = response.total;
-          resolve(this.dMenu);
           this.data_menu = response.data;
-          this.loadingTable = false;
         }, err => {
           err;
         });
