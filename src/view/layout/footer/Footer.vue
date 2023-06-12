@@ -12,7 +12,7 @@
         <a
           target="_blank"
           class="text-dark-75 text-hover-primary"
-          >Keenthemes</a
+          >BTS</a
         >
       </div>
       <!--end::Copyright-->

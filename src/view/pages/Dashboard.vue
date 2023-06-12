@@ -8,7 +8,7 @@
         <router-link :to="`${data.menu_url}`">
           <div
             class="card card-custom border border-primary bgi-no-repeat gutter-b card-stretch cardHover"
-            :style="`background-position: right top; background-size: 30% auto; background-image: url(media/svg/shapes/${data.menu_icon})`"
+            :style="`background-position: right top; background-image: url(media/svg/shapes/${data.menu_icon})`"
           >
             <!--begin::Body-->
             <div class="card-body shadow-xs">

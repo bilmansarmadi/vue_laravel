@@ -7,7 +7,7 @@
       <div class="d-flex flex-column text-right pr-3">
         <span
           class="text-white font-weight-bold font-size-h6-xl d-none d-md-inline"
-          >Sean</span
+          >Seans</span
         >
         <span
           class="text-white font-weight-bolder font-size-sm d-none d-md-inline"
