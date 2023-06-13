@@ -65,7 +65,7 @@
                                         cols="12"
                                         md="12"
                                     >
-                                        <v-select
+                                        <v-autocomplete
                                             v-model="formInput.role_id"
                                             :items="data_role_user"
                                             item-text="role_nama"
@@ -73,7 +73,7 @@
                                             label="Nama Akses"
                                             clearable
                                             color="#ee8b3d"
-                                        ></v-select>
+                                        ></v-autocomplete>
                                     </v-col>
                                     <v-col
                                         cols="12"

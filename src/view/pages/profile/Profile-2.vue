@@ -78,45 +78,11 @@
                 class="btn btn-hover-light-primary font-weight-bold py-3 px-6 mb-2 text-center btn-block"
                 @click="setActiveTab"
                 style="cursor:pointer"
-                data-tab="2"
-                data-toggle="tab"
-                role="tab"
-              >
-                Account Info
-              </a>
-              <a
-                class="btn btn-hover-light-primary font-weight-bold py-3 px-6 mb-2 text-center btn-block"
-                @click="setActiveTab"
-                style="cursor:pointer"
                 data-tab="3"
                 data-toggle="tab"
                 role="tab"
               >
-                Change Passwort
-              </a>
-              <a
-                class="btn btn-hover-light-primary font-weight-bold py-3 px-6 mb-2 text-center btn-block"
-                @click="setActiveTab"
-                style="cursor:pointer"
-                data-tab="4"
-                data-toggle="tab"
-                role="tab"
-              >
-                Email Settings
-              </a>
-              <a
-                href="#"
-                class="btn btn-hover-light-primary font-weight-bold py-3 px-6 mb-2 text-center btn-block"
-                v-b-tooltip.hover.right="'Comming soon...'"
-              >
-                Saved Credit Cards
-              </a>
-              <a
-                href="#"
-                class="btn btn-hover-light-primary font-weight-bold py-3 px-6 mb-2 text-center btn-block"
-                v-b-tooltip.hover.right="'Comming soon...'"
-              >
-                Tax information
+                Change Password
               </a>
             </div>
           </div>

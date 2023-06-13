@@ -60,7 +60,7 @@ const actions = {
             context.commit(SET_AUTH, response.data[0]);
             localStorage.setLocalStorage('role_id', response.data[0].role_id);
             localStorage.setLocalStorage('uid', response.data[0].User_Id);
-            localStorage.setLocalStorage('user_fullname', response.data[0].user_fullname);
+            localStorage.setLocalStorage('user_fullname', response.data[0].nama);
             localStorage.setLocalStorage('token', response.data[0].token);
 
             const Toast = Swal.mixin({

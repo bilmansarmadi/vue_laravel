@@ -287,6 +287,7 @@ export default {
   data() {
     return {
       state: "signin",
+      show: false,
       // Remove this dummy login info
       form: {
         user_email: "",

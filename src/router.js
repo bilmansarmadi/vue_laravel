@@ -106,6 +106,11 @@ export default new Router({
           name: "absensi",
           component: () => import("@/view/pages/absensi/Absensi.vue")
         },
+        {
+          path: "/profiles",
+          name: "profile",
+          component: () => import("@/view/pages/profile/Profile-2.vue")
+        },
 
 
 

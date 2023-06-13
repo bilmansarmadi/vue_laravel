@@ -66,7 +66,7 @@
                                         cols="12"
                                         md="6"
                                     >
-                                        <v-select
+                                        <v-autocomplete
                                             v-model="formInput.kode_user"
                                             :items="data_kode_user"
                                             :item-text="getTextKodeUser"
@@ -75,13 +75,13 @@
                                             clearable
                                             color="#ee8b3d"
                                         >
-                                        </v-select>
+                                        </v-autocomplete>
                                     </v-col>
                                     <v-col
                                         cols="12"
                                         md="6"
                                     >
-                                        <v-select
+                                        <v-autocomplete
                                             v-model="formInput.role_id"
                                             :items="data_role_user"
                                             item-text="role_nama"
@@ -89,7 +89,7 @@
                                             label="Akses"
                                             clearable
                                             color="#ee8b3d"
-                                        ></v-select>
+                                        ></v-autocomplete>
                                     </v-col>
                                     <v-col
                                         cols="12"
@@ -181,8 +181,8 @@
                 <span>Hapus Data</span>
                 </v-tooltip>
                 </template>
-                <template v-slot:[`item.nama_user`]="{ item }">
-                    <span>{{ item.nomor_identitas }} | {{ item.nama_user }}</span>
+                <template v-slot:[`item.user_fullname`]="{ item }">
+                    <span>{{ item.nomor_identitas }} | {{ item.user_fullname }}</span>
                 </template>
             </v-data-table>
         </div>
@@ -226,7 +226,7 @@ export default {
             headers: [
                 { 
                     text: 'Nomor Identitas', 
-                    value: 'nama_user',
+                    value: 'user_fullname',
                     align: 'start',
                     width: "150px",
                     sortable: false 
