@@ -62,7 +62,7 @@
                 data-toggle="tab"
                 role="tab"
               >
-                Profile Overview
+                Personal info
               </a>
               <a
                 class="btn btn-hover-light-primary font-weight-bold py-3 px-6 mb-2 text-center btn-block"
@@ -72,7 +72,7 @@
                 data-toggle="tab"
                 role="tab"
               >
-                Personal info
+                Profile Overview
               </a>
               <a
                 class="btn btn-hover-light-primary font-weight-bold py-3 px-6 mb-2 text-center btn-block"
@@ -98,6 +98,10 @@
     <div class="flex-row-fluid ml-lg-8">
       <b-tabs class="hide-tabs" v-model="tabIndex">
         <b-tab active>
+          <KTPersonalInformation></KTPersonalInformation>
+        </b-tab>
+
+        <b-tab>
           <!--begin::Row-->
           <div class="row">
             <div class="col-lg-6">
@@ -112,19 +116,7 @@
         </b-tab>
 
         <b-tab>
-          <KTPersonalInformation></KTPersonalInformation>
-        </b-tab>
-
-        <b-tab>
-          <KTAccountInformation></KTAccountInformation>
-        </b-tab>
-
-        <b-tab>
           <KTChangePassword></KTChangePassword>
-        </b-tab>
-
-        <b-tab>
-          <KTEmailSettings></KTEmailSettings>
         </b-tab>
       </b-tabs>
     </div>

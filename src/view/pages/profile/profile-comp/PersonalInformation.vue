@@ -30,12 +30,6 @@
     <form class="form">
       <!--begin::Body-->
       <div class="card-body">
-        <div class="row">
-          <label class="col-xl-3"></label>
-          <div class="col-lg-9 col-xl-6">
-            <h5 class="font-weight-bold mb-6">Customer Info</h5>
-          </div>
-        </div>
         <div class="form-group row">
           <label class="col-xl-3 col-lg-3 col-form-label text-right"
             >Avatar</label
@@ -122,80 +116,6 @@
               type="text"
               v-bind:value="currentUserPersonalInfo.company_name"
             />
-            <span class="form-text text-muted"
-              >If you want your invoices addressed to a company. Leave blank to
-              use your full name.</span
-            >
-          </div>
-        </div>
-        <div class="row">
-          <label class="col-xl-3"></label>
-          <div class="col-lg-9 col-xl-6">
-            <h5 class="font-weight-bold mt-10 mb-6">Contact Info</h5>
-          </div>
-        </div>
-        <div class="form-group row">
-          <label class="col-xl-3 col-lg-3 col-form-label text-right"
-            >Contact Phone</label
-          >
-          <div class="col-lg-9 col-xl-6">
-            <div class="input-group input-group-lg input-group-solid">
-              <div class="input-group-prepend">
-                <span class="input-group-text">
-                  <i class="la la-phone"></i>
-                </span>
-              </div>
-              <input
-                ref="phone"
-                type="text"
-                class="form-control form-control-lg form-control-solid"
-                placeholder="Phone"
-                v-bind:value="currentUserPersonalInfo.phone"
-              />
-            </div>
-            <span class="form-text text-muted"
-              >We'll never share your email with anyone else.</span
-            >
-          </div>
-        </div>
-        <div class="form-group row">
-          <label class="col-xl-3 col-lg-3 col-form-label text-right"
-            >Email Address</label
-          >
-          <div class="col-lg-9 col-xl-6">
-            <div class="input-group input-group-lg input-group-solid">
-              <div class="input-group-prepend">
-                <span class="input-group-text">
-                  <i class="la la-at"></i>
-                </span>
-              </div>
-              <input
-                ref="email"
-                type="text"
-                class="form-control form-control-lg form-control-solid"
-                placeholder="Email"
-                v-bind:value="currentUserPersonalInfo.email"
-              />
-            </div>
-          </div>
-        </div>
-        <div class="form-group row">
-          <label class="col-xl-3 col-lg-3 col-form-label text-right"
-            >Company Site</label
-          >
-          <div class="col-lg-9 col-xl-6">
-            <div class="input-group input-group-lg input-group-solid">
-              <input
-                ref="company_site"
-                type="text"
-                class="form-control form-control-lg form-control-solid"
-                placeholder="Username"
-                v-bind:value="currentUserPersonalInfo.company_site"
-              />
-              <div class="input-group-append">
-                <span class="input-group-text">.com</span>
-              </div>
-            </div>
           </div>
         </div>
       </div>
