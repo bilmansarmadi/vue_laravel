@@ -78,14 +78,14 @@
       </div>
     </div>
     <div class="header-bottom">
-      <div class="container">
+      <div class="py-3 ml-5">
         <div
           class="header-navs header-navs-left"
           id="kt_header_navs"
           ref="kt_header_navs"
         >
           <div v-if="$route.name != 'dashboard'">
-            <div class="tab-pane py-5 show active">
+            <div class="tab-pane show active">
               <!--begin::Menu-->
               <div
                 id="kt_header_menu"

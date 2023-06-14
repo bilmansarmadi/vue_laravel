@@ -33,6 +33,11 @@ export default new Router({
           component: () => import("@/view/pages/master/kurikulum/Kurikulum.vue")
         },
         {
+          path: "/master/kategori_kurikulum",
+          name: "master-kategori-kurikulum",
+          component: () => import("@/view/pages/master/kategori-kurikulum/KategoriKurikulum.vue")
+        },
+        {
           path: "/master/tahunajaran",
           name: "master-tahun-ajaran",
           component: () => import("@/view/pages/master/tahun-ajaran/TahunAjaran.vue")
@@ -46,6 +51,11 @@ export default new Router({
           path: "/master/pengajar",
           name: "master-data-pengajar",
           component: () => import("@/view/pages/master/data-pengajar/DataPengajar.vue")
+        },
+        {
+          path: "/master/mata_pelajaran",
+          name: "master-mata-pelajaran",
+          component: () => import("@/view/pages/master/mata-pelajaran/MataPelajaran.vue")
         },
 
 

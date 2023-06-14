@@ -2,7 +2,7 @@
   <v-app>
     <div class="d-flex flex-column flex-root">
       <div
-        class="login login-1 d-flex flex-column flex-lg-row flex-column-fluid bg-white"
+        class="login login-1 d-flex flex-column flex-lg-row flex-column-fluid" style="background-color: #ecb35c;"
         :class="{
           'login-signin-on': this.state == 'signin',
           'login-signup-on': this.state == 'signup',
@@ -12,14 +12,13 @@
       >
         <!--begin::Aside-->
         <div
-          class="login-aside d-flex flex-column flex-row-auto"
-          style="background-color: #efbe73;"
+          class="login-aside d-flex flex-column flex-row-auto mx-auto"
         >
           <div class="d-flex flex-column-auto flex-column pt-lg-20 pt-10">
             <a href="#" class="text-center mb-5">
               <img
                 src="media/logos/LogoAlJazary.png"
-                class="max-h-140px"
+                class="max-h-150px"
                 alt=""
               />
             </a>
