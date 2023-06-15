@@ -6,7 +6,7 @@
             :search="search"
             loading-text="Loading... Please wait"
             :items-per-page="5"
-            item-key="m_tipe_id"
+            item-key="pengajar_id"
             class="elevation-1"
             mobile-breakpoint="0"
             :footer-props="{
