@@ -87,6 +87,28 @@ export default new Router({
           component: () => import("@/view/pages/pengajaran/Pengajaran.vue")
         },
         {
+          path: "/pengajaran/jadwal_kelas",
+          name: "pengajaran-jadwal-kelas",
+          component: () => import("@/view/pages/pengajaran/jadwal/Jadwal.vue")
+        },
+        {
+          path: "/pengajaran/kelompok_kelas",
+          name: "pengajaran-kelompok-kelas",
+          component: () => import("@/view/pages/pengajaran/kelompok/Kelompok.vue")
+        },
+        {
+          path: "/pengajaran/data_santri",
+          name: "pengajaran-data-santri",
+          component: () => import("@/view/pages/pengajaran/santri/Santri.vue")
+        },
+        {
+          path: "/pengajaran/data_pengajar",
+          name: "pengajaran-data-pengajar",
+          component: () => import("@/view/pages/pengajaran/pengajar/Pengajar.vue")
+        },
+
+
+        {
           path: "/jadwal",
           name: "jadwal",
           component: () => import("@/view/pages/jadwal-kelas/Jadwal.vue")
