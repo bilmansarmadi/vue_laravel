@@ -1,5 +1,117 @@
 <template>
     <div class="container-fluid">
+        <div class="card mt-4 shadow-xs cardHover mb-5">
+            <div class="d-block px-3 py-3" data-toggle="collapse" style="background-color: #FFF;"
+                role="button" aria-expanded="true" v-b-toggle.collapse-2 variant="primary">
+                <div class="card-toolbar">
+                <div class="d-flex">
+                    <v-icon
+                    color="#73a4ef">
+                        mdi-filter
+                    </v-icon>
+                    <h6 class="font-weight-bold font-weight-black mt-2">FILTER</h6>
+                    <v-icon
+                        class="ml-auto"
+                        color="#73a4ef">
+                        mdi-arrow-down-drop-circle-outline
+                    </v-icon>
+                </div>
+                </div>
+            </div>
+            <b-collapse id="collapse-2" class="mt-2">
+                <b-card>
+                    <v-row>
+                        <v-col
+                            cols="12"
+                            md="6"
+                        >
+                            <v-text-field
+                                v-model="formFilter.hari"
+                                label="Hari"
+                                required
+                                clearable
+                                color="#ee8b3d"
+                            ></v-text-field>
+                        </v-col>
+                        <v-col
+                            cols="12"
+                            md="6"
+                        >
+                            <v-autocomplete
+                                v-model="formFilter.mapel_id"
+                                :items="master_data_mapel"
+                                item-text="mapel_nama"
+                                item-value="mapel_id"
+                                label="Mata Pelajaran"
+                                clearable
+                                color="#ee8b3d"
+                            ></v-autocomplete>
+                        </v-col>
+                        <v-col
+                            cols="12"
+                            md="6"
+                        >
+                            <v-autocomplete
+                                v-model="formFilter.kelas_id"
+                                :items="master_data_kelas"
+                                item-text="nama_kelas"
+                                item-value="kelas_id"
+                                label="Kelas"
+                                clearable
+                                color="#ee8b3d"
+                            ></v-autocomplete>
+                        </v-col>
+                        <v-col
+                            cols="12"
+                            md="6"
+                        >
+                            <v-autocomplete
+                                v-model="formFilter.pengajar_id"
+                                :items="master_data_pengajar"
+                                item-text="nama_lengkap"
+                                item-value="pengajar_id"
+                                label="Guru"
+                                clearable
+                                color="#ee8b3d"
+                            ></v-autocomplete>
+                        </v-col>
+                        <v-col
+                            cols="12"
+                            md="6"
+                        >
+                            <v-autocomplete
+                                v-model="formFilter.tahun_id"
+                                :items="master_data_tahunAjaran"
+                                item-text="tahun_ajaran"
+                                item-value="tahun_id"
+                                label="Tahun Ajaran"
+                                clearable
+                                color="#ee8b3d"
+                            ></v-autocomplete>
+                        </v-col>
+                    </v-row>
+
+                    <v-btn 
+                        class="accent-4 mr-2"
+                        color="#73a4ef"
+                        dark
+                        rounded
+                        @click="filterData"
+                    >
+                        Cari
+                    </v-btn>
+                    <v-btn 
+                        dark
+                        rounded
+                        color="red"
+                        @click="clearFilter"
+                    >
+                        Reset
+                    </v-btn>
+                </b-card>
+            </b-collapse>
+        </div>
+
         <div class="card cardHover">
             <v-data-table responsive show-empty
                 :sort-by="sortBy"
@@ -302,6 +414,13 @@ export default {
                 hari: "",
                 jam_mulai: "",
                 jam_akhir: "",
+                mapel_id: "",
+                kelas_id: "",
+                pengajar_id: "",
+                tahun_id: ""
+            },
+            formFilter: {
+                hari: "",
                 mapel_id: "",
                 kelas_id: "",
                 pengajar_id: "",
@@ -772,6 +891,49 @@ export default {
                 }
             }
             this.close();
+        },
+
+        filterData(){
+            return new Promise(resolve => {
+                var mydata = {
+                    UID: localStorage.getLocalStorage("uid"),
+                    Token: localStorage.getLocalStorage("token"),
+                    Trigger: "R",
+                    Route: "DEFAULT",
+                    hari: this.formFilter.hari,
+                    kelas_id: this.formFilter.kelas_id,
+                    pengajar_id: this.formFilter.pengajar_id,
+                    mapel_id: this.formFilter.mapel_id,
+                    tahun_id: this.formFilter.tahun_id,
+                };
+
+                let contentType = `application/x-www-form-urlencoded`;
+
+                const qs = require("qs");
+
+                Services.PostData(
+                    ApiService,
+                    "Master/Pengajaran",
+                    qs.stringify(mydata),
+                    contentType,
+                    response => {
+                        resolve(response.data);
+                        this.jadwal_kelas = response.data;
+                    },
+                    err => {
+                        err;
+                    }
+                );
+            });
+        },
+
+        clearFilter(){
+            this.formFilter.hari = ""
+            this.formFilter.mapel_id = ""
+            this.formFilter.kelas_id = ""
+            this.formFilter.pengajar_id = ""
+            this.formFilter.tahun_id = ""
+            this.getJadwalKelas()
         },
 
         async load() {
