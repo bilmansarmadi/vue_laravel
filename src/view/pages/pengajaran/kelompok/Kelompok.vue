@@ -1,5 +1,91 @@
 <template>
     <div class="container-fluid col-md-8">
+        <div class="card mt-4 shadow-xs cardHover mb-5">
+            <div class="d-block px-3 py-3" data-toggle="collapse" style="background-color: #FFF;"
+                role="button" aria-expanded="true" v-b-toggle.collapse-2 variant="primary">
+                <div class="card-toolbar">
+                <div class="d-flex">
+                    <v-icon
+                    color="#73a4ef">
+                        mdi-filter
+                    </v-icon>
+                    <h6 class="font-weight-bold font-weight-black mt-2">FILTER</h6>
+                    <v-icon
+                        class="ml-auto"
+                        color="#73a4ef">
+                        mdi-arrow-down-drop-circle-outline
+                    </v-icon>
+                </div>
+                </div>
+            </div>
+            <b-collapse id="collapse-2" class="mt-2">
+                <b-card>
+                    <v-row>
+                        <v-col
+                            cols="12"
+                            md="6"
+                        >
+                            <v-autocomplete
+                                v-model="formFilter.kelas_id"
+                                :items="master_data_kelas"
+                                item-text="nama_kelas"
+                                item-value="kelas_id"
+                                label="Kelas"
+                                clearable
+                                color="#ee8b3d"
+                            ></v-autocomplete>
+                        </v-col>
+                        <v-col
+                            cols="12"
+                            md="6"
+                        >
+                            <v-autocomplete
+                                v-model="formFilter.santri_id"
+                                :items="master_data_santri"
+                                :item-text="getTextKodeUser"
+                                item-value="kode_user"
+                                label="Santri"
+                                clearable
+                                color="#ee8b3d"
+                            ></v-autocomplete>
+                        </v-col>
+                        <v-col
+                            cols="12"
+                            md="6"
+                        >
+                            <v-select
+                                v-model="formFilter.status_kelompok"
+                                :items="dropdown_status"
+                                item-text="text"
+                                item-value="value"
+                                label="Status"
+                                clearable
+                                color="#ee8b3d"
+                            ></v-select>
+                        </v-col>
+                    </v-row>
+
+                    <v-btn 
+                        class="accent-4 mr-2"
+                        color="#73a4ef"
+                        dark
+                        rounded
+                        @click="filterData"
+                    >
+                        Cari
+                    </v-btn>
+                    <v-btn 
+                        dark
+                        rounded
+                        color="red"
+                        @click="clearFilter"
+                    >
+                        Reset
+                    </v-btn>
+                </b-card>
+            </b-collapse>
+        </div>
+
         <div class="card cardHover">
             <v-data-table responsive show-empty
                 group-by="nama_kelas"
@@ -205,6 +291,11 @@ export default {
             update_kelompok_kelas: [],
             delete_kelompok_kelas: [],
             add_kelompok_kelas: {
+                santri_id: "",
+                kelas_id: "", 
+                status_kelompok: ""
+            },
+            formFilter: {
                 santri_id: "",
                 kelas_id: "", 
                 status_kelompok: ""
@@ -571,6 +662,45 @@ export default {
                 }
             }
             this.close();
+        },
+
+        clearFilter(){
+            this.formFilter.kelas_id = ""
+            this.formFilter.santri_id= ""
+            this.formFilter.status_kelompok = ""
+            this.getKelompokKelas()
+        },
+
+        filterData(){
+            return new Promise(resolve => {
+                var mydata = {
+                    UID: localStorage.getLocalStorage("uid"),
+                    Token: localStorage.getLocalStorage("token"),
+                    Trigger: "R",
+                    Route: "DEFAULT",
+                    kelas_id: this.formFilter.kelas_id,
+                    santri_id: this.formFilter.santri_id,
+                    status_kelompok: this.formFilter.status_kelompok
+                };
+
+                let contentType = `application/x-www-form-urlencoded`;
+
+                const qs = require("qs");
+
+                Services.PostData(
+                    ApiService,
+                    "Riwayat/Kelompok_Kelas",
+                    qs.stringify(mydata),
+                    contentType,
+                    response => {
+                        resolve(response.data);
+                        this.kelompok_kelas = response.data;
+                    },
+                    err => {
+                        err;
+                    }
+                );
+            });
         },
 
         getTextKodeUser: item => item.nomor_identitas + ' | ' + item.nama,
