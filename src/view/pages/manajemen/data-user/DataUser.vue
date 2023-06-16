@@ -1,5 +1,92 @@
 <template>
-    <div class="container-fluid">
+    <div>
+        <div class="card mt-4 shadow-xs cardHover mb-5">
+            <div class="d-block px-3 py-3" data-toggle="collapse" style="background-color: #FFF;"
+                role="button" aria-expanded="true" v-b-toggle.collapse-2 variant="primary">
+                <div class="card-toolbar">
+                <div class="d-flex">
+                    <v-icon
+                    color="#73a4ef">
+                        mdi-filter
+                    </v-icon>
+                    <h6 class="font-weight-bold font-weight-black mt-2">FILTER</h6>
+                    <v-icon
+                        class="ml-auto"
+                        color="#73a4ef">
+                        mdi-arrow-down-drop-circle-outline
+                    </v-icon>
+                </div>
+                </div>
+            </div>
+            <b-collapse id="collapse-2" class="mt-2">
+                <b-card>
+                    <v-row>
+                        <v-col
+                            cols="12"
+                            md="6"
+                        >
+                            <v-autocomplete
+                                v-model="formFilter.kode_user"
+                                :items="data_kode_user"
+                                :item-text="getTextKodeUser"
+                                item-value="kode_user"
+                                label="Nomor Identitas"
+                                clearable
+                                color="#ee8b3d"
+                            >
+                            </v-autocomplete>
+                        </v-col>
+                        <v-col
+                            cols="12"
+                            md="6"
+                        >
+                            <v-autocomplete
+                                v-model="formFilter.role_id"
+                                :items="data_role_user"
+                                item-text="role_nama"
+                                item-value="role_id"
+                                label="Akses"
+                                clearable
+                                color="#ee8b3d"
+                            ></v-autocomplete>
+                        </v-col>
+                        <v-col
+                            cols="12"
+                            md="6"
+                        >
+                            <v-select
+                                v-model="formFilter.status"
+                                :items="dropdown_status"
+                                item-text="text"
+                                item-value="value"
+                                label="Status"
+                                clearable
+                                color="#ee8b3d"
+                            ></v-select>
+                        </v-col>
+                    </v-row>
+
+                    <v-btn 
+                        class="accent-4 mr-2"
+                        color="#73a4ef"
+                        dark
+                        rounded
+                        @click="filterData"
+                    >
+                        Cari
+                    </v-btn>
+                    <v-btn 
+                        dark
+                        rounded
+                        color="red"
+                        @click="clearFilter"
+                    >
+                        Reset
+                    </v-btn>
+                </b-card>
+            </b-collapse>
+        </div>
+
         <div class="card cardHover">
             <v-data-table responsive show-empty
                 :headers="headers"
@@ -219,6 +306,11 @@ export default {
                 kode_user: "",
                 role_id: "",
                 user_password: "",
+                status: ""
+            },
+            formFilter: {
+                kode_user: "",
+                role_id: "",
                 status: ""
             },
             data_role_user: [],
@@ -594,6 +686,45 @@ export default {
                 }
             }
             this.close();
+        },
+
+        clearFilter(){
+            this.formFilter.kode_user = ""
+            this.formFilter.role_id = ""
+            this.formFilter.status = ""
+            this.getMasterUsers()
+        },
+
+        filterData(){
+            return new Promise(resolve => {
+                var mydata = {
+                    UID: localStorage.getLocalStorage("uid"),
+                    Token: localStorage.getLocalStorage("token"),
+                    Trigger: "R",
+                    Route: "DEFAULT",
+                    kode_user: this.formFilter.kode_user,
+                    role_id: this.formFilter.role_id,
+                    status: this.formFilter.status
+                };
+
+                let contentType = `application/x-www-form-urlencoded`;
+
+                const qs = require("qs");
+
+                Services.PostData(
+                    ApiService,
+                    "Master/Users",
+                    qs.stringify(mydata),
+                    contentType,
+                    response => {
+                        resolve(response.data);
+                        this.data_user = response.data;
+                    },
+                    err => {
+                        err;
+                    }
+                );
+            });
         },
 
         getTextKodeUser: item => item.nomor_identitas + ' | ' + item.nama,
