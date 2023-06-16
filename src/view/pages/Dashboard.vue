@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-5">
+  <div class="mt-5 mb-15">
     <!--begin::Dashboard-->
     <div class="row">
       <div class="col-xl-4" 

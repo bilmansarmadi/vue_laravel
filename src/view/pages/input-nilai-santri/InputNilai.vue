@@ -1,5 +1,5 @@
 <template>
-    <div class="d-flex justify-content-center">		
+  <div>		
     <table class="mt-30" border="0">
       <tbody>
         <tr>
@@ -7,10 +7,11 @@
             <h1 class="font-weight-bold">Input Nilai Santri</h1>
           </td>
           <td align="right" width="50%" class="middletable pr-2 pl-2" style="font-size: 2.5vw; font-family:arial;">
-            <img src="media/svg/shapes/inputnilai.svg" alt="Input Nilai Santri Icon" height="250" width="250" class="responsive">
+            <img src="media/svg/shapes/inputnilai.svg" alt="Input Nilai Santri Icon" class="responsive min-w-200px">
           </td>
         </tr>
-    </tbody></table>	
+      </tbody>
+    </table>	
   </div>
 </template>
   
