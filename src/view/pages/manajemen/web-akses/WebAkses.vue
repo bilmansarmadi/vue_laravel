@@ -55,7 +55,7 @@
                     </template>
                     <v-card>
                         <v-card-title class="border">
-                        <span class="text-h5">{{ formTitle }}</span>
+                            <span class="text-h5">{{ formTitle }}</span>
                         </v-card-title>
                         <v-card-text>
                             <v-container class="mt-3">

@@ -141,8 +141,8 @@
                         </v-btn>
                     </template>
                     <v-card>
-                        <v-card-title>
-                        <span class="text-h5">{{ formTitle }}</span>
+                        <v-card-title class="border">
+                            <span class="text-h5">{{ formTitle }}</span>
                         </v-card-title>
             
                         <v-card-text>
@@ -196,11 +196,10 @@
                                         md="6"
                                     >
                                         <v-text-field
-                                            v-model="formInput.user_password"
+                                            v-model="formInput.password"
                                             label="Password"
                                             required
                                             clearable
-                                            v-show="editedIndex == -1"
                                             color="#ee8b3d"
                                         ></v-text-field>
                                     </v-col>
@@ -304,7 +303,7 @@ export default {
             add_data_user: {
                 kode_user: "",
                 role_id: "",
-                user_password: "",
+                password: "",
                 status: ""
             },
             formFilter: {
@@ -384,7 +383,7 @@ export default {
                 : this.updateDataUser;
         },
         isDisabledSimpan(){
-            return !this.formInput.kode_user || !this.formInput.user_password
+            return !this.formInput.kode_user || !this.formInput.password
             || !this.formInput.role_id
         }
     },
@@ -485,7 +484,7 @@ export default {
                     Trigger: "C",
                     Route: "DEFAULT",
                     kode_user: this.add_data_user.kode_user,
-                    user_password: this.add_data_user.user_password,
+                    user_password: this.add_data_user.password,
                     role_id: this.add_data_user.role_id,
                     status: this.add_data_user.status
                 };
@@ -606,7 +605,7 @@ export default {
             this.$nextTick(() => {
                 this.add_data_user.kode_user = ""
                 this.add_data_user.role_id = ""
-                this.add_data_user.user_password = ""
+                this.add_data_user.password = ""
                 this.add_data_user.status = ""
                 this.editedItem = Object.assign({}, this.defaultItem)
                 this.editedIndex = -1
@@ -624,7 +623,8 @@ export default {
                     kode_user: this.editedItem.kode_user,
                     user_email: this.editedItem.user_email,
                     role_id: this.editedItem.role_id,
-                    status: this.editedItem.status
+                    status: this.editedItem.status,
+                    user_password: this.editedItem.password
                 };
 
                 let contentType = `application/x-www-form-urlencoded`;

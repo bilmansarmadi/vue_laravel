@@ -136,8 +136,8 @@
                         </v-btn>
                     </template>
                     <v-card>
-                        <v-card-title>
-                        <span class="text-h5">{{ formTitle }}</span>
+                        <v-card-title class="border">
+                            <span class="text-h5">{{ formTitle }}</span>
                         </v-card-title>
             
                         <v-card-text>
@@ -385,7 +385,7 @@
                     </v-dialog>
                     <v-dialog v-model="dialogSeenBill" max-width="800px">
                         <v-card>
-                        <v-card-title>
+                        <v-card-title class="border">
                             <span class="text-h5">Detail Foto</span>
                         </v-card-title>
     
