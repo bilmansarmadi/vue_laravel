@@ -1,5 +1,105 @@
 <template>
-    <div class="container-fluid">
+    <div>
+        <div class="card mt-4 shadow-xs cardHover mb-5">
+            <div class="d-block px-3 py-3" data-toggle="collapse" style="background-color: #FFF;"
+                role="button" aria-expanded="true" v-b-toggle.collapse-2 variant="primary">
+                <div class="card-toolbar">
+                <div class="d-flex">
+                    <v-icon
+                    color="#73a4ef">
+                        mdi-filter
+                    </v-icon>
+                    <h6 class="font-weight-bold font-weight-black mt-2">FILTER</h6>
+                    <v-icon
+                        class="ml-auto"
+                        color="#73a4ef">
+                        mdi-arrow-down-drop-circle-outline
+                    </v-icon>
+                </div>
+                </div>
+            </div>
+            <b-collapse id="collapse-2" class="mt-2">
+                <b-card>
+                    <v-row>
+                        <v-col
+                            cols="12"
+                            md="6"
+                        >
+                            <v-autocomplete
+                                v-model="formFilter.kurikulum_id"
+                                :items="dropdown_kurikulum"
+                                item-text="kurikulum_nama"
+                                item-value="kurikulum_id"
+                                label="Kurikulum"
+                                clearable
+                                color="#ee8b3d"
+                            ></v-autocomplete>
+                        </v-col>
+                        <v-col
+                            cols="12"
+                            md="6"
+                        >
+                            <v-autocomplete
+                                v-model="formFilter.kategori_id"
+                                :items="dropdown_kategori"
+                                item-text="kategori_nama"
+                                item-value="kategori_id"
+                                label="Kategori Kurikulum"
+                                @click="getMasterKategori"
+                                clearable
+                                color="#ee8b3d"
+                            ></v-autocomplete>
+                        </v-col>
+                        <v-col
+                            cols="12"
+                            md="6"
+                        >
+                            <v-text-field
+                                v-model="formFilter.mapel_nama"
+                                label="Mata Pelajaran"
+                                :rules="rulesNotNull"
+                                required
+                                clearable
+                                color="#ee8b3d"
+                            ></v-text-field>
+                        </v-col>
+                        <v-col
+                            cols="12"
+                            md="6"
+                        >
+                            <v-select
+                                v-model="formFilter.status_mapel"
+                                :items="dropdown_status"
+                                item-text="text"
+                                item-value="value"
+                                label="Status"
+                                clearable
+                                color="#ee8b3d"
+                            ></v-select>
+                        </v-col>
+                    </v-row>
+
+                    <v-btn 
+                        class="accent-4 mr-2"
+                        color="#73a4ef"
+                        dark
+                        rounded
+                        @click="filterData"
+                    >
+                        Cari
+                    </v-btn>
+                    <v-btn 
+                        dark
+                        rounded
+                        color="red"
+                        @click="clearFilter"
+                    >
+                        Reset
+                    </v-btn>
+                </b-card>
+            </b-collapse>
+        </div>
+
         <div class="card cardHover">
             <v-data-table responsive show-empty
                 :headers="headers"
@@ -247,6 +347,12 @@ export default {
                 status_mapel: "",
                 sks: "",
                 deskripsi: ""
+            },
+            formFilter: {
+                kurikulum_id: "",
+                kategori_id: "",
+                mapel_nama: "",
+                status_mapel: ""
             },
             dropdown_status: [
                 { value: 0, text: "Tidak Aktif" },
@@ -644,6 +750,47 @@ export default {
                 }
             }
             this.close();
+        },
+
+        clearFilter(){
+            this.formFilter.kategori_id = ""
+            this.formFilter.kurikulum_id = ""
+            this.formFilter.status_mapel = ""
+            this.formFilter.mapel_nama = ""
+            this.getMasterMapel()
+        },
+
+        filterData(){
+            return new Promise(resolve => {
+                var mydata = {
+                    UID: localStorage.getLocalStorage("uid"),
+                    Token: localStorage.getLocalStorage("token"),
+                    Trigger: "R",
+                    Route: "DEFAULT",
+                    mapel_nama: this.formFilter.mapel_nama,
+                    status_mapel: this.formFilter.status_mapel,
+                    kategori_id: this.formFilter.kategori_id,
+                    kurikulum_id: this.formFilter.kurikulum_id
+                };
+
+                let contentType = `application/x-www-form-urlencoded`;
+
+                const qs = require("qs");
+
+                Services.PostData(
+                    ApiService,
+                    "Master/Mapel",
+                    qs.stringify(mydata),
+                    contentType,
+                    response => {
+                        resolve(response.data);
+                        this.data_mapel = response.data;
+                    },
+                    err => {
+                        err;
+                    }
+                );
+            });
         },
 
         async load() {
