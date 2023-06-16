@@ -79,7 +79,7 @@ const actions = {
               icon: 'success',
               title: 'Berhasil login...'
             })
-          } else if(response.status == 3004){
+          } else{
             Swal.fire({
               title: response.message,
               icon: "warning",

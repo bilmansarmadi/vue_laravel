@@ -1,4 +1,101 @@
 <template>
+    <div>
+        <div class="card mt-4 shadow-xs cardHover mb-5">
+            <div class="d-block px-3 py-3" data-toggle="collapse" style="background-color: #FFF;"
+                role="button" aria-expanded="true" v-b-toggle.collapse-2 variant="primary">
+                <div class="card-toolbar">
+                <div class="d-flex">
+                    <v-icon
+                    color="#73a4ef">
+                        mdi-filter
+                    </v-icon>
+                    <h6 class="font-weight-bold font-weight-black mt-2">FILTER</h6>
+                    <v-icon
+                        class="ml-auto"
+                        color="#73a4ef">
+                        mdi-arrow-down-drop-circle-outline
+                    </v-icon>
+                </div>
+                </div>
+            </div>
+            <b-collapse id="collapse-2" class="mt-2">
+                <b-card>
+                    <v-row>
+                        <v-col
+                            cols="12"
+                            md="6"
+                        >
+                            <v-text-field
+                                v-model="formFilter.kode_santri"
+                                label="Kode Santri"
+                                required
+                                clearable
+                                color="#ee8b3d"
+                            ></v-text-field>
+                        </v-col>
+                        <v-col
+                            cols="12"
+                            md="6"
+                        >
+                            <v-text-field
+                                v-model="formFilter.nama_lengkap_santri"
+                                label="Nama"
+                                required
+                                clearable
+                                color="#ee8b3d"
+                            ></v-text-field>
+                        </v-col>
+                        <v-col
+                            cols="12"
+                            md="6"
+                        >
+                            <v-select
+                                v-model="formInput.jenis_kelamin"
+                                :items="dropdown_jenkel"
+                                item-text="text"
+                                item-value="value"
+                                label="Jenis Kelamin"
+                                clearable
+                                color="#ee8b3d"
+                            ></v-select>
+                        </v-col>
+                        <v-col
+                            cols="12"
+                            md="6"
+                        >
+                            <v-select
+                                v-model="formInput.status"
+                                :items="dropdown_status"
+                                item-text="text"
+                                item-value="value"
+                                label="Status"
+                                clearable
+                                color="#ee8b3d"
+                            ></v-select>
+                        </v-col>
+                    </v-row>
+
+                    <v-btn 
+                        class="accent-4 mr-2"
+                        color="#73a4ef"
+                        dark
+                        rounded
+                        @click="filterData"
+                    >
+                        Cari
+                    </v-btn>
+                    <v-btn 
+                        dark
+                        rounded
+                        color="red"
+                        @click="clearFilter"
+                    >
+                        Reset
+                    </v-btn>
+                </b-card>
+            </b-collapse>
+        </div>
+        
         <div class="card cardHover">
             <v-data-table responsive show-empty
                 :headers="headers"
@@ -461,6 +558,7 @@
                 </template>
             </v-data-table>
         </div>
+    </div>
 </template>
 
 <script>
@@ -508,6 +606,12 @@ export default {
                 nama_ayah: "",
                 nama_ibu: "",
                 status: "",
+            },
+            formFilter: {
+                kode_santri: "",
+                nama_lengkap_santri: "",
+                jenis_kelamin: "",
+                status: ""
             },
             headers: [
                 { 
@@ -1018,6 +1122,47 @@ export default {
         onImageChange() {
             this.images = this.$refs.file.files[0];
             this.createImage(this.$refs.file.files[0]);
+        },
+
+        clearFilter(){
+            this.formFilter.kode_santri = ""
+            this.formFilter.nama_lengkap_santri = ""
+            this.formFilter.status = ""
+            this.formFilter.jenis_kelamin = ""
+            this.gerMasterDataSantri()
+        },
+
+        filterData(){
+            return new Promise(resolve => {
+                var mydata = {
+                    UID: localStorage.getLocalStorage("uid"),
+                    Token: localStorage.getLocalStorage("token"),
+                    Trigger: "R",
+                    Route: "Read_Santri",
+                    kode_santri: this.formFilter.kode_santri,
+                    nama_lengkap_santri: this.formFilter.nama_lengkap_santri,
+                    status: this.formFilter.status,
+                    jenis_kelamin: this.formFilter.jenis_kelamin,
+                };
+
+                let contentType = `application/x-www-form-urlencoded`;
+
+                const qs = require("qs");
+
+                Services.PostData(
+                    ApiService,
+                    "Master/Santri",
+                    qs.stringify(mydata),
+                    contentType,
+                    response => {
+                        resolve(response.data);
+                        this.data_santri = response.data;
+                    },
+                    err => {
+                        err;
+                    }
+                );
+            });
         },
 
         async load() {
