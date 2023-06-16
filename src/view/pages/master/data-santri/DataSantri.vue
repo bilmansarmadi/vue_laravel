@@ -824,7 +824,7 @@ export default {
             return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
         },
 
-        gerMasterDataSantri(){
+        getMasterDataSantri(){
             return new Promise(resolve => {
                 var mydata = {
                     UID: localStorage.getLocalStorage("uid"),
@@ -907,7 +907,7 @@ export default {
                     this.create_data_santri = response.data;
                     this.submitted = true;
                     this.save("add_data_santri");
-                    this.gerMasterDataSantri();
+                    this.getMasterDataSantri();
                 },
                 err => {
                     err;
@@ -976,7 +976,7 @@ export default {
                             this.delete_data_santri = response.data;
                             this.submitted = true;
                             this.data_santri.splice(this.deletedIndex, 1);
-                            this.gerMasterDataSantri()
+                            this.getMasterDataSantri()
                         },
                         err => {
                             err;
@@ -1075,7 +1075,7 @@ export default {
                         this.update_data_santri = response.data;
                         this.submitted = true;
                         this.save("edit_data_santri");
-                        this.gerMasterDataSantri();
+                        this.getMasterDataSantri();
                     },
                     err => {
                         err;
@@ -1129,7 +1129,7 @@ export default {
             this.formFilter.nama_lengkap_santri = ""
             this.formFilter.status = ""
             this.formFilter.jenis_kelamin = ""
-            this.gerMasterDataSantri()
+            this.getMasterDataSantri()
         },
 
         filterData(){
@@ -1167,7 +1167,7 @@ export default {
 
         async load() {
             Promise.all([
-                await this.gerMasterDataSantri()
+                await this.getMasterDataSantri()
             ]).then(function(results) {
                 results;
             });
