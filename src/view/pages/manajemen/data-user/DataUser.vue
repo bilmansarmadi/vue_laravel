@@ -96,7 +96,6 @@
                 :items-per-page="5"
                 item-key="User_Id"
                 class="elevation-1"
-                mobile-breakpoint="0"
                 :footer-props="{
                 showFirstLastPage: false,
                     'items-per-page-text':'Page'

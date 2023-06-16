@@ -109,7 +109,6 @@
                 :items-per-page="5"
                 item-key="mapel_id"
                 class="elevation-1"
-                mobile-breakpoint="0"
                 :footer-props="{
                 showFirstLastPage: false,
                     'items-per-page-text':'Page'

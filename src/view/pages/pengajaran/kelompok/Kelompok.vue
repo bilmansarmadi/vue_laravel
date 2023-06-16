@@ -97,7 +97,6 @@
                 :items-per-page="10"
                 item-key="kelompok_id"
                 class="elevation-1"
-                mobile-breakpoint="0"
                 :footer-props="{
                 showFirstLastPage: false,
                     'items-per-page-text':'Page'

@@ -105,7 +105,6 @@
                 :items-per-page="5"
                 item-key="santri_id"
                 class="elevation-1"
-                mobile-breakpoint="0"
                 :footer-props="{
                 showFirstLastPage: false,
                     'items-per-page-text':'Page'
@@ -454,7 +453,6 @@
                         </v-card-text>
             
                         <v-card-actions>
-                        <v-spacer></v-spacer>
                         <button
                             :disabled='isDisabledSimpan'
                             @click="formSubmit"
@@ -480,13 +478,7 @@
     
                         <v-card-text>
                             <v-container>
-                            <v-col>
-                                <div>
-                                </div>
-                                <v-col class="text-center">
-                                    <img :src="tabelFoto" alt="Foto" style="max-width: 700px;" />
-                                </v-col>
-                            </v-col>
+                                <img :src="tabelFoto" alt="Foto" style="max-width: 700px;" />
                             </v-container>
                         </v-card-text>
     

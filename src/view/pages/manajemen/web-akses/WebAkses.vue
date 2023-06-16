@@ -9,7 +9,6 @@
                 :items-per-page="5"
                 item-key="menu_id"
                 class="elevation-1 mt-3 border-0"
-                mobile-breakpoint="0"
                 :footer-props="{
                 showFirstLastPage: false,
                     'items-per-page-text':'Page'
