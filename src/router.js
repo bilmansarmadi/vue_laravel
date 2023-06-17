@@ -123,11 +123,20 @@ export default new Router({
           name: "cari_data_pengajar",
           component: () => import("@/view/pages/cari-pengajar/CariPengajar.vue")
         },
+
         {
           path: "/carisantri",
           name: "cari_data_santri",
           component: () => import("@/view/pages/cari-santri/CariSantri.vue")
         },
+        {
+          path: "/resultsantri",
+          props: true,
+          name: "resultsantri",
+          component: () => import("@/view/pages/cari-santri/result.vue")
+        },
+
+
         {
           path: "/inputnilai",
           name: "input_nilai_santri",

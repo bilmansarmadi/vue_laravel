@@ -40,6 +40,25 @@
   font-size: 13px !important;
 }
 
+/* .theme--light.v-data-table > .v-data-table__wrapper > table > thead > tr > th {
+  font-size: 14px !important;
+  color: #000 !important;
+  border: 1px solid gray;
+}
+
+.theme--light.v-data-table > .v-data-table__wrapper > table > thead {
+  border: 1px solid gray;
+}
+
+.theme--light.v-data-table > .v-data-table__wrapper > table > tbody > tr {
+  border: 1px solid gray;
+}
+
+.theme--light.v-data-table > .v-data-table__wrapper > table > tbody > tr > td {
+  font-size: 13px !important;
+  border: 1px solid gray;
+} */
+
 .input_images{
   display: flex;
   justify-content: center;

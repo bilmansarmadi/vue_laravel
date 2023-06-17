@@ -69,7 +69,6 @@
                       color="#ee8b3d"
                       :rules="rulesEmail"
                       hide-details="auto"
-                      filled
                       shaped
                       clearable
                     ></v-text-field>
@@ -87,7 +86,6 @@
                       :rules="rulesPwd"
                       hide-details="auto"
                       color="#ee8b3d"
-                      filled
                       shaped
                       label="Password"
                       clearable
