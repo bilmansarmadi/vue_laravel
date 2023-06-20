@@ -9,7 +9,7 @@
                     color="#73a4ef">
                         mdi-account-group-outline
                     </v-icon>
-                    <h6 class="font-weight-bold font-weight-black mt-2 ml-2">HASIL PENCARIAN DATA SANTRI</h6>
+                    <h6 class="font-weight-bold font-weight-black mt-2 ml-2">HASIL PENCARIAN DATA PENGAJAR</h6>
                 </div>
                 </div>
             </div>
@@ -18,7 +18,7 @@
         <div class="card cardHover">
             <v-data-table responsive show-empty
                 :headers="headers"
-                :items="data_santri"
+                :items="data_pengajar"
                 :search="search"
                 loading-text="Loading... Please wait"
                 :items-per-page="10"
@@ -80,24 +80,24 @@ import ApiService from "@/core/services/api.service";
 import localStorage from "@/core/services/store/localStorage";
 
 export default {
-    name: "resultsantri",
+    name: "resultpengajar",
     props:['data'],
     data(){
         return{
             searchForm: "",
             search: '',
-            data_santri: [],
+            data_pengajar: [],
             headers: [
                 { 
-                    text: 'Kode Santri', 
-                    value: 'kode_santri',
+                    text: 'NIP', 
+                    value: 'nip',
                     align: 'start',
                     width: "110px",
                     sortable: false 
                 },
                 { 
                     text: 'Nama Lengkap', 
-                    value: 'nama_lengkap_santri',
+                    value: 'nama_lengkap',
                     align: 'start',
                     width: "180px",
                     sortable: false 
@@ -113,14 +113,7 @@ export default {
                     text: 'Foto', 
                     value: 'foto',
                     align: 'center',
-                    width: "150px",
-                    sortable: false 
-                },
-                { 
-                    text: 'Hafalan Ziyadah', 
-                    value: 'hafalan_ziyadah',
-                    align: 'start',
-                    width: "140px",
+                    width: "250px",
                     sortable: false 
                 },
                 { 
@@ -146,16 +139,16 @@ export default {
                 },
                 { 
                     text: 'Jenis Kelamin', 
-                    value: 'jenis_kelamin',
+                    value: 'jenis_kelamin_nama',
                     align: 'start',
                     width: "150px",
                     sortable: false 
                 },
                 { 
-                    text: 'Anak Ke', 
-                    value: 'anak_ke',
+                    text: 'Status Nikah', 
+                    value: 'status_nikah_nama',
                     align: 'start',
-                    width: "150px",
+                    width: "120px",
                     sortable: false 
                 },
                 { 
@@ -187,27 +180,6 @@ export default {
                     sortable: false 
                 },
                 { 
-                    text: 'No HP Ortu', 
-                    value: 'hp_ortu',
-                    align: 'start',
-                    width: "120px",
-                    sortable: false 
-                },
-                { 
-                    text: 'Nama Ayah', 
-                    value: 'nama_ayah',
-                    align: 'start',
-                    width: "150px",
-                    sortable: false 
-                },
-                { 
-                    text: 'Nama Ibu', 
-                    value: 'nama_ibu',
-                    align: 'start',
-                    width: "150px",
-                    sortable: false 
-                },
-                { 
                     text: 'Status', 
                     value: 'status',
                     align: 'start',
@@ -219,33 +191,28 @@ export default {
     },
     mounted(){
         this.searchForm = this.data;
-        console.log(this.searchForm);
         this.load();
     },
     methods: {
-        getMasterDataSantri(){
+        getMasterDataPengajar(){
             return new Promise(resolve => {
                 var mydata = {
                     UID: localStorage.getLocalStorage("uid"),
                     Token: localStorage.getLocalStorage("token"),
                     Trigger: "R",
-                    Route: "Read_Santri",
-                    kode_santri: this.searchForm.kode_santri,
-                    nama_lengkap_santri: this.searchForm.nama_lengkap_santri,
+                    Route: "Read_Pengajar",
+                    nip: this.searchForm.nip,
+                    nama_lengkap: this.searchForm.nama_lengkap,
                     panggilan: this.searchForm.panggilan,
-                    hafalan_ziyadah: this.searchForm.hafalan_ziyadah,
                     hafalan_mutqin: this.searchForm.hafalan_mutqin,
                     tempat_lahir: this.searchForm.tempat_lahir,
                     tanggal_lahir: this.searchForm.tanggal_lahir,
                     jenis_kelamin: this.searchForm.jenis_kelamin,
-                    anak_ke: this.searchForm.anak_ke,
+                    status_nikah: this.searchForm.status_nikah,
                     berat_badan: this.searchForm.berat_badan,
                     tinggi_badan: this.searchForm.tinggi_badan,
                     email: this.searchForm.email,
                     alamat: this.searchForm.alamat,
-                    hp_ortu: this.searchForm.hp_ortu,
-                    nama_ayah: this.searchForm.nama_ayah,
-                    nama_ibu: this.searchForm.nama_ibu,
                     status: this.searchForm.status
                 };
 
@@ -255,12 +222,12 @@ export default {
 
                 Services.PostData(
                     ApiService,
-                    "Master/Santri",
+                    "Master/Pengajar",
                     qs.stringify(mydata),
                     contentType,
                     response => {
                         resolve(response.data);
-                        this.data_santri = response.data;
+                        this.data_pengajar = response.data;
                     },
                     err => {
                         err;
@@ -271,7 +238,7 @@ export default {
 
         async load() {
             Promise.all([
-                await this.getMasterDataSantri()
+                await this.getMasterDataPengajar()
             ]).then(function(results) {
                 results;
             });

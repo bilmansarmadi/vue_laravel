@@ -1,6 +1,6 @@
 <template>
-    <div>		
-    <table class="mt-30 mx-auto" border="0">
+  <div>		
+    <!-- <table class="mt-30 mx-auto" border="0">
       <tbody>
         <tr>
           <td align="left" width="50%" class="middletable pr-8 pt-10" style="font-size: 2.5vw; font-family:arial; border-right: 2px solid black;">
@@ -11,12 +11,18 @@
           </td>
         </tr>
       </tbody>
-    </table>	
+    </table>	 -->
+    <formSearch></formSearch>
   </div>
 </template>
   
 <script>
+import formSearch from './formSearch.vue'
+
 export default {
   name: 'cari_data_pengajar',
+  components:{
+    formSearch
+  }
 }
 </script>
