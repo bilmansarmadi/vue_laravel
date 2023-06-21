@@ -165,31 +165,6 @@
                                 md="6"
                             >
                                 <v-text-field
-                                    v-model="formInput.berat_badan"
-                                    label="Berat Badan"
-                                    required
-                                    clearable
-                                    color="#ee8b3d"
-                                    type="number"
-                                ></v-text-field>
-                            </v-col>
-                            <v-col
-                                cols="12"
-                                md="6"
-                            >
-                                <v-text-field
-                                    v-model="formInput.tinggi_badan"
-                                    label="Tinggi Badan"
-                                    required
-                                    clearable
-                                    color="#ee8b3d"
-                                ></v-text-field>
-                            </v-col>
-                            <v-col
-                                cols="12"
-                                md="6"
-                            >
-                                <v-text-field
                                     v-model="formInput.email"
                                     label="Email"
                                     clearable
@@ -264,8 +239,6 @@ export default {
                 tanggal_lahir: "",
                 jenis_kelamin: "",
                 status_nikah: "",
-                berat_badan: "",
-                tinggi_badan: "",
                 email: "",
                 alamat: "",
                 status: ""
@@ -312,8 +285,6 @@ export default {
             this.formInput.tempat_lahir = ""
             this.formInput.jenis_kelamin = ""
             this.formInput.anak_ke = ""
-            this.formInput.berat_badan = ""
-            this.formInput.tinggi_badan = ""
             this.formInput.email = ""
             this.formInput.alamat = ""
             this.formInput.hp_ortu = ""

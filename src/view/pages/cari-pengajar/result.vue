@@ -209,8 +209,6 @@ export default {
                     tanggal_lahir: this.searchForm.tanggal_lahir,
                     jenis_kelamin: this.searchForm.jenis_kelamin,
                     status_nikah: this.searchForm.status_nikah,
-                    berat_badan: this.searchForm.berat_badan,
-                    tinggi_badan: this.searchForm.tinggi_badan,
                     email: this.searchForm.email,
                     alamat: this.searchForm.alamat,
                     status: this.searchForm.status
