@@ -246,7 +246,11 @@ export default {
                     hp_ortu: this.searchForm.hp_ortu,
                     nama_ayah: this.searchForm.nama_ayah,
                     nama_ibu: this.searchForm.nama_ibu,
-                    status: this.searchForm.status
+                    status: this.searchForm.status,
+                    kelas_id: this.searchForm.kelas_id,
+                    tahun_id: this.searchForm.tahun_id,
+                    semester: this.searchForm.semester,
+                    mapel_id: this.searchForm.mapel_id
                 };
 
                 let contentType = `application/x-www-form-urlencoded`;
