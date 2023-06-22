@@ -664,7 +664,7 @@ export default {
                 },
                 { 
                     text: 'Jenis Kelamin', 
-                    value: 'jenis_kelamin',
+                    value: 'jenis_kelamin_Nama',
                     align: 'start',
                     width: "150px",
                     sortable: false 
@@ -727,7 +727,7 @@ export default {
                 },
                 { 
                     text: 'Status', 
-                    value: 'status',
+                    value: 'status_nama',
                     align: 'start',
                     width: "150px",
                     sortable: false 

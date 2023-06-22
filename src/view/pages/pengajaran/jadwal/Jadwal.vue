@@ -82,7 +82,7 @@
                             <v-autocomplete
                                 v-model="formFilter.tahun_id"
                                 :items="master_data_tahunAjaran"
-                                item-text="tahun_ajaran"
+                                item-text="tahun_ajaran_nama"
                                 item-value="tahun_id"
                                 label="Tahun Ajaran"
                                 clearable
@@ -270,7 +270,7 @@
                                             color="#ee8b3d"
                                         ></v-autocomplete>
                                     </v-col>
-                                    <v-col
+                                    <!-- <v-col
                                         cols="12"
                                         md="6"
                                     >
@@ -283,7 +283,7 @@
                                             clearable
                                             color="#ee8b3d"
                                         ></v-autocomplete>
-                                    </v-col>
+                                    </v-col> -->
                                     <v-col
                                         cols="12"
                                         md="6"
@@ -305,7 +305,7 @@
                                         <v-autocomplete
                                             v-model="formInput.tahun_id"
                                             :items="master_data_tahunAjaran"
-                                            item-text="tahun_ajaran"
+                                            item-text="tahun_ajaran_nama"
                                             item-value="tahun_id"
                                             label="Tahun Ajaran"
                                             clearable
@@ -414,7 +414,7 @@ export default {
                 jam_mulai: "",
                 jam_akhir: "",
                 mapel_id: "",
-                kelas_id: "",
+                // kelas_id: "",
                 pengajar_id: "",
                 tahun_id: ""
             },
@@ -520,7 +520,7 @@ export default {
                 : this.updateJadwalKelas;
         },
         isDisabledSimpan(){
-            return !this.formInput.hari || !this.formInput.kelas_id
+            return !this.formInput.hari
             || !this.formInput.pengajar_id || !this.formInput.mapel_id
             || !this.formInput.tahun_id || !this.formInput.jam_akhir
             || !this.formInput.jam_mulai
@@ -681,7 +681,7 @@ export default {
                     Trigger: "C",
                     Route: "DEFAULT",
                     hari: this.add_jadwal_kelas.hari,
-                    kelas_id: this.add_jadwal_kelas.kelas_id,
+                    // kelas_id: this.add_jadwal_kelas.kelas_id,
                     mapel_id: this.add_jadwal_kelas.mapel_id,
                     jam_akhir: this.add_jadwal_kelas.jam_akhir,
                     jam_mulai: this.add_jadwal_kelas.jam_mulai,
@@ -806,7 +806,7 @@ export default {
                 this.add_jadwal_kelas.hari = ""
                 this.add_jadwal_kelas.jam_akhir = ""
                 this.add_jadwal_kelas.jam_mulai = ""
-                this.add_jadwal_kelas.kelas_id = ""
+                // this.add_jadwal_kelas.kelas_id = ""
                 this.add_jadwal_kelas.mapel_id = ""
                 this.add_jadwal_kelas.pengajar_id = ""
                 this.add_jadwal_kelas.tahun_id = ""
@@ -824,7 +824,7 @@ export default {
                     Route: "DEFAULT",
                     jadwal_id: this.data_item.jadwal_id,
                     hari: this.editedItem.hari,
-                    kelas_id: this.editedItem.kelas_id,
+                    // kelas_id: this.editedItem.kelas_id,
                     mapel_id: this.editedItem.mapel_id,
                     jam_akhir: this.editedItem.jam_akhir,
                     jam_mulai: this.editedItem.jam_mulai,

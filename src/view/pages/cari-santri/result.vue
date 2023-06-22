@@ -146,7 +146,7 @@ export default {
                 },
                 { 
                     text: 'Jenis Kelamin', 
-                    value: 'jenis_kelamin',
+                    value: 'jenis_kelamin_Nama',
                     align: 'start',
                     width: "150px",
                     sortable: false 
@@ -209,7 +209,7 @@ export default {
                 },
                 { 
                     text: 'Status', 
-                    value: 'status',
+                    value: 'status_nama',
                     align: 'start',
                     width: "150px",
                     sortable: false 
@@ -229,7 +229,7 @@ export default {
                     UID: localStorage.getLocalStorage("uid"),
                     Token: localStorage.getLocalStorage("token"),
                     Trigger: "R",
-                    Route: "Read_Santri",
+                    Route: "Read_Santri_Pecarian",
                     kode_santri: this.searchForm.kode_santri,
                     nama_lengkap_santri: this.searchForm.nama_lengkap_santri,
                     panggilan: this.searchForm.panggilan,

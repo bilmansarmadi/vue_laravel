@@ -102,6 +102,11 @@ export default new Router({
           component: () => import("@/view/pages/pengajaran/santri/Santri.vue")
         },
         {
+          path: "/pengajaran/data_santri/detail_santri",
+          name: "detail_santri",
+          component: () => import("@/view/pages/pengajaran/santri/DetailSantri.vue")
+        },
+        {
           path: "/pengajaran/data_pengajar",
           name: "pengajaran-data-pengajar",
           component: () => import("@/view/pages/pengajaran/pengajar/Pengajar.vue")

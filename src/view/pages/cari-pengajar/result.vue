@@ -181,7 +181,7 @@ export default {
                 },
                 { 
                     text: 'Status', 
-                    value: 'status',
+                    value: 'status_nama',
                     align: 'start',
                     width: "150px",
                     sortable: false 
