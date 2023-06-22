@@ -44,7 +44,17 @@
                     hide-details
                     ></v-text-field>
                     <v-spacer></v-spacer>
-                      <v-tooltip top>
+                    <div>
+                        <b-dropdown
+                            block
+                            variant="primary"
+                            class="m-2 font-weight-bold rounded-lg"
+                            text="CETAK">
+                            <b-dropdown-item>PDF</b-dropdown-item>
+                            <b-dropdown-item>EXCEL</b-dropdown-item>
+                        </b-dropdown>
+                    </div>
+                    <!-- <v-tooltip top>
                         <template v-slot:activator="{ on, attrs }">
                             <v-btn
                                 class="mr-2"
@@ -57,13 +67,13 @@
                                 <v-icon
                                     class="mr-1"
                                 >
-                                    mdi-file-pdf-outline
+                                    mdi-printer-settings
                                 </v-icon>
                                 <span class="hideText">Cetak</span>
                             </v-btn>
                         </template>
                     <span>Cetak Data</span>
-                    </v-tooltip>
+                    </v-tooltip> -->
                 </v-toolbar>
                 </template>
             <template v-slot:[`item.foto`]="{ item }">

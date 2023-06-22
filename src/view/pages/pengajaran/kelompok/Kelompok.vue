@@ -21,7 +21,7 @@
             <b-collapse id="collapse-2" class="mt-2">
                 <b-card>
                     <v-row>
-                        <v-col
+                        <!-- <v-col
                             cols="12"
                             md="6"
                         >
@@ -31,6 +31,20 @@
                                 item-text="nama_kelas"
                                 item-value="kelas_id"
                                 label="Kelas"
+                                clearable
+                                color="#ee8b3d"
+                            ></v-autocomplete>
+                        </v-col> -->
+                        <v-col
+                            cols="12"
+                            md="6"
+                        >
+                            <v-autocomplete
+                                v-model="formFilter.tahun_id"
+                                :items="master_data_tahunAjaran"
+                                item-text="tahun_ajaran_nama"
+                                item-value="tahun_id"
+                                label="Tahun Ajaran"
                                 clearable
                                 color="#ee8b3d"
                             ></v-autocomplete>
@@ -149,7 +163,7 @@
                         <v-card-text>
                             <v-container>
                                 <v-row>
-                                    <v-col
+                                    <!-- <v-col
                                         cols="12"
                                         md="12"
                                     >
@@ -159,6 +173,20 @@
                                             item-text="nama_kelas"
                                             item-value="kelas_id"
                                             label="Kelas"
+                                            clearable
+                                            color="#ee8b3d"
+                                        ></v-autocomplete>
+                                    </v-col> -->
+                                    <v-col
+                                        cols="12"
+                                        md="12"
+                                    >
+                                        <v-autocomplete
+                                            v-model="formInput.tahun_id"
+                                            :items="master_data_tahunAjaran"
+                                            item-text="tahun_ajaran_nama"
+                                            item-value="tahun_id"
+                                            label="Tahun Ajaran"
                                             clearable
                                             color="#ee8b3d"
                                         ></v-autocomplete>
@@ -291,12 +319,12 @@ export default {
             delete_kelompok_kelas: [],
             add_kelompok_kelas: {
                 santri_id: "",
-                kelas_id: "", 
+                tahun_id: "", 
                 status_kelompok: ""
             },
             formFilter: {
                 santri_id: "",
-                kelas_id: "", 
+                tahun_id: "", 
                 status_kelompok: ""
             },
             headers: [
@@ -312,6 +340,20 @@ export default {
                     value: 'kode_santri',
                     align: 'start',
                     width: "200px",
+                    sortable: false 
+                },
+                { 
+                    text: 'Tahun Ajaran', 
+                    value: 'tahun_ajaran',
+                    align: 'start',
+                    width: "150px",
+                    sortable: false 
+                },
+                { 
+                    text: 'Semester', 
+                    value: 'semester',
+                    align: 'start',
+                    width: "100px",
                     sortable: false 
                 },
                 { 
@@ -334,6 +376,7 @@ export default {
             ],
             master_data_kelas: [],
             master_data_santri: [],
+            master_data_tahunAjaran: [],
             dropdown_status: [
                 { value: 0, text: "Tidak Aktif" },
                 { value: 1, text: "Aktif" },
@@ -364,7 +407,7 @@ export default {
                 : this.updateDataRole;
         },
         isDisabledSimpan(){
-            return !this.formInput.kelas_id || !this.formInput.santri_id
+            return !this.formInput.tahun_id || !this.formInput.santri_id
         }
     },
 
@@ -390,6 +433,35 @@ export default {
                     response => {
                         resolve(response.data);
                         this.kelompok_kelas = response.data;
+                    },
+                    err => {
+                        err;
+                    }
+                );
+            });
+        },
+
+        getMasterTahunAjaran(){
+            return new Promise(resolve => {
+                var mydata = {
+                    UID: localStorage.getLocalStorage("uid"),
+                    Token: localStorage.getLocalStorage("token"),
+                    Trigger: "R",
+                    Route: "COMBOBOX_TAHUN_AJARAN"
+                };
+
+                let contentType = `application/x-www-form-urlencoded`;
+
+                const qs = require("qs");
+
+                Services.PostData(
+                    ApiService,
+                    "Master/TahunAjaran",
+                    qs.stringify(mydata),
+                    contentType,
+                    response => {
+                        resolve(response.data);
+                        this.master_data_tahunAjaran = response.data;
                     },
                     err => {
                         err;
@@ -707,7 +779,7 @@ export default {
         async load() {
             Promise.all([
                 await this.getMasterSantri(),
-                await this.getMasterKelas(),
+                await this.getMasterTahunAjaran(),
                 await this.getKelompokKelas(),
             ]).then(function(results) {
                 results;

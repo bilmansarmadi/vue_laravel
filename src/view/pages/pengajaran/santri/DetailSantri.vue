@@ -445,7 +445,7 @@ export default {
                     UID: localStorage.getLocalStorage("uid"),
                     Token: localStorage.getLocalStorage("token"),
                     Trigger: "R",
-                    Route: "Read_Santri_Pecarian",
+                    Route: "Read_Santri",
                     kode_santri: this.Kode_Santri
                 };
 

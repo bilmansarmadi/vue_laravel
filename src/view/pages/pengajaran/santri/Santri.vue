@@ -64,7 +64,7 @@
                                         v-model="formInput.tahun_id"
                                         :items="master_data_tahunAjaran"
                                         item-text="tahun_ajaran"
-                                        item-value="tahun_id"
+                                        item-value="tahun_ajaran"
                                         label="Tahun Ajaran"
                                         clearable
                                         color="#ee8b3d"
@@ -579,7 +579,7 @@ export default {
                     UID: localStorage.getLocalStorage("uid"),
                     Token: localStorage.getLocalStorage("token"),
                     Trigger: "R",
-                    Route: "COMBOBOX_TAHUN_AJARAN"
+                    Route: "DEFAULT"
                 };
 
                 let contentType = `application/x-www-form-urlencoded`;
