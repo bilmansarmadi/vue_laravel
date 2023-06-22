@@ -91,7 +91,7 @@ import localStorage from "@/core/services/store/localStorage";
 
 export default {
     name: "resultsantri",
-    props:['data'],
+    props:['data', 'tgl'],
     data(){
         return{
             searchForm: "",
@@ -229,7 +229,6 @@ export default {
     },
     mounted(){
         this.searchForm = this.data;
-        console.log(this.searchForm);
         this.load();
     },
     methods: {
@@ -246,7 +245,7 @@ export default {
                     hafalan_ziyadah: this.searchForm.hafalan_ziyadah,
                     hafalan_mutqin: this.searchForm.hafalan_mutqin,
                     tempat_lahir: this.searchForm.tempat_lahir,
-                    tanggal_lahir: this.searchForm.tanggal_lahir,
+                    tanggal_lahir: this.tgl,
                     jenis_kelamin: this.searchForm.jenis_kelamin,
                     anak_ke: this.searchForm.anak_ke,
                     email: this.searchForm.email,

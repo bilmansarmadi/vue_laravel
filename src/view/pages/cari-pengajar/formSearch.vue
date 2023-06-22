@@ -116,17 +116,17 @@
                             >
                                 <template v-slot:activator="{ on, attrs }">
                                 <v-text-field
-                                    v-model="formInput.tanggal_lahir"
+                                    v-model="dateFormatted"
                                     label="Tanggal Lahir"
                                     persistent-hint
                                     prepend-icon="mdi-calendar"
                                     v-bind="attrs"
-                                    @blur="date = parseDate(formInput.tanggal_lahir)"
+                                    @blur="date = parseDate(dateFormatted)"
                                     v-on="on"
                                 ></v-text-field>
                                 </template>
                                 <v-date-picker
-                                v-model="formInput.tanggal_lahir"
+                                v-model="date"
                                 no-title
                                 @input="menu1 = false"
                                 ></v-date-picker>
@@ -226,6 +226,8 @@
 </template>
 
 <script>
+import { formatDate } from "@/helpers/helper.js";
+
 export default {
     name: "formSearchSantri",
     data(){
@@ -259,9 +261,22 @@ export default {
             ],
             menu1: false,
             date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+            dateFormatted: "",
         }
     },
+    watch: {
+        date (val) {
+            this.dateFormatted = this.formatDate(this.date)
+        },
+    },
     methods: {
+        formatDate (date) {
+            if (!date) return null
+
+            const [year, month, day] = date.split('-')
+            return `${day}/${month}/${year}`
+        },
+
         parseDate (date) {
             if (!date) return null
 
@@ -273,7 +288,7 @@ export default {
             this.$router.push(
             {
                 name: `resultpengajar`,
-                params: {data: this.formInput} 
+                params: {data: this.formInput, tgl: this.dateFormatted} 
             });
         },
         reset(){
@@ -291,6 +306,7 @@ export default {
             this.formInput.nama_ayah = ""
             this.formInput.nama_ibu = ""
             this.formInput.status = ""
+            this.dateFormatted = ""
         },
     }
 }

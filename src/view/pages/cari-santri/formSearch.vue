@@ -182,12 +182,12 @@
                             >
                                 <template v-slot:activator="{ on, attrs }">
                                 <v-text-field
-                                    v-model="formInput.tanggal_lahir"
+                                    v-model="dateFormatted"
                                     label="Tanggal Lahir"
                                     persistent-hint
                                     prepend-icon="mdi-calendar"
                                     v-bind="attrs"
-                                    @blur="date = parseDate(formInput.tanggal_lahir)"
+                                    @blur="date = parseDate(dateFormatted)"
                                     v-on="on"
                                 ></v-text-field>
                                 </template>
@@ -367,6 +367,7 @@ export default {
             ],
             menu1: false,
             date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+            dateFormatted: "",
             master_data_kelas: [],
             master_data_tahunAjaran: [],
             master_data_mapel: [],
@@ -374,6 +375,11 @@ export default {
     },
     mounted(){
         this.load();
+    },
+    watch: {
+        date (val) {
+            this.dateFormatted = this.formatDate(this.date)
+        },
     },
     methods: {
         formatDate (date) {
@@ -394,7 +400,7 @@ export default {
             this.$router.push(
             {
                 name: `resultsantri`,
-                params: {data: this.formInput} 
+                params: {data: this.formInput, tgl: this.dateFormatted} 
             });
         },
         reset(){
@@ -416,6 +422,7 @@ export default {
             this.formInput.tahun_id = ""
             this.formInput.semester = ""
             this.formInput.mapel_id = ""
+            this.dateFormatted = ""
         },
         getMasterKelas(){
             return new Promise(resolve => {

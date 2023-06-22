@@ -3,7 +3,7 @@
       <div
         class="col-md-12"
       >
-        <div class="card card-custom card-stretch">
+        <div class="card card-custom card-stretch border border-primary">
           <div class="card-body pt-4">
             <!--begin::User-->
             <!-- <div class="card-toolbar">
@@ -120,7 +120,7 @@
       <div class="flex-row-fluid col-md-12">
         <b-tabs class="hide-tabs" v-model="tabIndex">
           <b-tab active>
-            <div class="card card-custom card-stretch">
+            <div class="card card-custom card-stretch border border-primary">
                 <div class="card-header border-0 pt-4">
                     <v-container>
                         <v-row>
@@ -214,12 +214,12 @@
                                     persistent-hint
                                     prepend-icon="mdi-calendar"
                                     v-bind="attrs"
-                                    @blur="date = parseDate(dateFormatted)"
+                                    @blur="date = parseDate(data_header.tanggal_lahir)"
                                     v-on="on"
                                 ></v-text-field>
                                 </template>
                                 <v-date-picker
-                                v-model="data_header.tanggal_lahir"
+                                v-model="date"
                                 no-title
                                 @input="menu1 = false"
                                 ></v-date-picker>
@@ -402,12 +402,17 @@ export default {
                 { value: 1, text: "Aktif" },
             ],
             menu1: false,
+            date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
         }
     },
     watch: {
         data_header(){
             this.progressBar = false
-        }
+        },
+
+        date (val) {
+            this.data_header.tanggal_lahir = this.formatDate(this.date)
+        },
     },
     mounted(){
         this.Kode_Santri  = this.$route.query.id;
@@ -419,6 +424,20 @@ export default {
         KTRiwayat_Sekolah
     },
     methods:{
+        formatDate (date) {
+            if (!date) return null
+
+            const [year, month, day] = date.split('-')
+            return `${day}/${month}/${year}`
+        },
+
+        parseDate (date) {
+            if (!date) return null
+
+            const [month, day, year] = date.split('/')
+            return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
+        },
+
         setActiveTab(event) {
             let target = event.target;
             if (!event.target.classList.contains("navi-link")) {
@@ -483,7 +502,7 @@ export default {
                 formData.append("hafalan_ziyadah", this.data_header.hafalan_ziyadah)
                 formData.append("hafalan_mutqin", this.data_header.hafalan_mutqin)
                 formData.append("tempat_lahir", this.data_header.tempat_lahir)
-                formData.append("tanggal_lahir", this.dateFormatted)
+                formData.append("tanggal_lahir", this.data_header.tanggal_lahir)
                 formData.append("jenis_kelamin", this.data_header.jenis_kelamin)
                 formData.append("anak_ke", this.data_header.anak_ke)
                 formData.append("berat_badan", this.data_header.berat_badan)

@@ -172,32 +172,32 @@
                                 cols="12"
                                 md="6"
                                 >
-                                <v-menu
-                                    ref="menu1"
-                                    v-model="menu1"
-                                    :close-on-content-click="false"
-                                    transition="scale-transition"
-                                    offset-y
-                                    max-width="290px"
-                                    min-width="auto"
-                                >
-                                    <template v-slot:activator="{ on, attrs }">
-                                    <v-text-field
-                                        v-model="formInput.tanggal_lahir"
-                                        label="Tanggal Lahir"
-                                        persistent-hint
-                                        prepend-icon="mdi-calendar"
-                                        v-bind="attrs"
-                                        @blur="date = parseDate(formInput.tanggal_lahir)"
-                                        v-on="on"
-                                    ></v-text-field>
-                                    </template>
-                                    <v-date-picker
-                                    v-model="date"
-                                    no-title
-                                    @input="menu1 = false"
-                                    ></v-date-picker>
-                                </v-menu>
+                                    <v-menu
+                                        ref="menu1"
+                                        v-model="menu1"
+                                        :close-on-content-click="false"
+                                        transition="scale-transition"
+                                        offset-y
+                                        max-width="290px"
+                                        min-width="auto"
+                                    >
+                                        <template v-slot:activator="{ on, attrs }">
+                                        <v-text-field
+                                            v-model="dateFormatted"
+                                            label="Tanggal Lahir"
+                                            persistent-hint
+                                            prepend-icon="mdi-calendar"
+                                            v-bind="attrs"
+                                            @blur="date = parseDate(dateFormatted)"
+                                            v-on="on"
+                                        ></v-text-field>
+                                        </template>
+                                        <v-date-picker
+                                        v-model="date"
+                                        no-title
+                                        @input="menu1 = false"
+                                        ></v-date-picker>
+                                    </v-menu>
                                 </v-col>
                                 <v-col
                                     cols="12"
@@ -433,6 +433,7 @@ export default {
             ],
             menu1: false,
             date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+            dateFormatted: "",
             master_data_kelas: [],
             master_data_tahunAjaran: [],
             master_data_mapel: [],
@@ -498,6 +499,11 @@ export default {
             ],
         }
     },
+    watch: {
+        date (val) {
+            this.dateFormatted = this.formatDate(this.date)
+        },
+    },
     mounted(){
         this.load();
     },
@@ -544,6 +550,7 @@ export default {
             this.formInput.tahun_id = ""
             this.formInput.semester = ""
             this.formInput.mapel_id = ""
+            this.dateFormatted = ""
         },
         getMasterKelas(){
             return new Promise(resolve => {
@@ -642,7 +649,7 @@ export default {
                     hafalan_ziyadah: this.formInput.hafalan_ziyadah,
                     hafalan_mutqin: this.formInput.hafalan_mutqin,
                     tempat_lahir: this.formInput.tempat_lahir,
-                    tanggal_lahir: this.formInput.tanggal_lahir,
+                    tanggal_lahir: this.dateFormatted,
                     jenis_kelamin: this.formInput.jenis_kelamin,
                     anak_ke: this.formInput.anak_ke,
                     email: this.formInput.email,
