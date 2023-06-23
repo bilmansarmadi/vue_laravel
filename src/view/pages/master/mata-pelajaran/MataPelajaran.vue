@@ -243,6 +243,34 @@
                                             color="#ee8b3d"
                                         ></v-text-field>
                                     </v-col>
+                                    <v-col
+                                        cols="12"
+                                        md="6"
+                                    >
+                                        <v-text-field
+                                            v-model="formInput.kkm"
+                                            label="KKM"
+                                            :rules="rulesNotNull"
+                                            required
+                                            clearable
+                                            type="number"
+                                            color="#ee8b3d"
+                                        ></v-text-field>
+                                    </v-col>
+                                    <v-col
+                                        cols="12"
+                                        md="6"
+                                    >
+                                        <v-select
+                                            v-model="formInput.mapel_tipe"
+                                            :items="dropdown_mapel_tipe"
+                                            item-text="text"
+                                            item-value="value"
+                                            label="Tipe"
+                                            clearable
+                                            color="#ee8b3d"
+                                        ></v-select>
+                                    </v-col>
                                 </v-row>
                             </v-container>
                         </v-card-text>
@@ -345,7 +373,9 @@ export default {
                 mapel_nama: "",
                 status_mapel: "",
                 sks: "",
-                deskripsi: ""
+                deskripsi: "",
+                kkm: "",
+                mapel_tipe: ""
             },
             formFilter: {
                 kurikulum_id: "",
@@ -356,6 +386,10 @@ export default {
             dropdown_status: [
                 { value: 0, text: "Tidak Aktif" },
                 { value: 1, text: "Aktif" },
+            ],
+            dropdown_mapel_tipe: [
+                { value: 'Khusus', text: "Khusus" },
+                { value: 'Wajib', text: "Wajib" },
             ],
             headers: [
                 { 
@@ -380,9 +414,23 @@ export default {
                     sortable: false 
                 },
                 { 
+                    text: 'Tipe', 
+                    value: 'mapel_tipe',
+                    align: 'center',
+                    width: "80px",
+                    sortable: false 
+                },
+                { 
                     text: 'SKS', 
                     value: 'sks',
                     align: 'start',
+                    width: "80px",
+                    sortable: false 
+                },
+                { 
+                    text: 'KKM', 
+                    value: 'kkm',
+                    align: 'center',
                     width: "80px",
                     sortable: false 
                 },
@@ -547,7 +595,9 @@ export default {
                     mapel_nama: this.add_data_mapel.mapel_nama,
                     status_mapel: this.add_data_mapel.status_mapel,
                     sks: this.add_data_mapel.sks,
-                    deskripsi: this.add_data_mapel.deskripsi
+                    deskripsi: this.add_data_mapel.deskripsi,
+                    mapel_tipe: this.add_data_mapel.mapel_tipe,
+                    kkm: this.add_data_mapel.kkm
                 };
 
                 let contentType = `application/x-www-form-urlencoded`;
@@ -688,7 +738,9 @@ export default {
                     mapel_nama: this.editedItem.mapel_nama,
                     status_mapel: this.editedItem.status_mapel,
                     sks: this.editedItem.sks,
-                    deskripsi: this.editedItem.deskripsi
+                    deskripsi: this.editedItem.deskripsi,
+                    mapel_tipe: this.editedItem.mapel_tipe,
+                    kkm: this.editedItem.kkm
                 };
 
                 let contentType = `application/x-www-form-urlencoded`;
