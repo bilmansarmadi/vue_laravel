@@ -166,15 +166,15 @@
                                 cols="12"
                                 md="6"
                             >
-                                <v-text-field
+                                <v-select
                                     v-model="formInput.status_sekolah"
-                                    label="Status Sekolah"
-                                    placeholder="contoh: Negeri"
-                                    :rules="rulesNotNull"
-                                    required
+                                    :items="dropdown_status"
+                                    item-text="text"
+                                    item-value="value"
+                                    label="Status"
                                     clearable
                                     color="#ee8b3d"
-                                ></v-text-field>
+                                ></v-select>
                             </v-col>
                             <v-col
                                 cols="12"
@@ -276,13 +276,13 @@ import localStorage from "@/core/services/store/localStorage";
 
 export default {
     mounted() {
-        this.Kode_Santri  = this.$route.query.id;
+        this.Santri_Id  = this.$route.query.id;
         this.load();
     },
 
     data(){
         return {
-            Kode_Santri: "",
+            Santri_Id: "",
             riwayat_sekolah: [],
             search: '',
             progressBar: true,
@@ -335,7 +335,7 @@ export default {
                 },
                 { 
                     text: 'Status Sekolah', 
-                    value: 'status_sekolah',
+                    value: 'status_sekolah_nama',
                     align: 'center',
                     width: "100px",
                     sortable: false 
@@ -373,6 +373,10 @@ export default {
             year2: '',
             menu: '',
             menu2: '',
+            dropdown_status: [
+                { value: 1, text: "Negeri" },
+                { value: 0, text: "Swasta" },
+            ],
         }
     },
 
@@ -409,7 +413,6 @@ export default {
         isDisabledSimpan(){
             return !this.formInput.tingkat || !this.formInput.nama_sekolah
             || !this.formInput.tahun_lulus || !this.formInput.tahun_masuk
-            || !this.formInput.status_sekolah
         }
     },
 
@@ -421,7 +424,7 @@ export default {
                     Token: localStorage.getLocalStorage("token"),
                     Trigger: "R",
                     Route: "READ_RDIK_SANTRI",
-                    kode_santri: this.Kode_Santri
+                    santri_id: this.Santri_Id
                 };
 
                 let contentType = `application/x-www-form-urlencoded`;
@@ -451,7 +454,7 @@ export default {
                     Token: localStorage.getLocalStorage("token"),
                     Trigger: "C",
                     Route: "DEFAULT",
-                    kode_santri: this.Kode_Santri,
+                    santri_id: this.Santri_Id,
                     tingkat: this.add_riwayat_sekolah.tingkat,
                     nama_sekolah: this.add_riwayat_sekolah.nama_sekolah,
                     tahun_lulus: this.add_riwayat_sekolah.tahun_lulus,
@@ -594,7 +597,7 @@ export default {
                     Trigger: "U",
                     Route: "DEFAULT",
                     r_pendidikan_id: this.data_item.r_pendidikan_id,
-                    kode_santri: this.Kode_Santri,
+                    santri_id: this.Santri_Id,
                     tingkat: this.editedItem.tingkat,
                     nama_sekolah: this.editedItem.nama_sekolah,
                     tahun_lulus: this.editedItem.tahun_lulus,

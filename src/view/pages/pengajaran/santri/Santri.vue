@@ -375,7 +375,7 @@
                 </template>
                 <template v-slot:[`item.kode_santri`]="{ item }">
                     <router-link
-                        :to="{ name: 'detail_santri',query: {id: item.kode_santri,}}"
+                        :to="{ name: 'detail_santri',query: {id: item.santri_id,}}"
                         target="_blank"> {{ item.kode_santri }}
                     </router-link>
                     <!-- <span @click="goToDetail(item)" class="text-hover-primary cursor-pointer">{{ item.kode_santri }}</span> -->
@@ -687,7 +687,7 @@ export default {
             this.$router.push(
             {
                 name: `detail_santri`,
-                query: {id: item.kode_santri}
+                query: {id: item.santri_id}
             });
         },
         async load() {

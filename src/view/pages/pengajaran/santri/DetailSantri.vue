@@ -389,7 +389,7 @@ import Swal from 'sweetalert2'
 export default {
     data(){
         return{
-            Kode_Santri: "",
+            Santri_Id: "",
             tabIndex: 0,
             data_header: [],
             progressBar: true,
@@ -415,7 +415,7 @@ export default {
         },
     },
     mounted(){
-        this.Kode_Santri  = this.$route.query.id;
+        this.Santri_Id  = this.$route.query.id;
         this.load()
     },
     components:{
@@ -465,7 +465,7 @@ export default {
                     Token: localStorage.getLocalStorage("token"),
                     Trigger: "R",
                     Route: "Read_Santri",
-                    kode_santri: this.Kode_Santri
+                    santri_id: this.Santri_Id
                 };
 
                 let contentType = `application/x-www-form-urlencoded`;
@@ -495,7 +495,7 @@ export default {
                 formData.append("Token", localStorage.getLocalStorage("token"))
                 formData.append("Trigger", 'U')
                 formData.append("Route", "DEFAULT")
-                formData.append("santri_id", this.Kode_Santri)
+                formData.append("santri_id", this.Santri_Id)
                 formData.append("kode_santri", this.data_header.kode_santri)
                 formData.append("nama_lengkap_santri", this.data_header.nama_lengkap_santri)
                 formData.append("panggilan", this.data_header.panggilan)
