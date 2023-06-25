@@ -248,13 +248,13 @@ export default {
     },
 
     methods:{
-        gerMasterTahunAjaran(){
+        getMasterTahunAjaran(){
             return new Promise(resolve => {
                 var mydata = {
                     UID: localStorage.getLocalStorage("uid"),
                     Token: localStorage.getLocalStorage("token"),
                     Trigger: "R",
-                    Route: "DEFAULT"
+                    Route: "COMBOBOX_TAHUN_AJARAN"
                 };
 
                 let contentType = `application/x-www-form-urlencoded`;
@@ -319,7 +319,7 @@ export default {
                     this.create_tahun_ajaran = response.data;
                     this.submitted = true;
                     this.save("add_tahun_ajaran");
-                    this.gerMasterTahunAjaran();
+                    this.getMasterTahunAjaran();
                 },
                 err => {
                     err;
@@ -387,7 +387,7 @@ export default {
                             this.delete_tahun_ajaran = response.data;
                             this.submitted = true;
                             this.tahun_ajaran.splice(this.deletedIndex, 1);
-                            this.gerMasterTahunAjaran()
+                            this.getMasterTahunAjaran()
                         },
                         err => {
                             err;
@@ -451,7 +451,7 @@ export default {
                         this.update_tahun_ajaran = response.data;
                         this.submitted = true;
                         this.save("edit_tahun_ajaran");
-                        this.gerMasterTahunAjaran();
+                        this.getMasterTahunAjaran();
                     },
                     err => {
                         err;
@@ -482,7 +482,7 @@ export default {
 
         async load() {
             Promise.all([
-                await this.gerMasterTahunAjaran()
+                await this.getMasterTahunAjaran()
             ]).then(function(results) {
                 results;
             });
