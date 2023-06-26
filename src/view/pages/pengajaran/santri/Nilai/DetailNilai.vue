@@ -636,7 +636,7 @@ export default {
 
         async load() {
             Promise.all([
-                // await this.getMasterMapel()
+                await this.getMasterMapel()
             ]).then(function(results) {
                 results;
             });

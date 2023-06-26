@@ -1,5 +1,5 @@
 <template>
-    <div class="container-fluid col-md-8">
+    <div class="container-fluid">
         <div class="card mt-4 shadow-xs cardHover mb-5">
             <div class="d-block px-3 py-3" data-toggle="collapse" style="background-color: #FFF;"
                 role="button" aria-expanded="true" v-b-toggle.collapse-2 variant="primary">
