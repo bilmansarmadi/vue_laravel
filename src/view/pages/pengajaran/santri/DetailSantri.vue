@@ -36,10 +36,10 @@
 
             <!--begin::Nav-->
             <div
-              class="navi navi-bold navi-hover navi-active navi-link-rounded d-flex row col-md-12"
+              class="navi navi-bold navi-hover navi-active navi-link-rounded d-flex row col-md-12 mx-auto"
               role="tablist"
             >
-              <div class="navi-item mb-2 col-md-3">
+              <div class="navi-item mb-2 col-md-4">
                 <a
                   class="navi-link py-4 active"
                   @click="setActiveTab"
@@ -57,7 +57,7 @@
                   <span class="navi-text font-size-lg font-size-h5">Data</span>
                 </a>
               </div>
-              <div class="navi-item mb-2 col-md-3">
+              <div class="navi-item mb-2 col-md-4">
                 <a
                   class="navi-link py-4"
                   @click="setActiveTab"
@@ -68,35 +68,17 @@
                   aria-selected="false"
                 >
                   <span class="navi-icon mr-2">
-                    <span class="svg-icon">
-                        <i class="menu-icon flaticon2-schedule"><span></span></i>
-                    </span>
-                  </span>
-                  <span class="navi-text font-size-lg font-size-h5">Kelas</span>
-                </a>
-              </div>
-              <div class="navi-item mb-2 col-md-3">
-                <a
-                  class="navi-link py-4"
-                  @click="setActiveTab"
-                  style="cursor:pointer"
-                  data-tab="2"
-                  data-toggle="tab"
-                  role="tab"
-                  aria-selected="false"
-                >
-                  <span class="navi-icon mr-2">
                     <i class="menu-icon flaticon2-checking"><span></span></i>
                   </span>
                   <span class="navi-text font-size-lg font-size-h5">Nilai</span>
                 </a>
               </div>
-              <div class="navi-item mb-2 col-md-3">
+              <div class="navi-item mb-2 col-md-4">
                 <a
                   class="navi-link py-4"
                   @click="setActiveTab"
                   style="cursor:pointer"
-                  data-tab="3"
+                  data-tab="2"
                   data-toggle="tab"
                   role="tab"
                   aria-selected="false"
@@ -119,257 +101,253 @@
       <!--begin::Content-->
       <div class="flex-row-fluid col-md-12">
         <b-tabs class="hide-tabs" v-model="tabIndex">
-          <b-tab active>
-            <div class="card card-custom card-stretch border border-primary">
-                <div class="card-header border-0 pt-4">
-                    <v-container>
-                        <v-row>
-                            <v-col
+            <b-tab active>
+                <div class="card card-custom card-stretch border border-primary">
+                    <div class="card-header border-0 pt-4">
+                        <v-container>
+                            <v-row>
+                                <v-col
+                                    cols="12"
+                                    md="6"
+                                >
+                                    <v-text-field
+                                        v-model="data_header.kode_santri"
+                                        label="Kode Santri"
+                                        required
+                                        clearable
+                                        color="#ee8b3d"
+                                    ></v-text-field>
+                                </v-col>
+                                <v-col
+                                    cols="12"
+                                    md="6"
+                                >
+                                    <v-text-field
+                                        v-model="data_header.nama_lengkap_santri"
+                                        label="Nama Lengkap"
+                                        required
+                                        clearable
+                                        color="#ee8b3d"
+                                    ></v-text-field>
+                                </v-col>
+                                <v-col
+                                    cols="12"
+                                    md="6"
+                                >
+                                    <v-text-field
+                                        v-model="data_header.panggilan"
+                                        label="Nama Panggilan"
+                                        required
+                                        clearable
+                                        color="#ee8b3d"
+                                    ></v-text-field>
+                                </v-col>
+                                <v-col
+                                    cols="12"
+                                    md="6"
+                                >
+                                    <v-text-field
+                                        v-model="data_header.hafalan_ziyadah"
+                                        label="Hapalan Ziyadah"
+                                        clearable
+                                        color="#ee8b3d"
+                                    ></v-text-field>
+                                </v-col>
+                                <v-col
+                                    cols="12"
+                                    md="6"
+                                >
+                                    <v-text-field
+                                        v-model="data_header.hafalan_mutqin"
+                                        label="Hapalan Mutqin"
+                                        clearable
+                                        color="#ee8b3d"
+                                    ></v-text-field>
+                                </v-col>
+                                <v-col
+                                    cols="12"
+                                    md="6"
+                                >
+                                    <v-text-field
+                                        v-model="data_header.tempat_lahir"
+                                        label="Tempat Lahir"
+                                        required
+                                        clearable
+                                        color="#ee8b3d"
+                                    ></v-text-field>
+                                </v-col>
+                                <v-col
                                 cols="12"
                                 md="6"
+                                >
+                                <v-menu
+                                    ref="menu1"
+                                    v-model="menu1"
+                                    :close-on-content-click="false"
+                                    transition="scale-transition"
+                                    offset-y
+                                    max-width="290px"
+                                    min-width="auto"
+                                >
+                                    <template v-slot:activator="{ on, attrs }">
+                                    <v-text-field
+                                        v-model="data_header.tanggal_lahir"
+                                        label="Tanggal Lahir"
+                                        persistent-hint
+                                        prepend-icon="mdi-calendar"
+                                        v-bind="attrs"
+                                        @blur="date = parseDate(data_header.tanggal_lahir)"
+                                        v-on="on"
+                                    ></v-text-field>
+                                    </template>
+                                    <v-date-picker
+                                    v-model="date"
+                                    no-title
+                                    @input="menu1 = false"
+                                    ></v-date-picker>
+                                </v-menu>
+                                </v-col>
+                                <v-col
+                                    cols="12"
+                                    md="6"
+                                >
+                                    <v-select
+                                        v-model="data_header.jenis_kelamin"
+                                        :items="dropdown_jenkel"
+                                        item-text="text"
+                                        item-value="value"
+                                        label="Jenis Kelamin"
+                                        clearable
+                                        color="#ee8b3d"
+                                    ></v-select>
+                                </v-col>
+                                <v-col
+                                    cols="12"
+                                    md="6"
+                                >
+                                    <v-text-field
+                                        label="Anak Ke"
+                                        v-model="data_header.anak_ke"
+                                        clearable
+                                        color="#ee8b3d"
+                                    ></v-text-field>
+                                </v-col>
+                                <v-col
+                                    cols="12"
+                                    md="6"
+                                >
+                                    <v-text-field
+                                        v-model="data_header.berat_badan"
+                                        label="Berat Badan"
+                                        required
+                                        clearable
+                                        color="#ee8b3d"
+                                        type="number"
+                                    ></v-text-field>
+                                </v-col>
+                                <v-col
+                                    cols="12"
+                                    md="6"
+                                >
+                                    <v-text-field
+                                        v-model="data_header.tinggi_badan"
+                                        label="Tinggi Badan"
+                                        required
+                                        clearable
+                                        color="#ee8b3d"
+                                    ></v-text-field>
+                                </v-col>
+                                <v-col
+                                    cols="12"
+                                    md="6"
+                                >
+                                    <v-text-field
+                                        v-model="data_header.email"
+                                        label="Email"
+                                        clearable
+                                        color="#ee8b3d"
+                                    ></v-text-field>
+                                </v-col>
+                                <v-col
+                                    cols="12"
+                                    md="6"
+                                >
+                                    <v-text-field
+                                        v-model="data_header.alamat"
+                                        label="Alamat"
+                                        clearable
+                                        color="#ee8b3d"
+                                    ></v-text-field>
+                                </v-col>
+                                <v-col
+                                    cols="12"
+                                    md="6"
+                                >
+                                    <v-text-field
+                                        v-model="data_header.hp_ortu"
+                                        label="Nomor HP Ortu"
+                                        clearable
+                                        type="number"
+                                        color="#ee8b3d"
+                                    ></v-text-field>
+                                </v-col>
+                                <v-col
+                                    cols="12"
+                                    md="6"
+                                >
+                                    <v-text-field
+                                        v-model="data_header.nama_ayah"
+                                        label="Nama Ayah"
+                                        clearable
+                                        color="#ee8b3d"
+                                    ></v-text-field>
+                                </v-col>
+                                <v-col
+                                    cols="12"
+                                    md="6"
+                                >
+                                    <v-select
+                                        v-model="data_header.status"
+                                        :items="dropdown_status"
+                                        item-text="text"
+                                        item-value="value"
+                                        label="Status"
+                                        clearable
+                                        color="#ee8b3d"
+                                    ></v-select>
+                                </v-col>
+                                <v-col
+                                    cols="12"
+                                    md="6"
+                                >
+                                    <v-text-field
+                                        v-model="data_header.nama_ibu"
+                                        label="Nama Ibu"
+                                        clearable
+                                        color="#ee8b3d"
+                                    ></v-text-field>
+                                </v-col>
+                            </v-row>
+                            <div class="d-flex justify-content-end">
+                            <button
+                                @click="formSubmit"
+                                class="btn btn-primary btn-sm font-weight-bolder text-md-body-1 rounded-lg py-2 mb-3 mr-3 w-100px"
                             >
-                                <v-text-field
-                                    v-model="data_header.kode_santri"
-                                    label="Kode Santri"
-                                    required
-                                    clearable
-                                    color="#ee8b3d"
-                                ></v-text-field>
-                            </v-col>
-                            <v-col
-                                cols="12"
-                                md="6"
-                            >
-                                <v-text-field
-                                    v-model="data_header.nama_lengkap_santri"
-                                    label="Nama Lengkap"
-                                    required
-                                    clearable
-                                    color="#ee8b3d"
-                                ></v-text-field>
-                            </v-col>
-                            <v-col
-                                cols="12"
-                                md="6"
-                            >
-                                <v-text-field
-                                    v-model="data_header.panggilan"
-                                    label="Nama Panggilan"
-                                    required
-                                    clearable
-                                    color="#ee8b3d"
-                                ></v-text-field>
-                            </v-col>
-                            <v-col
-                                cols="12"
-                                md="6"
-                            >
-                                <v-text-field
-                                    v-model="data_header.hafalan_ziyadah"
-                                    label="Hapalan Ziyadah"
-                                    clearable
-                                    color="#ee8b3d"
-                                ></v-text-field>
-                            </v-col>
-                            <v-col
-                                cols="12"
-                                md="6"
-                            >
-                                <v-text-field
-                                    v-model="data_header.hafalan_mutqin"
-                                    label="Hapalan Mutqin"
-                                    clearable
-                                    color="#ee8b3d"
-                                ></v-text-field>
-                            </v-col>
-                            <v-col
-                                cols="12"
-                                md="6"
-                            >
-                                <v-text-field
-                                    v-model="data_header.tempat_lahir"
-                                    label="Tempat Lahir"
-                                    required
-                                    clearable
-                                    color="#ee8b3d"
-                                ></v-text-field>
-                            </v-col>
-                            <v-col
-                            cols="12"
-                            md="6"
-                            >
-                            <v-menu
-                                ref="menu1"
-                                v-model="menu1"
-                                :close-on-content-click="false"
-                                transition="scale-transition"
-                                offset-y
-                                max-width="290px"
-                                min-width="auto"
-                            >
-                                <template v-slot:activator="{ on, attrs }">
-                                <v-text-field
-                                    v-model="data_header.tanggal_lahir"
-                                    label="Tanggal Lahir"
-                                    persistent-hint
-                                    prepend-icon="mdi-calendar"
-                                    v-bind="attrs"
-                                    @blur="date = parseDate(data_header.tanggal_lahir)"
-                                    v-on="on"
-                                ></v-text-field>
-                                </template>
-                                <v-date-picker
-                                v-model="date"
-                                no-title
-                                @input="menu1 = false"
-                                ></v-date-picker>
-                            </v-menu>
-                            </v-col>
-                            <v-col
-                                cols="12"
-                                md="6"
-                            >
-                                <v-select
-                                    v-model="data_header.jenis_kelamin"
-                                    :items="dropdown_jenkel"
-                                    item-text="text"
-                                    item-value="value"
-                                    label="Jenis Kelamin"
-                                    clearable
-                                    color="#ee8b3d"
-                                ></v-select>
-                            </v-col>
-                            <v-col
-                                cols="12"
-                                md="6"
-                            >
-                                <v-text-field
-                                    label="Anak Ke"
-                                    v-model="data_header.anak_ke"
-                                    clearable
-                                    color="#ee8b3d"
-                                ></v-text-field>
-                            </v-col>
-                            <v-col
-                                cols="12"
-                                md="6"
-                            >
-                                <v-text-field
-                                    v-model="data_header.berat_badan"
-                                    label="Berat Badan"
-                                    required
-                                    clearable
-                                    color="#ee8b3d"
-                                    type="number"
-                                ></v-text-field>
-                            </v-col>
-                            <v-col
-                                cols="12"
-                                md="6"
-                            >
-                                <v-text-field
-                                    v-model="data_header.tinggi_badan"
-                                    label="Tinggi Badan"
-                                    required
-                                    clearable
-                                    color="#ee8b3d"
-                                ></v-text-field>
-                            </v-col>
-                            <v-col
-                                cols="12"
-                                md="6"
-                            >
-                                <v-text-field
-                                    v-model="data_header.email"
-                                    label="Email"
-                                    clearable
-                                    color="#ee8b3d"
-                                ></v-text-field>
-                            </v-col>
-                            <v-col
-                                cols="12"
-                                md="6"
-                            >
-                                <v-text-field
-                                    v-model="data_header.alamat"
-                                    label="Alamat"
-                                    clearable
-                                    color="#ee8b3d"
-                                ></v-text-field>
-                            </v-col>
-                            <v-col
-                                cols="12"
-                                md="6"
-                            >
-                                <v-text-field
-                                    v-model="data_header.hp_ortu"
-                                    label="Nomor HP Ortu"
-                                    clearable
-                                    type="number"
-                                    color="#ee8b3d"
-                                ></v-text-field>
-                            </v-col>
-                            <v-col
-                                cols="12"
-                                md="6"
-                            >
-                                <v-text-field
-                                    v-model="data_header.nama_ayah"
-                                    label="Nama Ayah"
-                                    clearable
-                                    color="#ee8b3d"
-                                ></v-text-field>
-                            </v-col>
-                            <v-col
-                                cols="12"
-                                md="6"
-                            >
-                                <v-select
-                                    v-model="data_header.status"
-                                    :items="dropdown_status"
-                                    item-text="text"
-                                    item-value="value"
-                                    label="Status"
-                                    clearable
-                                    color="#ee8b3d"
-                                ></v-select>
-                            </v-col>
-                            <v-col
-                                cols="12"
-                                md="6"
-                            >
-                                <v-text-field
-                                    v-model="data_header.nama_ibu"
-                                    label="Nama Ibu"
-                                    clearable
-                                    color="#ee8b3d"
-                                ></v-text-field>
-                            </v-col>
-                        </v-row>
-                        <div class="d-flex justify-content-end">
-                        <button
-                            @click="formSubmit"
-                            class="btn btn-primary btn-sm font-weight-bolder text-md-body-1 rounded-lg py-2 mb-3 mr-3 w-100px"
-                        >
-                            Simpan
-                        </button>
-                        </div>
-                    </v-container>
+                                Simpan
+                            </button>
+                            </div>
+                        </v-container>
+                    </div>
                 </div>
-            </div>
-          </b-tab>
-  
-          <b-tab>
-            <KTKelas></KTKelas>
-          </b-tab>
-  
-          <b-tab>
-            <KTNilai></KTNilai>
-          </b-tab>
-  
-          <b-tab>
-            <KTRiwayat_Sekolah></KTRiwayat_Sekolah>
-          </b-tab>
+            </b-tab>
+    
+            <b-tab>
+                <KTNilai></KTNilai>
+            </b-tab>
+
+            <b-tab>
+                <KTRiwayat_Sekolah></KTRiwayat_Sekolah>
+            </b-tab>
 
         </b-tabs>
       </div>
@@ -381,7 +359,6 @@
 import localStorage from "@/core/services/store/localStorage";
 import Services from "@/core/services/aljazary-api/Services";
 import ApiService from "@/core/services/api.service";
-import KTKelas from "@/view/pages/pengajaran/santri/Card/Kelas";
 import KTNilai from "@/view/pages/pengajaran/santri/Card/Nilai";
 import KTRiwayat_Sekolah from "@/view/pages/pengajaran/santri/Card/Riwayat_Sekolah";
 import Swal from 'sweetalert2'
@@ -419,7 +396,6 @@ export default {
         this.load()
     },
     components:{
-        KTKelas,
         KTNilai,
         KTRiwayat_Sekolah
     },

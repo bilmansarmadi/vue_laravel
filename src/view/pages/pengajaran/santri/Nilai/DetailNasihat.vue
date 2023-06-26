@@ -181,14 +181,12 @@ export default {
                     text: 'Nasihat', 
                     value: 'nasihat',
                     align: 'start',
-                    width: "200px",
                     sortable: false 
                 },
                 { 
                     text: 'Aksi', 
                     value: 'actions', 
                     align: 'center',
-                    width: "150px",
                     sortable: false 
                 },
             ],
