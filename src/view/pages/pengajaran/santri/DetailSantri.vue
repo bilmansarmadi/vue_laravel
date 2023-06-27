@@ -39,7 +39,7 @@
               class="navi navi-bold navi-hover navi-active navi-link-rounded d-flex row col-md-12 mx-auto"
               role="tablist"
             >
-              <div class="navi-item mb-2 col-md-4">
+              <div class="navi-item mb-2 col-md-3">
                 <a
                   class="navi-link py-4 active"
                   @click="setActiveTab"
@@ -57,7 +57,7 @@
                   <span class="navi-text font-size-lg font-size-h5">Data</span>
                 </a>
               </div>
-              <div class="navi-item mb-2 col-md-4">
+              <div class="navi-item mb-2 col-md-3">
                 <a
                   class="navi-link py-4"
                   @click="setActiveTab"
@@ -73,12 +73,28 @@
                   <span class="navi-text font-size-lg font-size-h5">Nilai</span>
                 </a>
               </div>
-              <div class="navi-item mb-2 col-md-4">
+              <div class="navi-item mb-2 col-md-3">
                 <a
                   class="navi-link py-4"
                   @click="setActiveTab"
                   style="cursor:pointer"
                   data-tab="2"
+                  data-toggle="tab"
+                  role="tab"
+                  aria-selected="false"
+                >
+                  <span class="navi-icon mr-2">
+                    <i class="menu-icon flaticon2-list-1"><span></span></i>
+                  </span>
+                  <span class="navi-text font-size-lg font-size-h5">KHS</span>
+                </a>
+              </div>
+              <div class="navi-item mb-2 col-md-3">
+                <a
+                  class="navi-link py-4"
+                  @click="setActiveTab"
+                  style="cursor:pointer"
+                  data-tab="3"
                   data-toggle="tab"
                   role="tab"
                   aria-selected="false"
@@ -346,6 +362,10 @@
             </b-tab>
 
             <b-tab>
+                <KTKHS></KTKHS>
+            </b-tab>
+
+            <b-tab>
                 <KTRiwayat_Sekolah></KTRiwayat_Sekolah>
             </b-tab>
 
@@ -360,6 +380,7 @@ import localStorage from "@/core/services/store/localStorage";
 import Services from "@/core/services/aljazary-api/Services";
 import ApiService from "@/core/services/api.service";
 import KTNilai from "@/view/pages/pengajaran/santri/Card/Nilai";
+import KTKHS from "@/view/pages/pengajaran/santri/Card/KHS_Header";
 import KTRiwayat_Sekolah from "@/view/pages/pengajaran/santri/Card/Riwayat_Sekolah";
 import Swal from 'sweetalert2'
 
@@ -397,7 +418,8 @@ export default {
     },
     components:{
         KTNilai,
-        KTRiwayat_Sekolah
+        KTRiwayat_Sekolah,
+        KTKHS
     },
     methods:{
         formatDate (date) {
