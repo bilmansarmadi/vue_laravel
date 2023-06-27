@@ -512,7 +512,7 @@ export default {
             if (!date) return null
 
             const [year, month, day] = date.split('-')
-            return `${day}/${month}/${year}`
+            return `${day}-${month}-${year}`
         },
 
         parseDate (date) {
@@ -546,10 +546,6 @@ export default {
             this.formInput.nama_ayah = ""
             this.formInput.nama_ibu = ""
             this.formInput.status = ""
-            this.formInput.kelas_id = ""
-            this.formInput.tahun_id = ""
-            this.formInput.semester = ""
-            this.formInput.mapel_id = ""
             this.dateFormatted = ""
         },
         getMasterKelas(){

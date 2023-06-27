@@ -654,7 +654,11 @@ export default {
 
         data_pengajar(){
             this.progressBar = false
-        }
+        },
+        
+        date (val) {
+            this.dateFormatted = this.formatDate(this.date)
+        },
     },
 
     computed: {
@@ -678,18 +682,12 @@ export default {
         }
     },
 
-    watch: {
-        date (val) {
-            this.dateFormatted = this.formatDate(this.date)
-        },
-    },
-
     methods:{
         formatDate (date) {
             if (!date) return null
 
             const [year, month, day] = date.split('-')
-            return `${day}/${month}/${year}`
+            return `${day}-${month}-${year}`
         },
 
         parseDate (date) {

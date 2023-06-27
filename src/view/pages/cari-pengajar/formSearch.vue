@@ -274,7 +274,7 @@ export default {
             if (!date) return null
 
             const [year, month, day] = date.split('-')
-            return `${day}/${month}/${year}`
+            return `${day}-${month}-${year}`
         },
 
         parseDate (date) {

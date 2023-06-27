@@ -6,16 +6,6 @@
         <div class="card card-custom card-stretch border border-primary">
           <div class="card-body pt-4">
             <!--begin::User-->
-            <!-- <div class="card-toolbar">
-                <div class="d-flex">
-                    <v-icon
-                    @click="goBack"
-                    style="cursor: pointer;"
-                    color="#73a4ef">
-                        mdi-arrow-left
-                    </v-icon>
-                </div>
-            </div> -->
             <div class="text-center mb-10">
                 <div class="symbol symbol-60 symbol-circle symbol-xl-120">
                     <div
@@ -27,7 +17,7 @@
                     </div>
                 </div>
                 <h4 class="font-weight-bold my-2 text-uppercase">
-                    {{ data_header.kode_santri }} - {{ data_header.nama_lengkap_santri }}
+                    {{ data_header.nip }} - {{ data_header.nama_lengkap }}
                 </h4>
             </div>
             <!--end::User-->
@@ -36,7 +26,7 @@
 
             <!--begin::Nav-->
             <div
-              class="navi navi-bold navi-hover navi-active navi-link-rounded d-flex row col-md-12 mx-auto"
+              class="navi navi-bold navi-hover navi-active navi-link-rounded row"
               role="tablist"
             >
               <div class="navi-item mb-2 col-md-4">
@@ -68,27 +58,11 @@
                   aria-selected="false"
                 >
                   <span class="navi-icon mr-2">
-                    <i class="menu-icon flaticon2-checking"><span></span></i>
-                  </span>
-                  <span class="navi-text font-size-lg font-size-h5">Nilai</span>
-                </a>
-              </div>
-              <div class="navi-item mb-2 col-md-4">
-                <a
-                  class="navi-link py-4"
-                  @click="setActiveTab"
-                  style="cursor:pointer"
-                  data-tab="2"
-                  data-toggle="tab"
-                  role="tab"
-                  aria-selected="false"
-                >
-                  <span class="navi-icon mr-2">
                     <span class="svg-icon">
                         <i class="menu-icon flaticon2-layers"><span></span></i>
                     </span>
                   </span>
-                  <span class="navi-text font-size-lg font-size-h5">Riwayat Sekolah</span>
+                  <span class="navi-text font-size-lg font-size-h5">Riwayat Pendidikan Pengajar</span>
                 </a>
               </div>
             </div>
@@ -111,8 +85,8 @@
                                     md="6"
                                 >
                                     <v-text-field
-                                        v-model="data_header.kode_santri"
-                                        label="Kode Santri"
+                                        v-model="data_header.nip"
+                                        label="NIP"
                                         required
                                         clearable
                                         color="#ee8b3d"
@@ -123,7 +97,7 @@
                                     md="6"
                                 >
                                     <v-text-field
-                                        v-model="data_header.nama_lengkap_santri"
+                                        v-model="data_header.nama_lengkap"
                                         label="Nama Lengkap"
                                         required
                                         clearable
@@ -138,17 +112,6 @@
                                         v-model="data_header.panggilan"
                                         label="Nama Panggilan"
                                         required
-                                        clearable
-                                        color="#ee8b3d"
-                                    ></v-text-field>
-                                </v-col>
-                                <v-col
-                                    cols="12"
-                                    md="6"
-                                >
-                                    <v-text-field
-                                        v-model="data_header.hafalan_ziyadah"
-                                        label="Hapalan Ziyadah"
                                         clearable
                                         color="#ee8b3d"
                                     ></v-text-field>
@@ -226,17 +189,6 @@
                                     md="6"
                                 >
                                     <v-text-field
-                                        label="Anak Ke"
-                                        v-model="data_header.anak_ke"
-                                        clearable
-                                        color="#ee8b3d"
-                                    ></v-text-field>
-                                </v-col>
-                                <v-col
-                                    cols="12"
-                                    md="6"
-                                >
-                                    <v-text-field
                                         v-model="data_header.berat_badan"
                                         label="Berat Badan"
                                         required
@@ -283,29 +235,6 @@
                                     cols="12"
                                     md="6"
                                 >
-                                    <v-text-field
-                                        v-model="data_header.hp_ortu"
-                                        label="Nomor HP Ortu"
-                                        clearable
-                                        type="number"
-                                        color="#ee8b3d"
-                                    ></v-text-field>
-                                </v-col>
-                                <v-col
-                                    cols="12"
-                                    md="6"
-                                >
-                                    <v-text-field
-                                        v-model="data_header.nama_ayah"
-                                        label="Nama Ayah"
-                                        clearable
-                                        color="#ee8b3d"
-                                    ></v-text-field>
-                                </v-col>
-                                <v-col
-                                    cols="12"
-                                    md="6"
-                                >
                                     <v-select
                                         v-model="data_header.status"
                                         :items="dropdown_status"
@@ -315,17 +244,6 @@
                                         clearable
                                         color="#ee8b3d"
                                     ></v-select>
-                                </v-col>
-                                <v-col
-                                    cols="12"
-                                    md="6"
-                                >
-                                    <v-text-field
-                                        v-model="data_header.nama_ibu"
-                                        label="Nama Ibu"
-                                        clearable
-                                        color="#ee8b3d"
-                                    ></v-text-field>
                                 </v-col>
                             </v-row>
                             <div class="d-flex justify-content-end">
@@ -340,13 +258,9 @@
                     </div>
                 </div>
             </b-tab>
-    
-            <b-tab>
-                <KTNilai></KTNilai>
-            </b-tab>
 
             <b-tab>
-                <KTRiwayat_Sekolah></KTRiwayat_Sekolah>
+                <KTRiwayat_Pendidikan></KTRiwayat_Pendidikan>
             </b-tab>
 
         </b-tabs>
@@ -359,14 +273,14 @@
 import localStorage from "@/core/services/store/localStorage";
 import Services from "@/core/services/aljazary-api/Services";
 import ApiService from "@/core/services/api.service";
-import KTNilai from "@/view/pages/pengajaran/santri/Card/Nilai";
-import KTRiwayat_Sekolah from "@/view/pages/pengajaran/santri/Card/Riwayat_Sekolah";
+import KTRiwayat_Pendidikan from "@/view/pages/pengajaran/pengajar/Card/RiwayatPendidikan";
 import Swal from 'sweetalert2'
+import { formatDate } from "@/helpers/helper.js";
 
 export default {
     data(){
         return{
-            Santri_Id: "",
+            Pengajar_Id: "",
             tabIndex: 0,
             data_header: [],
             progressBar: true,
@@ -389,15 +303,14 @@ export default {
 
         date (val) {
             this.data_header.tanggal_lahir = this.formatDate(this.date)
-        },
+        }
     },
     mounted(){
-        this.Santri_Id  = this.$route.query.id;
+        this.Pengajar_Id  = this.$route.query.id;
         this.load()
     },
     components:{
-        KTNilai,
-        KTRiwayat_Sekolah
+        KTRiwayat_Pendidikan
     },
     methods:{
         formatDate (date) {
@@ -434,14 +347,14 @@ export default {
             target.classList.add("active");
         },
 
-        getMasterDataSantri(){
+        getMasterDataPengajar(){
             return new Promise(resolve => {
                 var mydata = {
                     UID: localStorage.getLocalStorage("uid"),
                     Token: localStorage.getLocalStorage("token"),
                     Trigger: "R",
-                    Route: "Read_Santri",
-                    santri_id: this.Santri_Id
+                    Route: "Read_Pengajar",
+                    pengajar_id: this.Pengajar_Id
                 };
 
                 let contentType = `application/x-www-form-urlencoded`;
@@ -450,7 +363,7 @@ export default {
 
                 Services.PostData(
                     ApiService,
-                    "Master/Santri",
+                    "Master/Pengajar",
                     qs.stringify(mydata),
                     contentType,
                     response => {
@@ -471,29 +384,26 @@ export default {
                 formData.append("Token", localStorage.getLocalStorage("token"))
                 formData.append("Trigger", 'U')
                 formData.append("Route", "DEFAULT")
-                formData.append("santri_id", this.Santri_Id)
-                formData.append("kode_santri", this.data_header.kode_santri)
-                formData.append("nama_lengkap_santri", this.data_header.nama_lengkap_santri)
+                formData.append("pengajar_id", this.Pengajar_Id)
+                formData.append("nip", this.data_header.nip)
+                formData.append("nama_lengkap", this.data_header.nama_lengkap)
                 formData.append("panggilan", this.data_header.panggilan)
-                formData.append("hafalan_ziyadah", this.data_header.hafalan_ziyadah)
                 formData.append("hafalan_mutqin", this.data_header.hafalan_mutqin)
                 formData.append("tempat_lahir", this.data_header.tempat_lahir)
                 formData.append("tanggal_lahir", this.data_header.tanggal_lahir)
                 formData.append("jenis_kelamin", this.data_header.jenis_kelamin)
-                formData.append("anak_ke", this.data_header.anak_ke)
+                formData.append("status_nikah", this.data_header.status_nikah)
                 formData.append("berat_badan", this.data_header.berat_badan)
                 formData.append("tinggi_badan", this.data_header.tinggi_badan)
                 formData.append("email", this.data_header.email)
                 formData.append("alamat", this.data_header.alamat)
-                formData.append("hp_ortu", this.data_header.hp_ortu)
-                formData.append("nama_ayah", this.data_header.nama_ayah)
-                formData.append("nama_ibu", this.data_header.nama_ibu)
+                formData.append("status", this.data_header.status)
 
                 let contentType = `application/x-www-form-urlencoded`;
 
                 Services.PostData(
                     ApiService,
-                    'Master/Santri',
+                    'Master/Pengajar',
                     formData,
                     contentType,
                     response => {
@@ -515,7 +425,7 @@ export default {
                                 timer: 1500
                             });
                         }
-                        this.getMasterDataSantri();
+                        this.getMasterDataPengajar();
                     },
                     err => {
                         err;
@@ -524,16 +434,9 @@ export default {
             });
         },
 
-        // goBack(){
-        //     this.$router.push(
-        //     {
-        //         name: `pengajaran-data-santri`
-        //     });
-        // },
-
         async load() {
             Promise.all([
-                await this.getMasterDataSantri()
+                await this.getMasterDataPengajar()
             ]).then(function(results) {
                 results;
             });

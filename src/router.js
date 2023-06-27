@@ -111,6 +111,11 @@ export default new Router({
           name: "pengajaran-data-pengajar",
           component: () => import("@/view/pages/pengajaran/pengajar/Pengajar.vue")
         },
+        {
+          path: "/pengajaran/data_pengajar/detail_pengajar",
+          name: "detail_pengajar",
+          component: () => import("@/view/pages/pengajaran/pengajar/DetailPengajar.vue")
+        },
 
 
         {
