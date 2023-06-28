@@ -1,554 +1,565 @@
 <template>
     <div>
-        <div class="card mt-4 shadow-xs cardHover mb-5">
-            <div class="d-block px-3 py-3" data-toggle="collapse" style="background-color: #FFF;"
-                role="button" aria-expanded="true" v-b-toggle.collapse-2 variant="primary">
-                <div class="card-toolbar">
-                <div class="d-flex">
-                    <v-icon
-                    color="#73a4ef">
-                        mdi-filter
-                    </v-icon>
-                    <h6 class="font-weight-bold font-weight-black mt-2">FILTER</h6>
-                    <v-icon
-                        class="ml-auto"
+        <div v-show="accessList.R">
+            <div class="card mt-4 shadow-xs cardHover mb-5">
+                <div class="d-block px-3 py-3" data-toggle="collapse" style="background-color: #FFF;"
+                    role="button" aria-expanded="true" v-b-toggle.collapse-2 variant="primary">
+                    <div class="card-toolbar">
+                    <div class="d-flex">
+                        <v-icon
                         color="#73a4ef">
-                        mdi-arrow-down-drop-circle-outline
-                    </v-icon>
+                            mdi-filter
+                        </v-icon>
+                        <h6 class="font-weight-bold font-weight-black mt-2">FILTER</h6>
+                        <v-icon
+                            class="ml-auto"
+                            color="#73a4ef">
+                            mdi-arrow-down-drop-circle-outline
+                        </v-icon>
+                    </div>
+                    </div>
                 </div>
-                </div>
-            </div>
-            <b-collapse id="collapse-2" class="mt-2">
-                <b-card>
-                    <v-row>
-                        <v-col
-                            cols="12"
-                            md="6"
-                        >
-                            <v-text-field
-                                v-model="formFilter.kode_santri"
-                                label="Kode Santri"
-                                required
-                                clearable
-                                color="#ee8b3d"
-                            ></v-text-field>
-                        </v-col>
-                        <v-col
-                            cols="12"
-                            md="6"
-                        >
-                            <v-text-field
-                                v-model="formFilter.nama_lengkap_santri"
-                                label="Nama"
-                                required
-                                clearable
-                                color="#ee8b3d"
-                            ></v-text-field>
-                        </v-col>
-                        <v-col
-                            cols="12"
-                            md="6"
-                        >
-                            <v-select
-                                v-model="formInput.jenis_kelamin"
-                                :items="dropdown_jenkel"
-                                item-text="text"
-                                item-value="value"
-                                label="Jenis Kelamin"
-                                clearable
-                                color="#ee8b3d"
-                            ></v-select>
-                        </v-col>
-                        <v-col
-                            cols="12"
-                            md="6"
-                        >
-                            <v-select
-                                v-model="formInput.status"
-                                :items="dropdown_status"
-                                item-text="text"
-                                item-value="value"
-                                label="Status"
-                                clearable
-                                color="#ee8b3d"
-                            ></v-select>
-                        </v-col>
-                    </v-row>
-
-                    <v-btn 
-                        class="accent-4 mr-2"
-                        color="#73a4ef"
-                        dark
-                        rounded
-                        @click="filterData"
-                    >
-                        Cari
-                    </v-btn>
-                    <v-btn 
-                        dark
-                        rounded
-                        color="red"
-                        @click="clearFilter"
-                    >
-                        Reset
-                    </v-btn>
-                </b-card>
-            </b-collapse>
-        </div>
-        
-        <div class="card cardHover">
-            <v-data-table responsive show-empty
-                :headers="headers"
-                :items="data_santri"
-                :search="search"
-                loading-text="Loading... Please wait"
-                :items-per-page="5"
-                item-key="santri_id"
-                class="elevation-1"
-                :footer-props="{
-                showFirstLastPage: false,
-                    'items-per-page-text':'Page'
-                }"
-            >
-                <v-progress-linear 
-                v-show="progressBar"
-                slot="progress"
-                color="#73a4ef" 
-                indeterminate>
-                </v-progress-linear>
+                <b-collapse id="collapse-2" class="mt-2">
+                    <b-card>
+                        <v-row>
+                            <v-col
+                                cols="12"
+                                md="6"
+                            >
+                                <v-text-field
+                                    v-model="formFilter.kode_santri"
+                                    label="Kode Santri"
+                                    required
+                                    clearable
+                                    color="#ee8b3d"
+                                ></v-text-field>
+                            </v-col>
+                            <v-col
+                                cols="12"
+                                md="6"
+                            >
+                                <v-text-field
+                                    v-model="formFilter.nama_lengkap_santri"
+                                    label="Nama"
+                                    required
+                                    clearable
+                                    color="#ee8b3d"
+                                ></v-text-field>
+                            </v-col>
+                            <v-col
+                                cols="12"
+                                md="6"
+                            >
+                                <v-select
+                                    v-model="formInput.jenis_kelamin"
+                                    :items="dropdown_jenkel"
+                                    item-text="text"
+                                    item-value="value"
+                                    label="Jenis Kelamin"
+                                    clearable
+                                    color="#ee8b3d"
+                                ></v-select>
+                            </v-col>
+                            <v-col
+                                cols="12"
+                                md="6"
+                            >
+                                <v-select
+                                    v-model="formInput.status"
+                                    :items="dropdown_status"
+                                    item-text="text"
+                                    item-value="value"
+                                    label="Status"
+                                    clearable
+                                    color="#ee8b3d"
+                                ></v-select>
+                            </v-col>
+                        </v-row>
     
-                <template v-slot:top>
-                <v-toolbar
-                    flat
-                    class="mb-5"
-                >
-                    <v-spacer></v-spacer>
-                    <v-text-field
-                    v-model="search"
-                    append-icon="mdi-magnify"
-                    label="Search"
-                    color="purple"
-                    single-line
-                    hide-details
-                    ></v-text-field>
-                    <v-spacer></v-spacer>
-                    <v-dialog
-                        v-model="dialog"
-                        max-width="800px"
-                        persistent
-                    >
-                    <template v-slot:activator="{ on, attrs }">
-                        <v-btn
-                        color="#73a4ef"
-                        dark
-                        v-bind="attrs"
-                        v-on="on"
-                        rounded
+                        <v-btn 
+                            class="accent-4 mr-2"
+                            color="#73a4ef"
+                            dark
+                            rounded
+                            @click="filterData"
                         >
-                        <i class="flaticon-add-circular-button mr-1 text-white"></i>
-                            <span class="hideText">Tambah Data</span> 
+                            Cari
                         </v-btn>
-                    </template>
-                    <v-card>
-                        <v-card-title class="border">
-                            <span class="text-h5">{{ formTitle }}</span>
-                        </v-card-title>
+                        <v-btn 
+                            dark
+                            rounded
+                            color="red"
+                            @click="clearFilter"
+                        >
+                            Reset
+                        </v-btn>
+                    </b-card>
+                </b-collapse>
+            </div>
             
-                        <v-card-text>
-                            <v-container>
-                                <v-row>
-                                    <v-col
+            <div class="card cardHover">
+                <v-data-table responsive show-empty
+                    :headers="headers"
+                    :items="data_santri"
+                    :search="search"
+                    loading-text="Loading... Please wait"
+                    :items-per-page="5"
+                    item-key="santri_id"
+                    class="elevation-1"
+                    :footer-props="{
+                    showFirstLastPage: false,
+                        'items-per-page-text':'Page'
+                    }"
+                >
+                    <v-progress-linear 
+                    v-show="progressBar"
+                    slot="progress"
+                    color="#73a4ef" 
+                    indeterminate>
+                    </v-progress-linear>
+        
+                    <template v-slot:top>
+                    <v-toolbar
+                        flat
+                        class="mb-5"
+                    >
+                        <v-spacer></v-spacer>
+                        <v-text-field
+                        v-model="search"
+                        append-icon="mdi-magnify"
+                        label="Search"
+                        color="purple"
+                        single-line
+                        hide-details
+                        ></v-text-field>
+                        <v-spacer></v-spacer>
+                        <v-dialog
+                            v-model="dialog"
+                            max-width="800px"
+                            persistent
+                        >
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-btn
+                            color="#73a4ef"
+                            dark
+                            v-bind="attrs"
+                            v-on="on"
+                            rounded
+                            v-show="accessList.C"
+                            >
+                            <i class="flaticon-add-circular-button mr-1 text-white"></i>
+                                <span class="hideText">Tambah Data</span> 
+                            </v-btn>
+                        </template>
+                        <v-card>
+                            <v-card-title class="border">
+                                <span class="text-h5">{{ formTitle }}</span>
+                            </v-card-title>
+                
+                            <v-card-text>
+                                <v-container>
+                                    <v-row>
+                                        <v-col
+                                            cols="12"
+                                            md="6"
+                                        >
+                                            <v-text-field
+                                                v-model="formInput.kode_santri"
+                                                label="Kode Santri"
+                                                :rules="rulesNotNull"
+                                                required
+                                                clearable
+                                                color="#ee8b3d"
+                                            ></v-text-field>
+                                        </v-col>
+                                        <v-col
+                                            cols="12"
+                                            md="6"
+                                        >
+                                            <v-text-field
+                                                v-model="formInput.nama_lengkap_santri"
+                                                label="Nama Lengkap"
+                                                :rules="rulesNotNull"
+                                                required
+                                                clearable
+                                                color="#ee8b3d"
+                                            ></v-text-field>
+                                        </v-col>
+                                        <v-col
+                                            cols="12"
+                                            md="6"
+                                        >
+                                            <v-text-field
+                                                v-model="formInput.panggilan"
+                                                label="Nama Panggilan"
+                                                :rules="rulesNotNull"
+                                                required
+                                                clearable
+                                                color="#ee8b3d"
+                                            ></v-text-field>
+                                        </v-col>
+                                        <v-col
+                                            cols="12"
+                                            md="6"
+                                        >
+                                            <v-text-field
+                                                v-model="formInput.hafalan_ziyadah"
+                                                label="Hapalan Ziyadah"
+                                                clearable
+                                                color="#ee8b3d"
+                                            ></v-text-field>
+                                        </v-col>
+                                        <v-col
+                                            cols="12"
+                                            md="6"
+                                        >
+                                            <v-text-field
+                                                v-model="formInput.hafalan_mutqin"
+                                                label="Hapalan Mutqin"
+                                                clearable
+                                                color="#ee8b3d"
+                                            ></v-text-field>
+                                        </v-col>
+                                        <v-col
+                                            cols="12"
+                                            md="6"
+                                        >
+                                            <v-text-field
+                                                v-model="formInput.tempat_lahir"
+                                                label="Tempat Lahir"
+                                                :rules="rulesNotNull"
+                                                required
+                                                clearable
+                                                color="#ee8b3d"
+                                            ></v-text-field>
+                                        </v-col>
+                                        <!-- <v-col
                                         cols="12"
                                         md="6"
-                                    >
-                                        <v-text-field
-                                            v-model="formInput.kode_santri"
-                                            label="Kode Santri"
-                                            :rules="rulesNotNull"
-                                            required
-                                            clearable
-                                            color="#ee8b3d"
-                                        ></v-text-field>
-                                    </v-col>
-                                    <v-col
+                                        >
+                                            <v-menu
+                                                v-model="addDate"
+                                                :close-on-content-click="false"
+                                                :nudge-right="40"
+                                                transition="scale-transition"
+                                                offset-y
+                                                min-width="auto"
+                                            >
+                                                <template v-slot:activator="{ on, attrs }">
+                                                <v-text-field
+                                                    v-model="formInput.tanggal_lahir"
+                                                    label="Tanggal Lahir"
+                                                    prepend-icon="mdi-calendar"
+                                                    readonly
+                                                    v-bind="attrs"
+                                                    v-on="on"
+                                                    clearable
+                                                    :rules="rulesNotNull"
+                                                ></v-text-field>
+                                                </template>
+                                                <v-date-picker
+                                                v-model="formInput.tanggal_lahir"
+                                                color="#ee8b3d"
+                                                @input="addDate = false"
+                                                ></v-date-picker>
+                                            </v-menu>
+                                        </v-col> -->
+                                        <v-col
                                         cols="12"
                                         md="6"
-                                    >
-                                        <v-text-field
-                                            v-model="formInput.nama_lengkap_santri"
-                                            label="Nama Lengkap"
-                                            :rules="rulesNotNull"
-                                            required
-                                            clearable
-                                            color="#ee8b3d"
-                                        ></v-text-field>
-                                    </v-col>
-                                    <v-col
-                                        cols="12"
-                                        md="6"
-                                    >
-                                        <v-text-field
-                                            v-model="formInput.panggilan"
-                                            label="Nama Panggilan"
-                                            :rules="rulesNotNull"
-                                            required
-                                            clearable
-                                            color="#ee8b3d"
-                                        ></v-text-field>
-                                    </v-col>
-                                    <v-col
-                                        cols="12"
-                                        md="6"
-                                    >
-                                        <v-text-field
-                                            v-model="formInput.hafalan_ziyadah"
-                                            label="Hapalan Ziyadah"
-                                            clearable
-                                            color="#ee8b3d"
-                                        ></v-text-field>
-                                    </v-col>
-                                    <v-col
-                                        cols="12"
-                                        md="6"
-                                    >
-                                        <v-text-field
-                                            v-model="formInput.hafalan_mutqin"
-                                            label="Hapalan Mutqin"
-                                            clearable
-                                            color="#ee8b3d"
-                                        ></v-text-field>
-                                    </v-col>
-                                    <v-col
-                                        cols="12"
-                                        md="6"
-                                    >
-                                        <v-text-field
-                                            v-model="formInput.tempat_lahir"
-                                            label="Tempat Lahir"
-                                            :rules="rulesNotNull"
-                                            required
-                                            clearable
-                                            color="#ee8b3d"
-                                        ></v-text-field>
-                                    </v-col>
-                                    <!-- <v-col
-                                    cols="12"
-                                    md="6"
-                                    >
+                                        >
                                         <v-menu
-                                            v-model="addDate"
+                                            ref="menu1"
+                                            v-model="menu1"
                                             :close-on-content-click="false"
-                                            :nudge-right="40"
                                             transition="scale-transition"
                                             offset-y
+                                            max-width="290px"
                                             min-width="auto"
                                         >
                                             <template v-slot:activator="{ on, attrs }">
                                             <v-text-field
-                                                v-model="formInput.tanggal_lahir"
+                                                v-model="dateFormatted"
                                                 label="Tanggal Lahir"
+                                                persistent-hint
                                                 prepend-icon="mdi-calendar"
-                                                readonly
                                                 v-bind="attrs"
+                                                @blur="date = parseDate(dateFormatted)"
                                                 v-on="on"
-                                                clearable
-                                                :rules="rulesNotNull"
                                             ></v-text-field>
                                             </template>
                                             <v-date-picker
-                                            v-model="formInput.tanggal_lahir"
-                                            color="#ee8b3d"
-                                            @input="addDate = false"
+                                            v-model="date"
+                                            no-title
+                                            @input="menu1 = false"
                                             ></v-date-picker>
                                         </v-menu>
-                                    </v-col> -->
-                                    <v-col
-                                    cols="12"
-                                    md="6"
-                                    >
-                                    <v-menu
-                                        ref="menu1"
-                                        v-model="menu1"
-                                        :close-on-content-click="false"
-                                        transition="scale-transition"
-                                        offset-y
-                                        max-width="290px"
-                                        min-width="auto"
-                                    >
-                                        <template v-slot:activator="{ on, attrs }">
-                                        <v-text-field
-                                            v-model="dateFormatted"
-                                            label="Tanggal Lahir"
-                                            persistent-hint
-                                            prepend-icon="mdi-calendar"
-                                            v-bind="attrs"
-                                            @blur="date = parseDate(dateFormatted)"
-                                            v-on="on"
-                                        ></v-text-field>
-                                        </template>
-                                        <v-date-picker
-                                        v-model="date"
-                                        no-title
-                                        @input="menu1 = false"
-                                        ></v-date-picker>
-                                    </v-menu>
-                                    </v-col>
-                                    <v-col
-                                        cols="12"
-                                        md="6"
-                                    >
-                                        <v-select
-                                            v-model="formInput.jenis_kelamin"
-                                            :items="dropdown_jenkel"
-                                            item-text="text"
-                                            item-value="value"
-                                            label="Jenis Kelamin"
-                                            clearable
-                                            color="#ee8b3d"
-                                        ></v-select>
-                                    </v-col>
-                                    <v-col
-                                        cols="12"
-                                        md="6"
-                                    >
-                                        <v-text-field
-                                            v-model="formInput.anak_ke"
-                                            label="Anak Ke"
-                                            clearable
-                                            color="#ee8b3d"
-                                        ></v-text-field>
-                                    </v-col>
-                                    <v-col
-                                        cols="12"
-                                        md="6"
-                                    >
-                                        <v-text-field
-                                            v-model="formInput.berat_badan"
-                                            label="Berat Badan"
-                                            :rules="rulesNotNull"
-                                            required
-                                            clearable
-                                            color="#ee8b3d"
-                                            type="number"
-                                        ></v-text-field>
-                                    </v-col>
-                                    <v-col
-                                        cols="12"
-                                        md="6"
-                                    >
-                                        <v-text-field
-                                            v-model="formInput.tinggi_badan"
-                                            label="Tinggi Badan"
-                                            :rules="rulesNotNull"
-                                            required
-                                            clearable
-                                            color="#ee8b3d"
-                                        ></v-text-field>
-                                    </v-col>
-                                    <v-col
-                                        cols="12"
-                                        md="6"
-                                    >
-                                        <v-text-field
-                                            v-model="formInput.email"
-                                            label="Email"
-                                            :rules="rulesNotNull"
-                                            clearable
-                                            color="#ee8b3d"
-                                        ></v-text-field>
-                                    </v-col>
-                                    <v-col
-                                        cols="12"
-                                        md="6"
-                                    >
-                                        <v-text-field
-                                            v-model="formInput.alamat"
-                                            label="Alamat"
-                                            :rules="rulesNotNull"
-                                            clearable
-                                            color="#ee8b3d"
-                                        ></v-text-field>
-                                    </v-col>
-                                    <v-col
-                                        cols="12"
-                                        md="6"
-                                    >
-                                        <v-text-field
-                                            v-model="formInput.hp_ortu"
-                                            label="Nomor HP Ortu"
-                                            clearable
-                                            type="number"
-                                            color="#ee8b3d"
-                                        ></v-text-field>
-                                    </v-col>
-                                    <v-col
-                                        cols="12"
-                                        md="6"
-                                    >
-                                        <v-text-field
-                                            v-model="formInput.nama_ayah"
-                                            label="Nama Ayah"
-                                            :rules="rulesNotNull"
-                                            clearable
-                                            color="#ee8b3d"
-                                        ></v-text-field>
-                                    </v-col>
-                                    <v-col
-                                        cols="12"
-                                        md="6"
-                                    >
-                                        <v-select
-                                            v-model="formInput.status"
-                                            :items="dropdown_status"
-                                            item-text="text"
-                                            item-value="value"
-                                            label="Status"
-                                            clearable
-                                            color="#ee8b3d"
-                                        ></v-select>
-                                    </v-col>
-                                    <v-col
-                                        cols="12"
-                                        md="6"
-                                    >
-                                        <v-text-field
-                                            v-model="formInput.nama_ibu"
-                                            label="Nama Ibu"
-                                            :rules="rulesNotNull"
-                                            clearable
-                                            color="#ee8b3d"
-                                        ></v-text-field>
-                                    </v-col>
-                                    <v-col
-                                        cols="12"
-                                        md="6"
-                                    >
-                                    <h6>Foto</h6>
-                                        <div class="input_images">
-                                            <div class="file_upload">
-                                                <i class="far fa-images text-primary"></i>
-                                                <input type="file" name="file" id="file" @change="onImageChange" ref="file"
-                                                accept="image/*"/>
+                                        </v-col>
+                                        <v-col
+                                            cols="12"
+                                            md="6"
+                                        >
+                                            <v-select
+                                                v-model="formInput.jenis_kelamin"
+                                                :items="dropdown_jenkel"
+                                                item-text="text"
+                                                item-value="value"
+                                                label="Jenis Kelamin"
+                                                clearable
+                                                color="#ee8b3d"
+                                            ></v-select>
+                                        </v-col>
+                                        <v-col
+                                            cols="12"
+                                            md="6"
+                                        >
+                                            <v-text-field
+                                                v-model="formInput.anak_ke"
+                                                label="Anak Ke"
+                                                clearable
+                                                color="#ee8b3d"
+                                            ></v-text-field>
+                                        </v-col>
+                                        <v-col
+                                            cols="12"
+                                            md="6"
+                                        >
+                                            <v-text-field
+                                                v-model="formInput.berat_badan"
+                                                label="Berat Badan"
+                                                :rules="rulesNotNull"
+                                                required
+                                                clearable
+                                                color="#ee8b3d"
+                                                type="number"
+                                            ></v-text-field>
+                                        </v-col>
+                                        <v-col
+                                            cols="12"
+                                            md="6"
+                                        >
+                                            <v-text-field
+                                                v-model="formInput.tinggi_badan"
+                                                label="Tinggi Badan"
+                                                :rules="rulesNotNull"
+                                                required
+                                                clearable
+                                                color="#ee8b3d"
+                                            ></v-text-field>
+                                        </v-col>
+                                        <v-col
+                                            cols="12"
+                                            md="6"
+                                        >
+                                            <v-text-field
+                                                v-model="formInput.email"
+                                                label="Email"
+                                                :rules="rulesNotNull"
+                                                clearable
+                                                color="#ee8b3d"
+                                            ></v-text-field>
+                                        </v-col>
+                                        <v-col
+                                            cols="12"
+                                            md="6"
+                                        >
+                                            <v-text-field
+                                                v-model="formInput.alamat"
+                                                label="Alamat"
+                                                :rules="rulesNotNull"
+                                                clearable
+                                                color="#ee8b3d"
+                                            ></v-text-field>
+                                        </v-col>
+                                        <v-col
+                                            cols="12"
+                                            md="6"
+                                        >
+                                            <v-text-field
+                                                v-model="formInput.hp_ortu"
+                                                label="Nomor HP Ortu"
+                                                clearable
+                                                type="number"
+                                                color="#ee8b3d"
+                                            ></v-text-field>
+                                        </v-col>
+                                        <v-col
+                                            cols="12"
+                                            md="6"
+                                        >
+                                            <v-text-field
+                                                v-model="formInput.nama_ayah"
+                                                label="Nama Ayah"
+                                                :rules="rulesNotNull"
+                                                clearable
+                                                color="#ee8b3d"
+                                            ></v-text-field>
+                                        </v-col>
+                                        <v-col
+                                            cols="12"
+                                            md="6"
+                                        >
+                                            <v-select
+                                                v-model="formInput.status"
+                                                :items="dropdown_status"
+                                                item-text="text"
+                                                item-value="value"
+                                                label="Status"
+                                                clearable
+                                                color="#ee8b3d"
+                                            ></v-select>
+                                        </v-col>
+                                        <v-col
+                                            cols="12"
+                                            md="6"
+                                        >
+                                            <v-text-field
+                                                v-model="formInput.nama_ibu"
+                                                label="Nama Ibu"
+                                                :rules="rulesNotNull"
+                                                clearable
+                                                color="#ee8b3d"
+                                            ></v-text-field>
+                                        </v-col>
+                                        <v-col
+                                            cols="12"
+                                            md="6"
+                                        >
+                                        <h6>Foto</h6>
+                                            <div class="input_images">
+                                                <div class="file_upload">
+                                                    <i class="far fa-images text-primary"></i>
+                                                    <input type="file" name="file" id="file" @change="onImageChange" ref="file"
+                                                    accept="image/*"/>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="ma-2">
-                                            <div v-show="img.length > 0">
-                                                <span class="text-lg-body-1 font-weight-bold">Baru</span>
-                                                <v-img
-                                                    :src="img"
+                                            <div class="ma-2">
+                                                <div v-show="img.length > 0">
+                                                    <span class="text-lg-body-1 font-weight-bold">Baru</span>
+                                                    <v-img
+                                                        :src="img"
+                                                        width="300px"
+                                                    ></v-img>
+                                                </div>
+                                                <div v-show="editedItem.foto != null">
+                                                    <span class="text-lg-body-1 font-weight-bold">Lama</span>
+                                                    <v-img
+                                                    v-bind:src="editedItem.foto"
                                                     width="300px"
-                                                ></v-img>
+                                                    ></v-img>
+                                                </div>
                                             </div>
-                                            <div v-show="editedItem.foto != null">
-                                                <span class="text-lg-body-1 font-weight-bold">Lama</span>
-                                                <v-img
-                                                v-bind:src="editedItem.foto"
-                                                width="300px"
-                                                ></v-img>
-                                            </div>
-                                        </div>
-                                    </v-col>
-                                </v-row>
-                            </v-container>
-                        </v-card-text>
-            
-                        <v-card-actions>
-                        <button
-                            :disabled='isDisabledSimpan'
-                            @click="formSubmit"
-                            class="btn btn-primary btn-sm font-weight-bolder text-md-body-1 rounded-lg py-2 mb-3 mr-3 w-100px"
-                        >
-                            Simpan
-                        </button>
-                        <button
-                            type="button"
-                            @click="close"
-                            class="btn btn-light-primary btn-sm font-weight-bolder text-md-body-1 rounded-lg py-2 mb-3 w-100px"
-                        >
-                            Batal
-                        </button>
-                        </v-card-actions>
-                    </v-card>
-                    </v-dialog>
-                    <v-dialog v-model="dialogSeenBill" max-width="800px">
-                        <v-card>
-                        <v-card-title class="border">
-                            <span class="text-h5">Detail Foto</span>
-                        </v-card-title>
-    
-                        <v-card-text>
-                            <v-container>
-                                <img :src="tabelFoto" alt="Foto" style="max-width: 700px;" />
-                            </v-container>
-                        </v-card-text>
-    
-                        <v-card-actions>
-                            <v-spacer></v-spacer>
-                            <v-btn class="mb-3 text-xl-subtitle-1" color="#73a4ef" text @click="dialogSeenBill = false">
-                            Tutup
-                            </v-btn>
-                        </v-card-actions>
+                                        </v-col>
+                                    </v-row>
+                                </v-container>
+                            </v-card-text>
+                
+                            <v-card-actions>
+                            <button
+                                :disabled='isDisabledSimpan'
+                                @click="formSubmit"
+                                class="btn btn-primary btn-sm font-weight-bolder text-md-body-1 rounded-lg py-2 mb-3 mr-3 w-100px"
+                            >
+                                Simpan
+                            </button>
+                            <button
+                                type="button"
+                                @click="close"
+                                class="btn btn-light-primary btn-sm font-weight-bolder text-md-body-1 rounded-lg py-2 mb-3 w-100px"
+                            >
+                                Batal
+                            </button>
+                            </v-card-actions>
                         </v-card>
-                    </v-dialog>
-                </v-toolbar>
-                </template>
-    
-                <template v-slot:[`item.actions`]="{ item }">
-                    <v-tooltip top>
-                        <template v-slot:activator="{ on, attrs }">
-                            <v-btn
-                                class="mr-2"
-                                fab
-                                dark
-                                x-small
-                                color="#73a4ef"
-                                v-bind="attrs"
-                                v-on="on"
-                                @click="editItem(item)"
-                                >
-                                <i class="flaticon2-pen text-white"></i>
-                            </v-btn>
-                        </template>
-                    <span>Ubah Data</span>
-                    </v-tooltip>
-                    <v-tooltip top>
-                        <template v-slot:activator="{ on, attrs }">
-                            <v-btn
-                                fab
-                                dark
-                                x-small
-                                color="red"
-                                v-bind="attrs"
-                                v-on="on"
-                                @click="deleteItem(item)"
-                                >
-                                <v-icon dark>
-                                mdi-delete
-                                </v-icon>
-                            </v-btn>
-                        </template>
-                    <span>Hapus Data</span>
-                    </v-tooltip>
-                </template>
-                <template v-slot:[`item.foto`]="{ item }">
-                    <img :src="item.foto" class="rounded" alt="Foto" style="max-width: 100px;" v-show="item.foto.length > 40"/>
-                    <v-btn
-                        color="#73a4ef"
-                        light
-                        small
-                        class="ml-3"
-                        @click="seenFileBill(item)"
-                        data-toggle="tooltip"
-                        title="Lihat Foto"
-                        v-show="item.foto.length > 40"
-                        style="text-transform: capitalize !important; min-width: 0px; padding: 0 6px;"
-                    >
-                    <v-icon small color="white">
-                        mdi-eye
-                    </v-icon>
-                    </v-btn>
-                </template>
-            </v-data-table>
+                        </v-dialog>
+                        <v-dialog v-model="dialogSeenBill" max-width="800px">
+                            <v-card>
+                            <v-card-title class="border">
+                                <span class="text-h5">Detail Foto</span>
+                            </v-card-title>
+        
+                            <v-card-text>
+                                <v-container>
+                                    <img :src="tabelFoto" alt="Foto" style="max-width: 700px;" />
+                                </v-container>
+                            </v-card-text>
+        
+                            <v-card-actions>
+                                <v-spacer></v-spacer>
+                                <v-btn class="mb-3 text-xl-subtitle-1" color="#73a4ef" text @click="dialogSeenBill = false">
+                                Tutup
+                                </v-btn>
+                            </v-card-actions>
+                            </v-card>
+                        </v-dialog>
+                    </v-toolbar>
+                    </template>
+        
+                    <template v-slot:[`item.actions`]="{ item }">
+                        <v-tooltip top>
+                            <template v-slot:activator="{ on, attrs }">
+                                <v-btn
+                                    class="mr-2"
+                                    fab
+                                    dark
+                                    x-small
+                                    color="#73a4ef"
+                                    v-bind="attrs"
+                                    v-on="on"
+                                    @click="editItem(item)"
+                                    v-show="accessList.U"
+                                    >
+                                    <i class="flaticon2-pen text-white"></i>
+                                </v-btn>
+                            </template>
+                        <span>Ubah Data</span>
+                        </v-tooltip>
+                        <v-tooltip top>
+                            <template v-slot:activator="{ on, attrs }">
+                                <v-btn
+                                    fab
+                                    dark
+                                    x-small
+                                    color="red"
+                                    v-bind="attrs"
+                                    v-on="on"
+                                    @click="deleteItem(item)"
+                                    v-show="accessList.D"
+                                    >
+                                    <v-icon dark>
+                                    mdi-delete
+                                    </v-icon>
+                                </v-btn>
+                            </template>
+                        <span>Hapus Data</span>
+                        </v-tooltip>
+                    </template>
+                    <template v-slot:[`item.foto`]="{ item }">
+                        <img :src="item.foto" class="rounded" alt="Foto" style="max-width: 100px;" v-show="item.foto.length > 40"/>
+                        <v-btn
+                            color="#73a4ef"
+                            light
+                            small
+                            class="ml-3"
+                            @click="seenFileBill(item)"
+                            data-toggle="tooltip"
+                            title="Lihat Foto"
+                            v-show="item.foto.length > 40"
+                            style="text-transform: capitalize !important; min-width: 0px; padding: 0 6px;"
+                        >
+                        <v-icon small color="white">
+                            mdi-eye
+                        </v-icon>
+                        </v-btn>
+                    </template>
+                </v-data-table>
+            </div>
+        </div>
+
+        <div v-show="accessList.R == 0">
+            <div class="d-flex justify-content-center">
+                <img src="media/bg/access.png" alt="Tidak Ada Access" width="35%">
+            </div>
         </div>
     </div>
 </template>
@@ -759,6 +770,7 @@ export default {
             menu1: false,
             date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
             dateFormatted: formatDate((new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)),
+            accessList: []
         }
     },
 
@@ -802,6 +814,36 @@ export default {
     },
 
     methods:{
+        asyncAccess(){
+            return new Promise(resolve => {
+                var mydata = {
+                    UID: localStorage.getLocalStorage("uid"),
+                    Token: localStorage.getLocalStorage("token"),
+                    Trigger: "R",
+                    Route: "READ_AKSES",
+                    menu_url: this.$router.currentRoute.path
+                };
+
+                let contentType = `application/x-www-form-urlencoded`;
+
+                const qs = require("qs");
+
+                Services.PostData(
+                    ApiService,
+                    "Master/Privilege",
+                    qs.stringify(mydata),
+                    contentType,
+                    response => {
+                        resolve(response.data);
+                        this.accessList = response.data[0];
+                    },
+                    err => {
+                        err;
+                    }
+                );
+            });
+        },
+
         formatDate (date) {
             if (!date) return null
 
@@ -1159,6 +1201,7 @@ export default {
 
         async load() {
             Promise.all([
+                await this.asyncAccess(),
                 await this.getMasterDataSantri()
             ]).then(function(results) {
                 results;
