@@ -3,7 +3,7 @@
     <table class="mt-30 mx-auto" border="0">
       <tbody>
         <tr>
-          <td align="left" width="50%" class="middletable pr-8 pt-40" style="font-size: 2.5vw; font-family:arial; border-right: 2px solid black;">
+          <td align="left" width="50%" class="middletable pr-8 pt-10" style="font-size: 2.5vw; font-family:arial; border-right: 2px solid black;">
             <h1 class="font-weight-bold">Input Nilai Santri</h1>
           </td>
           <td align="right" width="50%" class="middletable pr-2 pl-2" style="font-size: 2.5vw; font-family:arial;">
