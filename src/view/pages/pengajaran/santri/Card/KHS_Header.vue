@@ -86,6 +86,7 @@ export default {
         TableNasihat
     },
     mounted() {
+        this.Santri_Id  = this.$route.query.id;
         this.load();
     },
     data(){
@@ -97,7 +98,8 @@ export default {
                 tahun_id: ""
             },
             master_data_tahunAjaran: [],
-            getData: ""
+            getData: "",
+            Santri_Id: ""
         }
     },
     methods: {
@@ -117,7 +119,8 @@ export default {
                     UID: localStorage.getLocalStorage("uid"),
                     Token: localStorage.getLocalStorage("token"),
                     Trigger: "R",
-                    Route: "COMBOBOX_TAHUN_AJARAN"
+                    Route: "DEFAULT",
+                    santri_id: this.Santri_Id
                 };
 
                 let contentType = `application/x-www-form-urlencoded`;
