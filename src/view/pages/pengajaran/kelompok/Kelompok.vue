@@ -378,8 +378,8 @@ export default {
             master_data_santri: [],
             master_data_tahunAjaran: [],
             dropdown_status: [
-                { value: 0, text: "Tidak Aktif" },
                 { value: 1, text: "Aktif" },
+                { value: 0, text: "Tidak Aktif" },
             ],
         }
     },
@@ -538,6 +538,7 @@ export default {
                     kelas_id: this.add_kelompok_kelas.kelas_id,
                     santri_id: JSON.stringify(this.add_kelompok_kelas.santri_id),
                     status_kelompok: this.add_kelompok_kelas.status_kelompok,
+                    tahun_id: this.add_kelompok_kelas.tahun_id,
                 };
 
                 let contentType = `application/x-www-form-urlencoded`;
@@ -672,7 +673,8 @@ export default {
                     kelompok_id: this.data_item.kelompok_id,
                     kelas_id: this.editedItem.kelas_id,
                     santri_id: JSON.stringify(this.editedItem.santri_id),
-                    status_kelompok: this.editedItem.status_kelompok
+                    status_kelompok: this.editedItem.status_kelompok,
+                    tahun_id: this.editedItem.tahun_id
                 };
 
                 let contentType = `application/x-www-form-urlencoded`;
@@ -738,6 +740,7 @@ export default {
         clearFilter(){
             this.formFilter.kelas_id = ""
             this.formFilter.santri_id= ""
+            this.formFilter.tahun_id= ""
             this.formFilter.status_kelompok = ""
             this.getKelompokKelas()
         },
@@ -751,6 +754,7 @@ export default {
                     Route: "DEFAULT",
                     kelas_id: this.formFilter.kelas_id,
                     santri_id: this.formFilter.santri_id,
+                    tahun_id: this.formFilter.tahun_id,
                     status_kelompok: this.formFilter.status_kelompok
                 };
 

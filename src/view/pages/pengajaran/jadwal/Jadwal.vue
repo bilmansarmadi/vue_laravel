@@ -494,6 +494,7 @@ export default {
             master_data_tahunAjaran: [],
             menu2: false,
             menu3: false,
+            time: null,
         }
     },
 
@@ -937,11 +938,11 @@ export default {
 
         async load() {
             Promise.all([
-                await this.getJadwalKelas(),
                 await this.getMasterMapel(),
                 await this.getMasterKelas(),
                 await this.getMasterPengajar(),
                 await this.getMasterTahunAjaran(),
+                await this.getJadwalKelas(),
             ]).then(function(results) {
                 results;
             });

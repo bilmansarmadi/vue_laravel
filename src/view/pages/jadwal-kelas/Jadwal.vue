@@ -1,5 +1,5 @@
 <template>
-  <div>		
+  <!-- <div>		
     <table class="mt-30 mx-auto" border="0">
       <tbody>
         <tr>
@@ -12,11 +12,16 @@
         </tr>
       </tbody>
     </table>	
-  </div>
+  </div> -->
+  <KTJadwal></KTJadwal>
 </template>
   
 <script>
+import KTJadwal from "@/view/pages/pengajaran/jadwal/Jadwal";
 export default {
   name: 'jadwal',
+  components: {
+    KTJadwal
+  }
 }
 </script>
