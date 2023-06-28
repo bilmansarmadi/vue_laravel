@@ -1,384 +1,394 @@
 <template>
     <div class="container-fluid">
-        <div class="card mt-4 shadow-xs cardHover mb-5">
-            <div class="d-block px-3 py-3" data-toggle="collapse" style="background-color: #FFF;"
-                role="button" aria-expanded="true" v-b-toggle.collapse-2 variant="primary">
-                <div class="card-toolbar">
-                <div class="d-flex">
-                    <v-icon
-                    color="#73a4ef">
-                        mdi-filter
-                    </v-icon>
-                    <h6 class="font-weight-bold font-weight-black mt-2">FILTER</h6>
-                    <v-icon
-                        class="ml-auto"
+        <div v-show="accessList.R">
+            <div class="card mt-4 shadow-xs cardHover mb-5">
+                <div class="d-block px-3 py-3" data-toggle="collapse" style="background-color: #FFF;"
+                    role="button" aria-expanded="true" v-b-toggle.collapse-2 variant="primary">
+                    <div class="card-toolbar">
+                    <div class="d-flex">
+                        <v-icon
                         color="#73a4ef">
-                        mdi-arrow-down-drop-circle-outline
-                    </v-icon>
+                            mdi-filter
+                        </v-icon>
+                        <h6 class="font-weight-bold font-weight-black mt-2">FILTER</h6>
+                        <v-icon
+                            class="ml-auto"
+                            color="#73a4ef">
+                            mdi-arrow-down-drop-circle-outline
+                        </v-icon>
+                    </div>
+                    </div>
                 </div>
-                </div>
-            </div>
-            <b-collapse id="collapse-2" class="mt-2">
-                <b-card>
-                    <v-row>
-                        <v-col
-                            cols="12"
-                            md="6"
-                        >
-                            <v-text-field
-                                v-model="formFilter.hari"
-                                label="Hari"
-                                required
-                                clearable
-                                color="#ee8b3d"
-                            ></v-text-field>
-                        </v-col>
-                        <v-col
-                            cols="12"
-                            md="6"
-                        >
-                            <v-autocomplete
-                                v-model="formFilter.mapel_id"
-                                :items="master_data_mapel"
-                                item-text="mapel_nama"
-                                item-value="mapel_id"
-                                label="Mata Pelajaran"
-                                clearable
-                                color="#ee8b3d"
-                            ></v-autocomplete>
-                        </v-col>
-                        <v-col
-                            cols="12"
-                            md="6"
-                        >
-                            <v-autocomplete
-                                v-model="formFilter.kelas_id"
-                                :items="master_data_kelas"
-                                item-text="nama_kelas"
-                                item-value="kelas_id"
-                                label="Kelas"
-                                clearable
-                                color="#ee8b3d"
-                            ></v-autocomplete>
-                        </v-col>
-                        <v-col
-                            cols="12"
-                            md="6"
-                        >
-                            <v-autocomplete
-                                v-model="formFilter.pengajar_id"
-                                :items="master_data_pengajar"
-                                item-text="nama_lengkap"
-                                item-value="pengajar_id"
-                                label="Guru"
-                                clearable
-                                color="#ee8b3d"
-                            ></v-autocomplete>
-                        </v-col>
-                        <v-col
-                            cols="12"
-                            md="6"
-                        >
-                            <v-autocomplete
-                                v-model="formFilter.tahun_id"
-                                :items="master_data_tahunAjaran"
-                                item-text="tahun_ajaran_nama"
-                                item-value="tahun_id"
-                                label="Tahun Ajaran"
-                                clearable
-                                color="#ee8b3d"
-                            ></v-autocomplete>
-                        </v-col>
-                    </v-row>
-
-                    <v-btn 
-                        class="accent-4 mr-2"
-                        color="#73a4ef"
-                        dark
-                        rounded
-                        @click="filterData"
-                    >
-                        Cari
-                    </v-btn>
-                    <v-btn 
-                        dark
-                        rounded
-                        color="red"
-                        @click="clearFilter"
-                    >
-                        Reset
-                    </v-btn>
-                </b-card>
-            </b-collapse>
-        </div>
-
-        <div class="card cardHover">
-            <v-data-table responsive show-empty
-                :sort-by="sortBy"
-                group-by="nama_kelas"
-                :headers="headers"
-                :items="jadwal_kelas"
-                :search="search"
-                loading-text="Loading... Please wait"
-                :items-per-page="10"
-                item-key="jadwal_id"
-                class="elevation-1"
-                :footer-props="{
-                showFirstLastPage: false,
-                    'items-per-page-text':'Page'
-                }"
-            >
-                <v-progress-linear 
-                v-show="progressBar"
-                slot="progress"
-                color="#73a4ef" 
-                indeterminate>
-                </v-progress-linear>
+                <b-collapse id="collapse-2" class="mt-2">
+                    <b-card>
+                        <v-row>
+                            <v-col
+                                cols="12"
+                                md="6"
+                            >
+                                <v-text-field
+                                    v-model="formFilter.hari"
+                                    label="Hari"
+                                    required
+                                    clearable
+                                    color="#ee8b3d"
+                                ></v-text-field>
+                            </v-col>
+                            <v-col
+                                cols="12"
+                                md="6"
+                            >
+                                <v-autocomplete
+                                    v-model="formFilter.mapel_id"
+                                    :items="master_data_mapel"
+                                    item-text="mapel_nama"
+                                    item-value="mapel_id"
+                                    label="Mata Pelajaran"
+                                    clearable
+                                    color="#ee8b3d"
+                                ></v-autocomplete>
+                            </v-col>
+                            <v-col
+                                cols="12"
+                                md="6"
+                            >
+                                <v-autocomplete
+                                    v-model="formFilter.kelas_id"
+                                    :items="master_data_kelas"
+                                    item-text="nama_kelas"
+                                    item-value="kelas_id"
+                                    label="Kelas"
+                                    clearable
+                                    color="#ee8b3d"
+                                ></v-autocomplete>
+                            </v-col>
+                            <v-col
+                                cols="12"
+                                md="6"
+                            >
+                                <v-autocomplete
+                                    v-model="formFilter.pengajar_id"
+                                    :items="master_data_pengajar"
+                                    item-text="nama_lengkap"
+                                    item-value="pengajar_id"
+                                    label="Guru"
+                                    clearable
+                                    color="#ee8b3d"
+                                ></v-autocomplete>
+                            </v-col>
+                            <v-col
+                                cols="12"
+                                md="6"
+                            >
+                                <v-autocomplete
+                                    v-model="formFilter.tahun_id"
+                                    :items="master_data_tahunAjaran"
+                                    item-text="tahun_ajaran_nama"
+                                    item-value="tahun_id"
+                                    label="Tahun Ajaran"
+                                    clearable
+                                    color="#ee8b3d"
+                                ></v-autocomplete>
+                            </v-col>
+                        </v-row>
     
-                <template v-slot:top>
-                <v-toolbar
-                    flat
-                    class="mb-5"
-                >
-                    <v-spacer></v-spacer>
-                    <v-text-field
-                    v-model="search"
-                    append-icon="mdi-magnify"
-                    label="Search"
-                    color="purple"
-                    single-line
-                    hide-details
-                    ></v-text-field>
-                    <v-spacer></v-spacer>
-                    <v-dialog
-                        v-model="dialog"
-                        max-width="800px"
-                        persistent
-                    >
-                    <template v-slot:activator="{ on, attrs }">
-                        <v-btn
-                        color="#73a4ef"
-                        dark
-                        v-bind="attrs"
-                        v-on="on"
-                        rounded
+                        <v-btn 
+                            class="accent-4 mr-2"
+                            color="#73a4ef"
+                            dark
+                            rounded
+                            @click="filterData"
                         >
-                        <i class="flaticon-add-circular-button mr-1 text-white"></i>
-                            <span class="hideText">Tambah Data</span> 
+                            Cari
                         </v-btn>
-                    </template>
-                    <v-card>
-                        <v-card-title>
-                        <span class="text-h5">{{ formTitle }}</span>
-                        </v-card-title>
-            
-                        <v-card-text>
-                            <v-container>
-                                <v-row>
-                                    <v-col
-                                        cols="12"
-                                        md="6"
-                                    >
-                                        <v-text-field
-                                            v-model="formInput.hari"
-                                            label="Hari"
-                                            :rules="rulesNotNull"
-                                            required
-                                            clearable
-                                            color="#ee8b3d"
-                                        ></v-text-field>
-                                    </v-col>
-                                    <v-col
-                                        cols="12"
-                                        md="6"
-                                    >
-                                        <v-menu
-                                            ref="menu"
-                                            v-model="menu2"
-                                            :close-on-content-click="false"
-                                            :nudge-right="40"
-                                            :return-value.sync="time"
-                                            lazy
-                                            transition="scale-transition"
-                                            offset-y
-                                            full-width
-                                            max-width="290px"
-                                            min-width="290px"
-                                        >
-                                        <template v-slot:activator="{ on }">
-                                            <v-text-field
-                                                v-model="formInput.jam_mulai"
-                                                label="Jam Mulai"
-                                                prepend-icon="access_time"
-                                                readonly
-                                                v-on="on"
-                                            ></v-text-field>
-                                        </template>
-                                        <v-time-picker
-                                            v-if="menu2"
-                                            v-model="formInput.jam_mulai"
-                                            full-width
-                                            @click:minute="$refs.menu.save(time)"
-                                        ></v-time-picker>
-                                        </v-menu>
-                                    </v-col>
-                                    <v-col
-                                        cols="12"
-                                        md="6"
-                                    >
-                                        <v-menu
-                                            ref="menu1"
-                                            v-model="menu3"
-                                            :close-on-content-click="false"
-                                            :nudge-right="40"
-                                            :return-value.sync="time"
-                                            lazy
-                                            transition="scale-transition"
-                                            offset-y
-                                            full-width
-                                            max-width="290px"
-                                            min-width="290px"
-                                        >
-                                        <template v-slot:activator="{ on }">
-                                            <v-text-field
-                                                v-model="formInput.jam_akhir"
-                                                label="Jam Akhir"
-                                                prepend-icon="access_time"
-                                                readonly
-                                                v-on="on"
-                                            ></v-text-field>
-                                        </template>
-                                        <v-time-picker
-                                            v-if="menu3"
-                                            v-model="formInput.jam_akhir"
-                                            full-width
-                                            @click:minute="$refs.menu1.save(time)"
-                                        ></v-time-picker>
-                                        </v-menu>
-                                    </v-col>
-                                    <v-col
-                                        cols="12"
-                                        md="6"
-                                    >
-                                        <v-autocomplete
-                                            v-model="formInput.mapel_id"
-                                            :items="master_data_mapel"
-                                            item-text="mapel_nama"
-                                            item-value="mapel_id"
-                                            label="Mata Pelajaran"
-                                            clearable
-                                            color="#ee8b3d"
-                                        ></v-autocomplete>
-                                    </v-col>
-                                    <!-- <v-col
-                                        cols="12"
-                                        md="6"
-                                    >
-                                        <v-autocomplete
-                                            v-model="formInput.kelas_id"
-                                            :items="master_data_kelas"
-                                            item-text="nama_kelas"
-                                            item-value="kelas_id"
-                                            label="Kelas"
-                                            clearable
-                                            color="#ee8b3d"
-                                        ></v-autocomplete>
-                                    </v-col> -->
-                                    <v-col
-                                        cols="12"
-                                        md="6"
-                                    >
-                                        <v-autocomplete
-                                            v-model="formInput.pengajar_id"
-                                            :items="master_data_pengajar"
-                                            item-text="nama_lengkap"
-                                            item-value="pengajar_id"
-                                            label="Guru"
-                                            clearable
-                                            color="#ee8b3d"
-                                        ></v-autocomplete>
-                                    </v-col>
-                                    <v-col
-                                        cols="12"
-                                        md="6"
-                                    >
-                                        <v-autocomplete
-                                            v-model="formInput.tahun_id"
-                                            :items="master_data_tahunAjaran"
-                                            item-text="tahun_ajaran_nama"
-                                            item-value="tahun_id"
-                                            label="Tahun Ajaran"
-                                            clearable
-                                            color="#ee8b3d"
-                                        ></v-autocomplete>
-                                    </v-col>
-                                </v-row>
-                            </v-container>
-                        </v-card-text>
-            
-                        <v-card-actions>
-                        <v-spacer></v-spacer>
-                        <button
-                            :disabled='isDisabledSimpan'
-                            @click="formSubmit"
-                            class="btn btn-primary btn-sm font-weight-bolder text-md-body-1 rounded-lg py-2 mb-3 mr-3 w-100px"
+                        <v-btn 
+                            dark
+                            rounded
+                            color="red"
+                            @click="clearFilter"
                         >
-                            Simpan
-                        </button>
-                        <button
-                            type="button"
-                            @click="close"
-                            class="btn btn-light-primary btn-sm font-weight-bolder text-md-body-1 rounded-lg py-2 mb-3 w-100px"
-                        >
-                            Batal
-                        </button>
-                        </v-card-actions>
-                    </v-card>
-                    </v-dialog>
-                </v-toolbar>
-                </template>
+                            Reset
+                        </v-btn>
+                    </b-card>
+                </b-collapse>
+            </div>
     
-                <template v-slot:[`item.actions`]="{ item }">
-                    <v-tooltip top>
+            <div class="card cardHover">
+                <v-data-table responsive show-empty
+                    :sort-by="sortBy"
+                    group-by="nama_kelas"
+                    :headers="headers"
+                    :items="jadwal_kelas"
+                    :search="search"
+                    loading-text="Loading... Please wait"
+                    :items-per-page="10"
+                    item-key="jadwal_id"
+                    class="elevation-1"
+                    :footer-props="{
+                    showFirstLastPage: false,
+                        'items-per-page-text':'Page'
+                    }"
+                >
+                    <v-progress-linear 
+                    v-show="progressBar"
+                    slot="progress"
+                    color="#73a4ef" 
+                    indeterminate>
+                    </v-progress-linear>
+        
+                    <template v-slot:top>
+                    <v-toolbar
+                        flat
+                        class="mb-5"
+                    >
+                        <v-spacer></v-spacer>
+                        <v-text-field
+                        v-model="search"
+                        append-icon="mdi-magnify"
+                        label="Search"
+                        color="purple"
+                        single-line
+                        hide-details
+                        ></v-text-field>
+                        <v-spacer></v-spacer>
+                        <v-dialog
+                            v-model="dialog"
+                            max-width="800px"
+                            persistent
+                        >
                         <template v-slot:activator="{ on, attrs }">
                             <v-btn
-                                class="mr-2"
-                                fab
-                                dark
-                                x-small
-                                color="#73a4ef"
-                                v-bind="attrs"
-                                v-on="on"
-                                @click="editItem(item)"
-                                >
-                                <i class="flaticon2-pen text-white"></i>
+                            color="#73a4ef"
+                            dark
+                            v-bind="attrs"
+                            v-on="on"
+                            rounded
+                            v-show="accessList.C"
+                            >
+                            <i class="flaticon-add-circular-button mr-1 text-white"></i>
+                                <span class="hideText">Tambah Data</span> 
                             </v-btn>
                         </template>
-                    <span>Ubah Data</span>
-                    </v-tooltip>
-                    <v-tooltip top>
-                        <template v-slot:activator="{ on, attrs }">
-                            <v-btn
-                                fab
-                                dark
-                                x-small
-                                color="red"
-                                v-bind="attrs"
-                                v-on="on"
-                                @click="deleteItem(item)"
-                                >
-                                <v-icon dark>
-                                mdi-delete
-                                </v-icon>
-                            </v-btn>
-                        </template>
-                    <span>Hapus Data</span>
-                    </v-tooltip>
-                </template>
-                <template v-slot:[`item.jam_mulai`]="{ item }">
-                    <span>{{ item.jam_mulai }} - {{ item.jam_akhir }}</span>
-                </template>
-            </v-data-table>
+                        <v-card>
+                            <v-card-title>
+                            <span class="text-h5">{{ formTitle }}</span>
+                            </v-card-title>
+                
+                            <v-card-text>
+                                <v-container>
+                                    <v-row>
+                                        <v-col
+                                            cols="12"
+                                            md="6"
+                                        >
+                                            <v-text-field
+                                                v-model="formInput.hari"
+                                                label="Hari"
+                                                :rules="rulesNotNull"
+                                                required
+                                                clearable
+                                                color="#ee8b3d"
+                                            ></v-text-field>
+                                        </v-col>
+                                        <v-col
+                                            cols="12"
+                                            md="6"
+                                        >
+                                            <v-menu
+                                                ref="menu"
+                                                v-model="menu2"
+                                                :close-on-content-click="false"
+                                                :nudge-right="40"
+                                                :return-value.sync="time"
+                                                lazy
+                                                transition="scale-transition"
+                                                offset-y
+                                                full-width
+                                                max-width="290px"
+                                                min-width="290px"
+                                            >
+                                            <template v-slot:activator="{ on }">
+                                                <v-text-field
+                                                    v-model="formInput.jam_mulai"
+                                                    label="Jam Mulai"
+                                                    prepend-icon="access_time"
+                                                    readonly
+                                                    v-on="on"
+                                                ></v-text-field>
+                                            </template>
+                                            <v-time-picker
+                                                v-if="menu2"
+                                                v-model="formInput.jam_mulai"
+                                                full-width
+                                                @click:minute="$refs.menu.save(time)"
+                                            ></v-time-picker>
+                                            </v-menu>
+                                        </v-col>
+                                        <v-col
+                                            cols="12"
+                                            md="6"
+                                        >
+                                            <v-menu
+                                                ref="menu1"
+                                                v-model="menu3"
+                                                :close-on-content-click="false"
+                                                :nudge-right="40"
+                                                :return-value.sync="time"
+                                                lazy
+                                                transition="scale-transition"
+                                                offset-y
+                                                full-width
+                                                max-width="290px"
+                                                min-width="290px"
+                                            >
+                                            <template v-slot:activator="{ on }">
+                                                <v-text-field
+                                                    v-model="formInput.jam_akhir"
+                                                    label="Jam Akhir"
+                                                    prepend-icon="access_time"
+                                                    readonly
+                                                    v-on="on"
+                                                ></v-text-field>
+                                            </template>
+                                            <v-time-picker
+                                                v-if="menu3"
+                                                v-model="formInput.jam_akhir"
+                                                full-width
+                                                @click:minute="$refs.menu1.save(time)"
+                                            ></v-time-picker>
+                                            </v-menu>
+                                        </v-col>
+                                        <v-col
+                                            cols="12"
+                                            md="6"
+                                        >
+                                            <v-autocomplete
+                                                v-model="formInput.mapel_id"
+                                                :items="master_data_mapel"
+                                                item-text="mapel_nama"
+                                                item-value="mapel_id"
+                                                label="Mata Pelajaran"
+                                                clearable
+                                                color="#ee8b3d"
+                                            ></v-autocomplete>
+                                        </v-col>
+                                        <!-- <v-col
+                                            cols="12"
+                                            md="6"
+                                        >
+                                            <v-autocomplete
+                                                v-model="formInput.kelas_id"
+                                                :items="master_data_kelas"
+                                                item-text="nama_kelas"
+                                                item-value="kelas_id"
+                                                label="Kelas"
+                                                clearable
+                                                color="#ee8b3d"
+                                            ></v-autocomplete>
+                                        </v-col> -->
+                                        <v-col
+                                            cols="12"
+                                            md="6"
+                                        >
+                                            <v-autocomplete
+                                                v-model="formInput.pengajar_id"
+                                                :items="master_data_pengajar"
+                                                item-text="nama_lengkap"
+                                                item-value="pengajar_id"
+                                                label="Guru"
+                                                clearable
+                                                color="#ee8b3d"
+                                            ></v-autocomplete>
+                                        </v-col>
+                                        <v-col
+                                            cols="12"
+                                            md="6"
+                                        >
+                                            <v-autocomplete
+                                                v-model="formInput.tahun_id"
+                                                :items="master_data_tahunAjaran"
+                                                item-text="tahun_ajaran_nama"
+                                                item-value="tahun_id"
+                                                label="Tahun Ajaran"
+                                                clearable
+                                                color="#ee8b3d"
+                                            ></v-autocomplete>
+                                        </v-col>
+                                    </v-row>
+                                </v-container>
+                            </v-card-text>
+                
+                            <v-card-actions>
+                            <v-spacer></v-spacer>
+                            <button
+                                :disabled='isDisabledSimpan'
+                                @click="formSubmit"
+                                class="btn btn-primary btn-sm font-weight-bolder text-md-body-1 rounded-lg py-2 mb-3 mr-3 w-100px"
+                            >
+                                Simpan
+                            </button>
+                            <button
+                                type="button"
+                                @click="close"
+                                class="btn btn-light-primary btn-sm font-weight-bolder text-md-body-1 rounded-lg py-2 mb-3 w-100px"
+                            >
+                                Batal
+                            </button>
+                            </v-card-actions>
+                        </v-card>
+                        </v-dialog>
+                    </v-toolbar>
+                    </template>
+        
+                    <template v-slot:[`item.actions`]="{ item }">
+                        <v-tooltip top>
+                            <template v-slot:activator="{ on, attrs }">
+                                <v-btn
+                                    class="mr-2"
+                                    fab
+                                    dark
+                                    x-small
+                                    color="#73a4ef"
+                                    v-bind="attrs"
+                                    v-on="on"
+                                    @click="editItem(item)"
+                                    v-show="accessList.U"
+                                    >
+                                    <i class="flaticon2-pen text-white"></i>
+                                </v-btn>
+                            </template>
+                        <span>Ubah Data</span>
+                        </v-tooltip>
+                        <v-tooltip top>
+                            <template v-slot:activator="{ on, attrs }">
+                                <v-btn
+                                    fab
+                                    dark
+                                    x-small
+                                    color="red"
+                                    v-bind="attrs"
+                                    v-on="on"
+                                    @click="deleteItem(item)"
+                                    v-show="accessList.D"
+                                    >
+                                    <v-icon dark>
+                                    mdi-delete
+                                    </v-icon>
+                                </v-btn>
+                            </template>
+                        <span>Hapus Data</span>
+                        </v-tooltip>
+                    </template>
+                    <template v-slot:[`item.jam_mulai`]="{ item }">
+                        <span>{{ item.jam_mulai }} - {{ item.jam_akhir }}</span>
+                    </template>
+                </v-data-table>
+            </div>
+        </div>
+        <div v-show="accessList.R == 0">
+            <div class="d-flex justify-content-center">
+                <img src="media/bg/access.png" alt="Jadwal Kelas Icon" width="35%">
+            </div>
         </div>
     </div>
 </template>
@@ -495,6 +505,7 @@ export default {
             menu2: false,
             menu3: false,
             time: null,
+            accessList: []
         }
     },
 
@@ -529,6 +540,36 @@ export default {
     },
 
     methods:{
+        asyncAccess(){
+            return new Promise(resolve => {
+                var mydata = {
+                    UID: localStorage.getLocalStorage("uid"),
+                    Token: localStorage.getLocalStorage("token"),
+                    Trigger: "R",
+                    Route: "READ_AKSES",
+                    menu_url: "/pengajaran/jadwal_kelas"
+                };
+
+                let contentType = `application/x-www-form-urlencoded`;
+
+                const qs = require("qs");
+
+                Services.PostData(
+                    ApiService,
+                    "Master/Privilege",
+                    qs.stringify(mydata),
+                    contentType,
+                    response => {
+                        resolve(response.data);
+                        this.accessList = response.data[0];
+                    },
+                    err => {
+                        err;
+                    }
+                );
+            });
+        },
+
         getJadwalKelas(){
             return new Promise(resolve => {
                 var mydata = {
@@ -731,7 +772,6 @@ export default {
         },
 
         editItem (item) {
-            console.log(item);
             this.editedIndex = this.jadwal_kelas.indexOf(item)
             this.editedItem = Object.assign({}, item)
             this.data_item = item
@@ -938,6 +978,7 @@ export default {
 
         async load() {
             Promise.all([
+                await this.asyncAccess(),
                 await this.getMasterMapel(),
                 await this.getMasterKelas(),
                 await this.getMasterPengajar(),
