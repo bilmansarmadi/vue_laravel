@@ -1,6 +1,6 @@
 <template>
     <div class="container-fluid col-md-8">
-        <div class="card cardHover">
+        <div class="card cardHover" v-show="accessList.R">
             <v-data-table responsive show-empty
                 :headers="headers"
                 :items="data_role"
@@ -49,6 +49,7 @@
                         v-bind="attrs"
                         v-on="on"
                         rounded
+                        v-show="accessList.C"
                         >
                         <i class="flaticon-add-circular-button mr-1 text-white"></i>
                             <span class="hideText">Tambah Data</span> 
@@ -113,6 +114,7 @@
                             v-bind="attrs"
                             v-on="on"
                             @click="editItem(item)"
+                            v-show="accessList.U"
                             >
                             <i class="flaticon2-pen text-white"></i>
                         </v-btn>
@@ -129,6 +131,7 @@
                             v-bind="attrs"
                             v-on="on"
                             @click="deleteItem(item)"
+                            v-show="accessList.D"
                             >
                             <v-icon dark>
                             mdi-delete
@@ -139,6 +142,12 @@
                 </v-tooltip>
                 </template>
             </v-data-table>
+        </div>
+
+        <div v-show="accessList.R == 0">
+            <div class="d-flex justify-content-center">
+                <img src="media/bg/access.png" alt="Tidak Ada Access" width="35%">
+            </div>
         </div>
     </div>
 </template>
@@ -190,7 +199,8 @@ export default {
             ],
             rulesNotNull: [
                 value => !!value || 'Tidak boleh kosong.',
-            ]
+            ],
+            accessList: []
         }
     },
 
@@ -222,6 +232,36 @@ export default {
     },
 
     methods:{
+        asyncAccess(){
+            return new Promise(resolve => {
+                var mydata = {
+                    UID: localStorage.getLocalStorage("uid"),
+                    Token: localStorage.getLocalStorage("token"),
+                    Trigger: "R",
+                    Route: "READ_AKSES",
+                    menu_url: this.$router.currentRoute.path
+                };
+
+                let contentType = `application/x-www-form-urlencoded`;
+
+                const qs = require("qs");
+
+                Services.PostData(
+                    ApiService,
+                    "Master/Privilege",
+                    qs.stringify(mydata),
+                    contentType,
+                    response => {
+                        resolve(response.data);
+                        this.accessList = response.data[0];
+                    },
+                    err => {
+                        err;
+                    }
+                );
+            });
+        },
+
         getMasterRole(){
             return new Promise(resolve => {
                 var mydata = {
@@ -454,6 +494,7 @@ export default {
 
         async load() {
             Promise.all([
+                await this.asyncAccess(),
                 await this.getMasterRole()
             ]).then(function(results) {
                 results;
