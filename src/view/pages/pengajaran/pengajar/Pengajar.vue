@@ -383,7 +383,6 @@ export default {
         },
     },
     mounted(){
-        this.load();
     },
     methods: {
         formatDate (date) {
