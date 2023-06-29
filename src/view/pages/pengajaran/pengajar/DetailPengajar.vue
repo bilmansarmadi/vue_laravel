@@ -76,7 +76,7 @@
       <div class="flex-row-fluid col-md-12">
         <b-tabs class="hide-tabs" v-model="tabIndex">
             <b-tab active>
-                <div class="card card-custom card-stretch border border-primary">
+                <div class="card card-custom card-stretch border border-primary" v-show="accessList.R">
                     <div class="card-header border-0 pt-4">
                         <v-container>
                             <v-row>
@@ -249,6 +249,7 @@
                             <div class="d-flex justify-content-end">
                             <button
                                 @click="formSubmit"
+                                v-show="accessList.C"
                                 class="btn btn-primary btn-sm font-weight-bolder text-md-body-1 rounded-lg py-2 mb-3 mr-3 w-100px"
                             >
                                 Simpan
@@ -257,10 +258,16 @@
                         </v-container>
                     </div>
                 </div>
+
+                <div v-show="accessList.R == 0">
+                    <div class="d-flex justify-content-center">
+                        <img src="media/bg/access.png" alt="Jadwal Kelas Icon" width="35%">
+                    </div>
+                </div>
             </b-tab>
 
             <b-tab>
-                <KTRiwayat_Pendidikan></KTRiwayat_Pendidikan>
+                <KTRiwayat_Pendidikan v-bind:accessList="accessList"></KTRiwayat_Pendidikan>
             </b-tab>
 
         </b-tabs>
@@ -294,6 +301,8 @@ export default {
             ],
             menu1: false,
             date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+            accessList: [],
+            getPath: ""
         }
     },
     watch: {
@@ -307,12 +316,50 @@ export default {
     },
     mounted(){
         this.Pengajar_Id  = this.$route.query.id;
+        var getData = (this.$router.currentRoute.path).split('/');
+        this.getPath = getData[1];
         this.load()
     },
     components:{
         KTRiwayat_Pendidikan
     },
     methods:{
+        asyncAccess(){
+            var menuUrl = ""
+            if (this.getPath == 'caripengajar') {
+                menuUrl = "/caripengajar";
+            } else {
+                menuUrl = "/pengajaran/data_pengajar";
+            }
+            return new Promise(resolve => {
+                var mydata = {
+                    UID: localStorage.getLocalStorage("uid"),
+                    Token: localStorage.getLocalStorage("token"),
+                    Trigger: "R",
+                    Route: "READ_AKSES",
+                    menu_url: menuUrl
+                };
+
+                let contentType = `application/x-www-form-urlencoded`;
+
+                const qs = require("qs");
+
+                Services.PostData(
+                    ApiService,
+                    "Master/Privilege",
+                    qs.stringify(mydata),
+                    contentType,
+                    response => {
+                        resolve(response.data);
+                        this.accessList = response.data[0];
+                    },
+                    err => {
+                        err;
+                    }
+                );
+            });
+        },
+
         formatDate (date) {
             if (!date) return null
 
@@ -436,7 +483,8 @@ export default {
 
         async load() {
             Promise.all([
-                await this.getMasterDataPengajar()
+                await this.asyncAccess(),
+                await this.getMasterDataPengajar(),
             ]).then(function(results) {
                 results;
             });

@@ -118,7 +118,6 @@ export default {
     },
     methods: {
         getDataRow(item){
-            console.log(item);
             if(item){
                 this.idHeader = item.tahun_id
                 this.showDetail = true

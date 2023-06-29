@@ -3,6 +3,7 @@
         :headers="headers"
         :items="riwayat_pendidikan"
         :search="search"
+        v-show="accessList.R"
         loading-text="Loading... Please wait"
         :items-per-page="5"
         item-key="kurikulum_id"
@@ -46,6 +47,7 @@
                 v-bind="attrs"
                 v-on="on"
                 rounded
+                v-show="accessList.C"
                 >
                 <i class="flaticon-add-circular-button mr-1 text-white"></i>
                     <span class="hideText">Tambah Data</span> 
@@ -240,6 +242,7 @@
                     v-bind="attrs"
                     v-on="on"
                     @click="editItem(item)"
+                    v-show="accessList.U"
                     >
                     <i class="flaticon2-pen text-white"></i>
                 </v-btn>
@@ -256,6 +259,7 @@
                     v-bind="attrs"
                     v-on="on"
                     @click="deleteItem(item)"
+                    v-show="accessList.D"
                     >
                     <v-icon dark>
                     mdi-delete
@@ -377,6 +381,13 @@ export default {
                 { value: 1, text: "Negeri" },
                 { value: 0, text: "Swasta" },
             ],
+        }
+    },
+
+    props: {
+        accessList: {
+            required: false,
+            default: () => []
         }
     },
 

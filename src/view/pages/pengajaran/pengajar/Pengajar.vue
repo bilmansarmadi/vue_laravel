@@ -232,8 +232,9 @@
                     <div class="card-toolbar">
                     <div class="d-flex">
                         <v-icon
+                        @click="goBack"
                         color="#73a4ef">
-                            mdi-account-group-outline
+                            mdi-arrow-left
                         </v-icon>
                         <h6 class="font-weight-bold font-weight-black mt-2 ml-2">HASIL PENCARIAN DATA PENGAJAR</h6>
                     </div>
@@ -248,7 +249,7 @@
                     :search="search"
                     loading-text="Loading... Please wait"
                     :items-per-page="10"
-                    item-key="santri_id"
+                    item-key="pengajar_id"
                     class="elevation-1"
                     :footer-props="{
                     showFirstLastPage: false,
@@ -263,7 +264,7 @@
                     </template>
                     <template v-slot:[`item.nip`]="{ item }">
                         <router-link
-                            :to="{ name: 'detail_pengajar',query: {id: item.pengajar_id,}}"
+                            :to="{ name: detail_data, query: {id: item.pengajar_id,}}"
                             target="_blank"> {{ item.nip }}
                         </router-link>
                     </template>
@@ -343,11 +344,11 @@ export default {
                     text: 'Foto', 
                     value: 'foto',
                     align: 'center',
-                    width: "250px",
+                    width: "150px",
                     sortable: false 
                 },
                 { 
-                    text: 'Tempat/Tanggal Lahir', 
+                    text: 'Tempat / Tanggal Lahir', 
                     value: 'tempat_lahir',
                     align: 'start',
                     width: "140px",
@@ -375,6 +376,7 @@ export default {
                     sortable: false 
                 }
             ],
+            detail_data: ""
         }
     },
     watch: {
@@ -383,6 +385,12 @@ export default {
         },
     },
     mounted(){
+        var check = this.$router.currentRoute.path;
+        if (check == "/caripengajar") {
+            this.detail_data = "data_detail_pengajar";
+        } else {
+            this.detail_data = "detail_pengajar";
+        }
     },
     methods: {
         formatDate (date) {
@@ -409,24 +417,16 @@ export default {
             this.showSearch= true;
         },
         reset(){
-            this.formInput.kode_santri = ""
-            this.formInput.nama_lengkap_santri = ""
+            this.formInput.nip = ""
+            this.formInput.nama_lengkap= ""
             this.formInput.panggilan = ""
-            this.formInput.hafalan_ziyadah = ""
             this.formInput.hafalan_mutqin = ""
             this.formInput.tempat_lahir = ""
             this.formInput.jenis_kelamin = ""
-            this.formInput.anak_ke = ""
+            this.formInput.status_nikah = ""
             this.formInput.email = ""
             this.formInput.alamat = ""
-            this.formInput.hp_ortu = ""
-            this.formInput.nama_ayah = ""
-            this.formInput.nama_ibu = ""
             this.formInput.status = ""
-            this.formInput.kelas_id = ""
-            this.formInput.tahun_id = ""
-            this.formInput.semester = ""
-            this.formInput.mapel_id = ""
             this.dateFormatted = ""
         },
         getMasterDataPengajar(){
@@ -466,13 +466,6 @@ export default {
                         err;
                     }
                 );
-            });
-        },
-        goToDetail(item){
-            this.$router.push(
-            {
-                name: `detail_santri`,
-                query: {id: item.santri_id}
             });
         }
     }

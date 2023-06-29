@@ -128,16 +128,26 @@ export default new Router({
           name: "data_diri",
           component: () => import("@/view/pages/data-diri/DataDiri.vue")
         },
+        // {
+        //   path: "/caripengajar",
+        //   name: "cari_data_pengajar",
+        //   component: () => import("@/view/pages/cari-pengajar/CariPengajar.vue")
+        // },
+        // {
+        //   path: "/resultpengajar",
+        //   props: true,
+        //   name: "resultpengajar",
+        //   component: () => import("@/view/pages/cari-pengajar/result.vue")
+        // },
         {
           path: "/caripengajar",
           name: "cari_data_pengajar",
-          component: () => import("@/view/pages/cari-pengajar/CariPengajar.vue")
+          component: () => import("@/view/pages/pengajaran/pengajar/Pengajar.vue")
         },
         {
-          path: "/resultpengajar",
-          props: true,
-          name: "resultpengajar",
-          component: () => import("@/view/pages/cari-pengajar/result.vue")
+          path: "/caripengajar/detail_pengajar",
+          name: "data_detail_pengajar",
+          component: () => import("@/view/pages/pengajaran/pengajar/DetailPengajar.vue")
         },
 
         // {
@@ -154,7 +164,7 @@ export default new Router({
 
         {
           path: "/carisantri",
-          name: "pengajaran-data-santri",
+          name: "cari-data-santri",
           component: () => import("@/view/pages/pengajaran/santri/Santri.vue")
         },
         {
