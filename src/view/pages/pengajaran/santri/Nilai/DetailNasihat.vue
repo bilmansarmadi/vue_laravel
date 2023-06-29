@@ -5,6 +5,7 @@
         :search="search"
         loading-text="Loading... Please wait"
         :items-per-page="5"
+        v-show="accessList.R"
         class="elevation-1 border border-primary card card-custom card-stretch border border-primary"
         :footer-props="{
         showFirstLastPage: false,
@@ -45,6 +46,7 @@
                 v-bind="attrs"
                 v-on="on"
                 rounded
+                v-show="accessList.C"
                 >
                 <i class="flaticon-add-circular-button mr-1 text-white"></i>
                     <span class="hideText">Tambah Data</span> 
@@ -110,6 +112,7 @@
                     v-bind="attrs"
                     v-on="on"
                     @click="editItem(item)"
+                    v-show="accessList.U"
                     >
                     <i class="flaticon2-pen text-white"></i>
                 </v-btn>
@@ -126,6 +129,7 @@
                     v-bind="attrs"
                     v-on="on"
                     @click="deleteItem(item)"
+                    v-show="accessList.D"
                     >
                     <v-icon dark>
                     mdi-delete
@@ -155,6 +159,10 @@ export default {
             type: [String, Number],
             required: false,
             default: ''
+        },
+        accessList: {
+            required: false,
+            default: () => []
         }
     },
 

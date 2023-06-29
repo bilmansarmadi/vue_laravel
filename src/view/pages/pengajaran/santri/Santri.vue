@@ -375,7 +375,7 @@
                 </template>
                 <template v-slot:[`item.kode_santri`]="{ item }">
                     <router-link
-                        :to="{ name: 'detail_santri',query: {id: item.santri_id,}}"
+                        :to="{ name: detail_data ,query: {id: item.santri_id,}}"
                         target="_blank"> {{ item.kode_santri }}
                     </router-link>
                     <!-- <span @click="goToDetail(item)" class="text-hover-primary cursor-pointer">{{ item.kode_santri }}</span> -->
@@ -497,6 +497,7 @@ export default {
                     sortable: false 
                 }
             ],
+            detail_data: ""
         }
     },
     watch: {
@@ -505,6 +506,12 @@ export default {
         },
     },
     mounted(){
+        var check = this.$router.currentRoute.path;
+        if (check == "/carisantri") {
+            this.detail_data = "data_detail_santri";
+        } else {
+            this.detail_data = "detail_santri";
+        }
         this.load();
     },
     methods: {
