@@ -300,8 +300,8 @@ export default {
                 status: ""
             },
             dropdown_jenkel: [
-                { value: 'L', text: "Laki-laki" },
-                { value: 'P', text: "Perempuan" },
+                { value: 'L', text: "Ikhwan" },
+                { value: 'P', text: "Akhwat " },
             ],
             dropdown_status: [
                 { value: 0, text: "Tidak Aktif" },
