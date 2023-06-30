@@ -363,11 +363,30 @@
                         v-model="search"
                         append-icon="mdi-magnify"
                         label="Search"
-                        color="purple"
                         single-line
                         hide-details
                         ></v-text-field>
                         <v-spacer></v-spacer>
+                        <div>
+                            <b-dropdown
+                                block
+                                variant="primary"
+                                class="m-2 font-weight-bold rounded-lg"
+                                text="CETAK">
+                                <b-dropdown-item @click="generateReportAll()">PDF</b-dropdown-item>
+                                <b-dropdown-item>
+                                    <vue-excel-xlsx
+                                        :data="data_santri"
+                                        :columns="columnsExcel"
+                                        :file-name="'data-santri'"
+                                        :file-type="'xlsx'"
+                                        :sheet-name="'Data'"
+                                        >
+                                        EXCEL
+                                    </vue-excel-xlsx>
+                                </b-dropdown-item>
+                            </b-dropdown>
+                        </div>
                     </v-toolbar>
                     </template>
                 <template v-slot:[`item.foto`]="{ item }">
@@ -382,15 +401,194 @@
                 </template>
                 </v-data-table>
             </div>
+
+            <!-- PDF ALL Session -->
+            <template>
+                <div>
+                <vue-html2pdf
+                    :show-layout="false"
+                    :float-layout="true"
+                    :enable-download="false"
+                    :preview-modal="true"
+                    :paginate-elements-by-height="1400"
+                    :pdf-quality="2"
+                    :manual-pagination="false"
+                    :html-to-pdf-options="htmlToPdfAllOptions"
+                    pdf-content-width="100%"
+                    @hasStartedGeneration="hasStartedGeneration()"
+                    @hasGenerated="hasGenerated($event)"
+                    ref="html2PdfAll"
+                >
+                    <section slot="pdf-content">
+                    <!-- PDF Content Here -->
+                    <section class="pdf-item">
+                        <div align="center">
+                            <p
+                                style="
+                                    font-family: 'Verdana';
+                                    font-style: normal;
+                                    font-size: 16px;
+                                    color: black;
+                                    "
+                                >
+                                Data Santri
+                            </p>
+                        </div>
+                        <br />
+                        <div align="left" class="m-5">
+                        <table border="1"  width="100%" style="text-color:black;overflow:wrap;border-collapse: collapse;">
+                            <thead>
+                            <tr align="center">
+                                <th
+                                    scope="col"
+                                    style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                                >
+                                No.
+                                </th>
+                                <th
+                                    scope="col"
+                                    style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                                >
+                                Kode Santri
+                                </th>
+                                <th
+                                    scope="col"
+                                    style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                                >
+                                Nama
+                                </th>
+                                <th
+                                    scope="col"
+                                    style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                                >
+                                Tempat Lahir
+                                </th>
+                                <th
+                                    scope="col"
+                                    style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                                >
+                                Tanggal Lahir
+                                </th>
+                                <th
+                                    scope="col"
+                                    style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                                >
+                                Jenis Kelamin
+                                </th>
+                                <th
+                                    scope="col"
+                                    style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                                >
+                                Email
+                                </th>
+                                <th
+                                    scope="col"
+                                    style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                                >
+                                Alamat
+                                </th>
+                                <th
+                                    scope="col"
+                                    style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                                >
+                                Nama Ayah/Ibu
+                                </th>
+                                <th
+                                    scope="col"
+                                    style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                                >
+                                No HP Ortu
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr
+                                v-for="(data, index) in data_santri"
+                                :key="data.santri_id"
+                            >
+                                <td align="center"
+                                    style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                                >
+                                {{ index +=1 }}
+                                </td>
+                                <td align="left"
+                                    style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                                >
+                                {{ data.kode_santri }}
+                                </td>
+                                
+                                <td align="left"
+                                    style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                                >
+                                {{ data.nama_lengkap_santri }}
+                                </td>
+                                <td align="left"
+                                    style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                                >
+                                {{ data.tempat_lahir }}
+                                </td>
+                                <td align="left"
+                                    style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                                >
+                                {{ data.tanggal_lahir }}
+                                </td>
+                                <td align="center"
+                                    style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                                >
+                                {{ data.jenis_kelamin_Nama}}
+                                </td>
+                                <td align="left"
+                                    style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                                >
+                                {{ data.email }}
+                                </td>
+                                <td align="left"
+                                    style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                                >
+                                {{ data.alamat }}
+                                </td>
+                                <td align="left"
+                                    style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                                >
+                                {{ data.nama_ayah }} , {{ data.nama_ibu }}
+                                </td>
+                                <td align="center"
+                                    style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                                >
+                                {{ data.hp_ortu }}
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        </div>
+                    </section>
+                    </section>
+                </vue-html2pdf>
+                </div>
+            </template>
+            <!-- END PDF ALL Session -->
+
         </div>
     </div>
 </template>
+
+<style>
+td, th {
+    padding: 4px;
+    color: #000;
+    vertical-align: top;
+}
+tr { 
+    page-break-inside: avoid !important; 
+}
+</style>
 
 <script>
 import { formatDate } from "@/helpers/helper.js";
 import Services from "@/core/services/aljazary-api/Services";
 import ApiService from "@/core/services/api.service";
 import localStorage from "@/core/services/store/localStorage";
+import VueHtml2pdf from "vue-html2pdf";
 
 export default {
     name: "pengajaran-data-santri",
@@ -497,7 +695,63 @@ export default {
                     sortable: false 
                 }
             ],
-            detail_data: ""
+            detail_data: "",
+            htmlToPdfAllOptions: {
+                margin: 0.1,
+                filename: `Data Santri.pdf`,
+                image: {
+                    type: 'jpeg', 
+                    quality: 0.98
+                },
+                html2canvas: {useCORS: true}, 
+                jsPDF: {
+                    unit: "in",
+                    format: "a4",
+                    orientation: "landscape"
+                }
+            },
+            columnsExcel : [
+                {
+                    label: "Kode Santri",
+                    field: "kode_santri",
+                },
+                {
+                    label: "Nama",
+                    field: "nama_lengkap_santri",
+                },
+                {
+                    label: "Tempat Lahir",
+                    field: "tempat_lahir",
+                },
+                {
+                    label: "Tanggal Lahir",
+                    field: "tanggal_lahir",
+                },
+                {
+                    label: "Jenis Kelamin",
+                    field: "jenis_kelamin_Nama",
+                },
+                {
+                    label: "Email",
+                    field: "email",
+                },
+                {
+                    label: "Alamat",
+                    field: "alamat",
+                },
+                {
+                    label: "Nama Ayah",
+                    field: "nama_ayah",
+                },
+                {
+                    label: "Nama Ibu",
+                    field: "nama_ibu",
+                },
+                {
+                    label: "No HP Ortu",
+                    field: "hp_ortu",
+                },
+            ],
         }
     },
     watch: {
@@ -515,6 +769,11 @@ export default {
         this.load();
     },
     methods: {
+        generateReportAll() {
+            this.data_santri;
+            this.$refs.html2PdfAll.generatePdf();
+        },
+
         formatDate (date) {
             if (!date) return null
 
@@ -702,6 +961,9 @@ export default {
                 results;
             });
         },
-    }
+    },
+    components: {
+        VueHtml2pdf
+    },
 }
 </script>

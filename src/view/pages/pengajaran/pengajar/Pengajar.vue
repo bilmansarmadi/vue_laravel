@@ -256,6 +256,43 @@
                         'items-per-page-text':'Page'
                     }"
                 >
+                    <template v-slot:top>
+                        <v-toolbar
+                            flat
+                            class="mb-5"
+                        >
+                            <v-spacer></v-spacer>
+                            <v-text-field
+                            v-model="search"
+                            append-icon="mdi-magnify"
+                            label="Search"
+                            color="purple"
+                            single-line
+                            hide-details
+                            ></v-text-field>
+                            <v-spacer></v-spacer>
+                            <div>
+                                <b-dropdown
+                                    block
+                                    variant="primary"
+                                    class="m-2 font-weight-bold rounded-lg"
+                                    text="CETAK">
+                                    <b-dropdown-item @click="generateReportAll()">PDF</b-dropdown-item>
+                                    <b-dropdown-item>
+                                        <vue-excel-xlsx
+                                            :data="data_pengajar"
+                                            :columns="columnsExcel"
+                                            :file-name="'data-pengajar'"
+                                            :file-type="'xlsx'"
+                                            :sheet-name="'Data'"
+                                            >
+                                            EXCEL
+                                        </vue-excel-xlsx>
+                                    </b-dropdown-item>
+                                </b-dropdown>
+                            </div>
+                        </v-toolbar>
+                    </template>
                     <template v-slot:[`item.foto`]="{ item }">
                         <img :src="item.foto" class="rounded" alt="Foto" style="max-width: 100px;" v-show="item.foto.length > 40"/>
                     </template>
@@ -270,15 +307,171 @@
                     </template>
                 </v-data-table>
             </div>
+
+            <!-- PDF ALL Session -->
+            <template>
+                <div>
+                    <vue-html2pdf
+                        :show-layout="false"
+                        :float-layout="true"
+                        :enable-download="false"
+                        :preview-modal="true"
+                        :paginate-elements-by-height="1400"
+                        :pdf-quality="2"
+                        :manual-pagination="false"
+                        :html-to-pdf-options="htmlToPdfAllOptions"
+                        pdf-content-width="100%"
+                        @hasStartedGeneration="hasStartedGeneration()"
+                        @hasGenerated="hasGenerated($event)"
+                        ref="html2PdfAll"
+                    >
+                        <section slot="pdf-content">
+                        <!-- PDF Content Here -->
+                        <section class="pdf-item m-lg-5">
+                            <div align="center">
+                                <p
+                                    style="
+                                        font-family: 'Verdana';
+                                        font-style: normal;
+                                        font-size: 16px;
+                                        color: black;
+                                        "
+                                    >
+                                    Data Pengajar
+                                </p>
+                            </div>
+                            <br />
+                            <div align="left">
+                                <table border="1" cellspacing="0" cellpadding="2" width="100%" style="text-color:black;overflow:wrap;border-collapse: collapse;">
+                                    <thead>
+                                        <tr align="center">
+                                            <th
+                                                scope="col"
+                                                style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                                            >
+                                            No.
+                                            </th>
+                                            <th
+                                                scope="col"
+                                                style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                                            >
+                                            NIP
+                                            </th>
+                                            <th
+                                                scope="col"
+                                                style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                                            >
+                                            Nama
+                                            </th>
+                                            <th
+                                                scope="col"
+                                                style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                                            >
+                                            Tempat Lahir
+                                            </th>
+                                            <th
+                                                scope="col"
+                                                style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                                            >
+                                            Tanggal Lahir
+                                            </th>
+                                            <th
+                                                scope="col"
+                                                style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                                            >
+                                            Jenis Kelamin
+                                            </th>
+                                            <th
+                                                scope="col"
+                                                style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                                            >
+                                            Email
+                                            </th>
+                                            <th
+                                                scope="col"
+                                                style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                                            >
+                                            Alamat
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr
+                                            v-for="(data, index) in data_pengajar"
+                                            :key="data.pengajar_id"
+                                        >
+                                            <td align="center"
+                                                style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                                            >
+                                            {{ index +=1 }}
+                                            </td>
+                                            <td align="left"
+                                                style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                                            >
+                                            {{ data.nip }}
+                                            </td>
+                                            <td align="left"
+                                                style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                                            >
+                                            {{ data.nama_lengkap}}
+                                            </td>
+                                            <td align="left"
+                                                style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                                            >
+                                            {{ data.tempat_lahir }}
+                                            </td>
+                                            <td align="left"
+                                                style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                                            >
+                                            {{ data.tanggal_lahir }}
+                                            </td>
+                                            <td align="center"
+                                                style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                                            >
+                                            {{ data.jenis_kelamin_nama}}
+                                            </td>
+                                            <td align="left"
+                                                style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                                            >
+                                            {{ data.email }}
+                                            </td>
+                                            <td align="left"
+                                                style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                                            >
+                                            {{ data.alamat }}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </section>
+                        <div class="html2pdf__page-break"></div>
+                        </section>
+                    </vue-html2pdf>
+                </div>
+            </template>
+            <!-- END PDF ALL Session -->
         </div>
     </div>
 </template>
 
+<style>
+td, th {
+    padding: 4px;
+    color: #000;
+    vertical-align: top;
+}
+tr { 
+    page-break-inside: avoid !important; 
+}
+
+</style>
 <script>
 import { formatDate } from "@/helpers/helper.js";
 import Services from "@/core/services/aljazary-api/Services";
 import ApiService from "@/core/services/api.service";
 import localStorage from "@/core/services/store/localStorage";
+import VueHtml2pdf from "vue-html2pdf";
 
 export default {
     name: "pengajaran-data-pengajar",
@@ -376,7 +569,46 @@ export default {
                     sortable: false 
                 }
             ],
-            detail_data: ""
+            detail_data: "",
+            htmlToPdfAllOptions: {
+                margin: 0.1,
+                filename: `Data Pengajar.pdf`,
+                jsPDF: {
+                    unit: "in",
+                    format: "a4",
+                    orientation: "landscape"
+                }
+            },
+            columnsExcel : [
+                {
+                    label: "NIP",
+                    field: "nip",
+                },
+                {
+                    label: "Nama",
+                    field: "nama_lengkap",
+                },
+                {
+                    label: "Tempat Lahir",
+                    field: "tempat_lahir",
+                },
+                {
+                    label: "Tanggal Lahir",
+                    field: "tanggal_lahir",
+                },
+                {
+                    label: "Jenis Kelamin",
+                    field: "jenis_kelamin_nama",
+                },
+                {
+                    label: "Email",
+                    field: "email",
+                },
+                {
+                    label: "Alamat",
+                    field: "alamat",
+                },
+            ],
         }
     },
     watch: {
@@ -392,7 +624,15 @@ export default {
             this.detail_data = "detail_pengajar";
         }
     },
+    components: {
+        VueHtml2pdf
+    },
     methods: {
+        generateReportAll() {
+            this.data_santri;
+            this.$refs.html2PdfAll.generatePdf();
+        },
+
         formatDate (date) {
             if (!date) return null
 

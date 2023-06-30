@@ -85,6 +85,10 @@
 </style>
 
 <script>
+import Vue from "vue";
+import VueExcelXlsx from "vue-excel-xlsx";
+Vue.use(VueExcelXlsx);
+
 import { OVERRIDE_LAYOUT_CONFIG } from "@/core/services/store/config.module";
 
 export default {
