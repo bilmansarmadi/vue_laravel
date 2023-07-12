@@ -328,7 +328,9 @@ export default {
             var menuUrl = ""
             if (this.getPath == 'caripengajar') {
                 menuUrl = "/caripengajar";
-            } else {
+            }else if(this.getPath == 'profil'){
+                menuUrl = "/profil";
+            }else {
                 menuUrl = "/pengajaran/data_pengajar";
             }
             return new Promise(resolve => {

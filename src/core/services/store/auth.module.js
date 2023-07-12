@@ -60,8 +60,10 @@ const actions = {
             context.commit(SET_AUTH, response.data[0]);
             localStorage.setLocalStorage('role_id', response.data[0].role_id);
             localStorage.setLocalStorage('uid', response.data[0].User_Id);
+            localStorage.setLocalStorage('kode_user', response.data[0].kode_user);
             localStorage.setLocalStorage('user_fullname', response.data[0].nama);
             localStorage.setLocalStorage('token', response.data[0].token);
+            localStorage.setLocalStorage('jenis_user', response.data[0].jenis_user);
 
             const Toast = Swal.mixin({
               toast: true,
@@ -107,6 +109,8 @@ const actions = {
     localStorage.deleteLocalStorage("token");
     localStorage.deleteLocalStorage("role_id");
     localStorage.deleteLocalStorage("user_fullname");
+    localStorage.deleteLocalStorage("kode_user");
+    localStorage.deleteLocalStorage("jenis_user");
     context.commit(PURGE_AUTH);
   },
   [REGISTER](context, credentials) {

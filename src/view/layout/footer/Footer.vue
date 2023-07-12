@@ -12,7 +12,7 @@
         <a
           target="_blank"
           class="text-dark-75 text-hover-primary"
-          >BTS</a
+          >Al Jazary</a
         >
       </div>
       <!--end::Copyright-->

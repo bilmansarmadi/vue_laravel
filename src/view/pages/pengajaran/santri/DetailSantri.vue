@@ -436,7 +436,9 @@ export default {
             var menuUrl = ""
             if (this.getPath == 'carisantri') {
                 menuUrl = "/carisantri";
-            } else {
+            }else if(this.getPath == 'profil'){
+                menuUrl = "/profil";
+            }else {
                 menuUrl = "/pengajaran/data_santri";
             }
             return new Promise(resolve => {

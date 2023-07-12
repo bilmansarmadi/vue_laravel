@@ -128,6 +128,16 @@ export default new Router({
           name: "data_diri",
           component: () => import("@/view/pages/data-diri/DataDiri.vue")
         },
+        {
+          path: "/profil/pengajar",
+          name: "profil_pengajar",
+          component: () => import("@/view/pages/pengajaran/pengajar/DetailPengajar.vue")
+        },
+        {
+          path: "/profil/santri",
+          name: "profil_santri",
+          component: () => import("@/view/pages/pengajaran/santri/DetailSantri.vue")
+        },
         // {
         //   path: "/caripengajar",
         //   name: "cari_data_pengajar",
@@ -187,7 +197,7 @@ export default new Router({
         {
           path: "/profiles",
           name: "profile",
-          component: () => import("@/view/pages/profile/Profile-2.vue")
+          component: () => import("@/view/pages/profile/Profiles.vue")
         },
 
 

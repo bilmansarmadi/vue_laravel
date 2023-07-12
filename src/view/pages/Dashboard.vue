@@ -5,7 +5,7 @@
       <div class="col-xl-4" 
         v-for="data in data_menu" :key="data.menu_id">
         
-        <router-link :to="`${data.menu_url}`">
+        <router-link :to="`${data.menu_url}` == '/profil' ? `/profil/${NewUrl}?id=${KodeUser}` : `${data.menu_url}`">
           <div
             class="card card-custom border border-primary bgi-no-repeat gutter-b card-stretch cardHover"
             :style="`background-position: right top; background-image: url(media/svg/shapes/${data.menu_icon})`"
@@ -42,11 +42,15 @@ export default {
   data() {
     return {
       data_menu: [],
+      KodeUser: "",
+      NewUrl: ""
     }
   },
   components: {
   },
   mounted() {
+    this.KodeUser = localStorage.getLocalStorage('kode_user')
+    this.NewUrl = localStorage.getLocalStorage('jenis_user')
     this.load();
     this.$store.dispatch(SET_BREADCRUMB, [{ title: "Dashboard" }]);
   },
