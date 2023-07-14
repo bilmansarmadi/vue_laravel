@@ -255,6 +255,7 @@
                                 class="mr-2"
                                 fab
                                 dark
+                                hidden
                                 x-small
                                 color="#73a4ef"
                                 v-bind="attrs"
@@ -415,7 +416,7 @@ export default {
         },
         formSubmit() {
             return this.editedIndex === -1
-                ? this.createDataRole
+                ? this.createKelompokKelas
                 : this.updateDataRole;
         },
         isDisabledSimpan(){
@@ -570,13 +571,13 @@ export default {
             });
         },
 
-        createDataRole(){
+        createKelompokKelas(){
             return new Promise(resolve => {
                 var mydata = {
                     UID: localStorage.getLocalStorage("uid"),
                     Token: localStorage.getLocalStorage("token"),
                     Trigger: "C",
-                    Route: "DEFAULT",
+                    Route: "KELOMPOK_KELAS",
                     kelas_id: this.add_kelompok_kelas.kelas_id,
                     santri_id: JSON.stringify(this.add_kelompok_kelas.santri_id),
                     status_kelompok: this.add_kelompok_kelas.status_kelompok,

@@ -24,6 +24,7 @@
                         label="Fullname"
                         required
                         clearable
+                        disabled
                         color="#ee8b3d"
                     ></v-text-field>
                 </v-col>
@@ -160,7 +161,7 @@ import Swal from 'sweetalert2'
                     role_id: this.data_user.role_id,
                     status: this.data_user.status,
                     user_email: this.update_data_user.user_email,
-                    user_password: this.update_data_user.password,
+                    user_password: this.update_data_user.user_passwords,
                     user_fullname: this.update_data_user.user_fullname,
                 };
 
