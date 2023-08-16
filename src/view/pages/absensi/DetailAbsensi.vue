@@ -127,18 +127,6 @@
                     <v-card-title class="border">
                         <span class="text-h5">{{ formTitle }}</span>
                     </v-card-title>
-
-                    <v-col
-                        cols="12"
-                        md="12"
-                    >
-                        <v-text-field
-                            v-model="defaultToken"
-                            label="Token"
-                            clearable
-                            color="#ee8b3d"
-                        ></v-text-field>
-                    </v-col>
         
                     <v-card-text>
                         <v-container v-for="(data, santri_id) in dataDetail" :key="santri_id">
@@ -277,7 +265,6 @@
   
     data: () => ({
       search: '',
-      defaultToken: localStorage.getLocalStorage("token"),
       dataDetail: [],
       progressBar: true,
       dialog: false,
