@@ -555,7 +555,6 @@ export default {
       this.$nextTick(() => {
           this.add_data_nilai.santri_id = ""
           this.add_data_nilai.nilai = ""
-          this.dateFormatted = ""
           this.editedItem = Object.assign({}, this.defaultItem)
           this.editedIndex = -1
       })

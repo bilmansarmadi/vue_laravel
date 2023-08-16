@@ -162,7 +162,7 @@
                                     md="4"
                                 >
                                     <v-select
-                                        v-model="data.status_kehadiran "
+                                        v-model="data.status_kehadiran"
                                         :items="dropdown_status_kehadiran"
                                         item-text="text"
                                         item-value="value"
@@ -314,7 +314,7 @@
         { value: "A", text: "Tidak Hadir" },
         { value: "I", text: "Ijin" },
         { value: "S", text: "Sakit" },
-    ],
+      ],
     }),
   
     computed: {
@@ -555,7 +555,6 @@
             this.add_data_absensi.santri_id = ""
             this.add_data_absensi.keterangan_absensi = ""
             this.add_data_absensi.status_kehadiran = ""
-            this.dateFormatted = ""
             this.editedItem = Object.assign({}, this.defaultItem)
             this.editedIndex = -1
         })
