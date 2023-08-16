@@ -117,7 +117,7 @@
                   rounded
                   >
                   <i class="flaticon-add-circular-button mr-1 text-white"></i>
-                      <span class="hideText">Ubah Data</span> 
+                      <span class="hideText">Tambah Data</span> 
                   </v-btn>
               </template>
               <form
@@ -289,7 +289,7 @@
         },
         {
           text: 'Status Kehadiran',
-          value: 'status_kehadiran',
+          value: 'status_kehadiran_nama',
           sortable: false
         },
         {
@@ -319,7 +319,7 @@
   
     computed: {
       formTitle () {
-        return this.editedIndex === -1 ? 'Ubah Data' : 'Ubah Data'
+        return this.editedIndex === -1 ? 'Tambah Data' : 'Ubah Data'
       },
       formInput() {
         return this.editedIndex === -1 ? this.add_data_absensi : this.editedItem;
@@ -469,17 +469,17 @@
             if (formInput == "add_data_absensi") {
                 if (this.editedIndex > -1) {
                 Object.assign(
-                    this.data_nilai[this.editedIndex],
+                    this.dataDetail[this.editedIndex],
                     this.add_data_absensi
                 );
                 } else {
-                    this.data_nilai.push(this.add_data_absensi);
+                    this.dataDetail.push(this.add_data_absensi);
                 }
             } else if (formInput == "edit_data_absensi") {
                 if (this.editedIndex > -1) {
-                    Object.assign(this.data_nilai[this.editedIndex], this.editedItem);
+                    Object.assign(this.dataDetail[this.editedIndex], this.editedItem);
                 } else {
-                    this.data_nilai.push(this.editedItem);
+                    this.dataDetail.push(this.editedItem);
                 }
             }
             this.close();
