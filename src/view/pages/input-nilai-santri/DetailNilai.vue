@@ -555,6 +555,8 @@ export default {
       this.$nextTick(() => {
           this.add_data_nilai.santri_id = ""
           this.add_data_nilai.nilai = ""
+          this.SantriId = []
+          this.NilaiSantri = []
           this.editedItem = Object.assign({}, this.defaultItem)
           this.editedIndex = -1
       })
@@ -567,8 +569,10 @@ export default {
           Token: localStorage.getLocalStorage("token"),
           Trigger: "R",
           Route: "READ_DETAIL_NILIA",
-          tahun_id: idTahun,
-          mapel_id: this.idMapel
+          tahun_id: this.idTahun,
+          mapel_id: this.idMapel,
+          tipe_nilai: this.formFilter.tipe_nilai,
+          tanggal_nilai: this.dateFormatted
         };
 
         let contentType = `application/x-www-form-urlencoded`;
@@ -591,7 +595,7 @@ export default {
       });
     },
     filterData(){
-      if (!this.formFilter.tipe_nilai || !this.formatDate) {
+      if (!this.formFilter.tipe_nilai || !this.dateFormatted) {
         Swal.fire({
           title: "",
           text: "Filter Tidak Boleh Kosong.",

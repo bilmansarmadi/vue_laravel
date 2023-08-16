@@ -555,6 +555,9 @@
             this.add_data_absensi.santri_id = ""
             this.add_data_absensi.keterangan_absensi = ""
             this.add_data_absensi.status_kehadiran = ""
+            this.SantriId = []
+            this.StatusKehadiran = []
+            this.KeteranganKehadiran = []
             this.editedItem = Object.assign({}, this.defaultItem)
             this.editedIndex = -1
         })
