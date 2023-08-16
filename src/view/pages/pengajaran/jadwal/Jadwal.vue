@@ -978,8 +978,8 @@ export default {
 
         async load() {
             Promise.all([
-                await this.asyncAccess(),
                 await this.getMasterMapel(),
+                await this.asyncAccess(),
                 await this.getMasterKelas(),
                 await this.getMasterPengajar(),
                 await this.getMasterTahunAjaran(),

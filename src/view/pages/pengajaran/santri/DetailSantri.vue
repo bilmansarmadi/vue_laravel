@@ -603,8 +603,8 @@ export default {
 
         async load() {
             Promise.all([
-                await this.asyncAccess(),
-                await this.getMasterDataSantri()
+                await this.getMasterDataSantri(),
+                await this.asyncAccess()
             ]).then(function(results) {
                 results;
             });

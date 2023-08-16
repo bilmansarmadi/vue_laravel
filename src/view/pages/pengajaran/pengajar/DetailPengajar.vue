@@ -485,8 +485,8 @@ export default {
 
         async load() {
             Promise.all([
-                await this.asyncAccess(),
                 await this.getMasterDataPengajar(),
+                await this.asyncAccess(),
             ]).then(function(results) {
                 results;
             });

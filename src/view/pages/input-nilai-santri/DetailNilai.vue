@@ -328,8 +328,8 @@ export default {
     },
     formSubmit() {
       return this.editedIndex === -1
-          ? this.createTahunAjaran
-          : this.updateTahunAjaran;
+          ? this.inputNIlai
+          : this.updateNIlai;
     }
   },
 
@@ -352,7 +352,7 @@ export default {
       const [month, day, year] = date.split('/')
       return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
     },
-    createTahunAjaran (submitEvent) {
+    inputNIlai (submitEvent) {
       return new Promise(resolve => {
         var lengthData = 0;
 
@@ -415,7 +415,7 @@ export default {
       });
     },
 
-    updateTahunAjaran() {
+    updateNIlai() {
       return new Promise(resolve => {
           var mydata = {
               UID: localStorage.getLocalStorage("uid"),
@@ -484,6 +484,70 @@ export default {
               }
           }
           this.close();
+    },
+
+    deleteItem (item) {
+      Swal.fire({
+        title: 'Menghapus Data ?',
+        text: "Data yang telah dihapus tidak dapat dikembalikan.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Ya !',
+        cancelButtonText: 'Tidak !',
+        confirmButtonColor: '#73a4ef',
+        cancelButtonColor: '#ddd',
+        heightAuto: false
+      }).then((result) => {
+          if(result.value == true){
+            return new Promise(resolve => {
+              var mydata = {
+                UID: localStorage.getLocalStorage("uid"),
+                Token: localStorage.getLocalStorage("token"),
+                Trigger: "D",
+                Route: "DEFAULT",
+                nilai_id: item.nilai_id,
+                santri_id: item.santri_id
+              };
+
+              let contentType = `application/x-www-form-urlencoded`;
+              const qs = require("qs");
+
+              Services.PostData(
+                  ApiService,
+                  'Riwayat/Riwayat_Nilai',
+                  qs.stringify(mydata),
+                  contentType,
+                  response => {
+                      resolve(response.data);
+                      if (response.status == 1000) {
+                          Swal.fire({
+                              title: "",
+                              text: "Berhasil menghapus data.",
+                              icon: "success",
+                              heightAuto: true,
+                              timer: 1500
+                          });
+                      } else {
+                          Swal.fire({
+                              title: "",
+                              text: response.message,
+                              icon: "info",
+                              heightAuto: true,
+                              timer: 1500
+                          });
+                      }
+                      this.delete_data_nilai = response.data;
+                      this.submitted = true;
+                      this.dataDetail.splice(this.deletedIndex, 1);
+                      this.getDataDetail(this.idTahun);
+                  },
+                  err => {
+                      err;
+                  }
+              );
+            });
+          }
+      })
     },
 
     close () {
