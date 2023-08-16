@@ -131,7 +131,7 @@
                 rounded
                 >
                 <i class="flaticon-add-circular-button mr-1 text-white"></i>
-                    <span class="hideText">Tambah Data</span> 
+                    <span class="hideText">Ubah Data</span> 
                 </v-btn>
             </template>
             <form
@@ -211,7 +211,7 @@
           </v-toolbar>
         </template>
   
-        <template v-slot:item.actions="{ item }">
+        <!-- <template v-slot:item.actions="{ item }">
           <v-tooltip top>
             <template v-slot:activator="{ on, attrs }">
               <v-btn
@@ -230,7 +230,7 @@
             </template>
             <span>Hapus Data</span>
           </v-tooltip>
-        </template>
+        </template> -->
       </v-data-table>
     </div>
   </div>
@@ -290,7 +290,7 @@ export default {
         value: 'nilai',
         sortable: false
       },
-      { text: 'Actions', value: 'actions', sortable: false , width: "150px"},
+      // { text: 'Actions', value: 'actions', sortable: false , width: "150px"},
     ],
     editedIndex: -1,
     editedItem: {
@@ -321,7 +321,7 @@ export default {
 
   computed: {
     formTitle () {
-      return this.editedIndex === -1 ? 'Tambah Data' : 'Ubah Data'
+      return this.editedIndex === -1 ? 'Ubah Data' : 'Ubah Data'
     },
     formInput() {
       return this.editedIndex === -1 ? this.add_data_nilai : this.editedItem;
@@ -457,7 +457,7 @@ export default {
                   this.update_data_nilai = response.data;
                   this.submitted = true;
                   this.save("edit_data_nilai");
-                  this.getMasterRiwayatNilai(this.idHeader);
+                  this.getDataDetail(this.idHeader);
               },
               err => {
                   err;
