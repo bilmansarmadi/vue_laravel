@@ -242,6 +242,16 @@
                 </div>
             </div>
 
+            <div align="center" v-if="printingInProgress">
+                <v-progress-circular
+                    color="primary"
+                    indeterminate
+                    :size="40"
+                    :width="5"
+                ></v-progress-circular>
+                <p>{{ progressData }}%</p>
+            </div>
+
             <div class="card cardHover">
                 <v-data-table responsive show-empty
                     :headers="headers"
@@ -321,131 +331,130 @@
                         :manual-pagination="false"
                         :html-to-pdf-options="htmlToPdfAllOptions"
                         pdf-content-width="100%"
+                        @progress="onProgress($event)"
                         @hasStartedGeneration="hasStartedGeneration()"
                         @hasGenerated="hasGenerated($event)"
+                        @beforeDownload="beforeDownload($event)"
+                        @hasDownloaded="hasDownloaded($event)"
                         ref="html2PdfAll"
                     >
                         <section slot="pdf-content">
-                        <!-- PDF Content Here -->
-                        <section class="pdf-item m-lg-5">
-                            <div align="center">
+                            <section class="pdf-item">
                                 <p
+                                    align="center"
                                     style="
                                         font-family: 'Verdana';
                                         font-style: normal;
-                                        font-size: 16px;
+                                        font-size: 16pt;
                                         color: black;
                                         "
                                     >
                                     Data Pengajar
                                 </p>
-                            </div>
-                            <br />
-                            <div align="left">
-                                <table border="1" cellspacing="0" cellpadding="2" width="100%" style="text-color:black;overflow:wrap;border-collapse: collapse;">
-                                    <thead>
-                                        <tr align="center">
-                                            <th
-                                                scope="col"
-                                                style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                                <div align="left">
+                                    <table border="1" cellspacing="0" cellpadding="2" width="100%" style="text-color:black;overflow:wrap;border-collapse: collapse;">
+                                        <thead>
+                                            <tr align="center">
+                                                <th
+                                                    scope="col"
+                                                    style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                                                >
+                                                No.
+                                                </th>
+                                                <th
+                                                    scope="col"
+                                                    style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                                                >
+                                                NIP
+                                                </th>
+                                                <th
+                                                    scope="col"
+                                                    style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                                                >
+                                                Nama
+                                                </th>
+                                                <th
+                                                    scope="col"
+                                                    style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                                                >
+                                                Tempat Lahir
+                                                </th>
+                                                <th
+                                                    scope="col"
+                                                    style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                                                >
+                                                Tanggal Lahir
+                                                </th>
+                                                <th
+                                                    scope="col"
+                                                    style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                                                >
+                                                Jenis Kelamin
+                                                </th>
+                                                <th
+                                                    scope="col"
+                                                    style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                                                >
+                                                Email
+                                                </th>
+                                                <th
+                                                    scope="col"
+                                                    style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                                                >
+                                                Alamat
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr
+                                                v-for="(data, index) in data_pengajar"
+                                                :key="data.pengajar_id"
                                             >
-                                            No.
-                                            </th>
-                                            <th
-                                                scope="col"
-                                                style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
-                                            >
-                                            NIP
-                                            </th>
-                                            <th
-                                                scope="col"
-                                                style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
-                                            >
-                                            Nama
-                                            </th>
-                                            <th
-                                                scope="col"
-                                                style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
-                                            >
-                                            Tempat Lahir
-                                            </th>
-                                            <th
-                                                scope="col"
-                                                style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
-                                            >
-                                            Tanggal Lahir
-                                            </th>
-                                            <th
-                                                scope="col"
-                                                style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
-                                            >
-                                            Jenis Kelamin
-                                            </th>
-                                            <th
-                                                scope="col"
-                                                style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
-                                            >
-                                            Email
-                                            </th>
-                                            <th
-                                                scope="col"
-                                                style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
-                                            >
-                                            Alamat
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr
-                                            v-for="(data, index) in data_pengajar"
-                                            :key="data.pengajar_id"
-                                        >
-                                            <td align="center"
-                                                style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
-                                            >
-                                            {{ index +=1 }}
-                                            </td>
-                                            <td align="left"
-                                                style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
-                                            >
-                                            {{ data.nip }}
-                                            </td>
-                                            <td align="left"
-                                                style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
-                                            >
-                                            {{ data.nama_lengkap}}
-                                            </td>
-                                            <td align="left"
-                                                style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
-                                            >
-                                            {{ data.tempat_lahir }}
-                                            </td>
-                                            <td align="left"
-                                                style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
-                                            >
-                                            {{ data.tanggal_lahir }}
-                                            </td>
-                                            <td align="center"
-                                                style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
-                                            >
-                                            {{ data.jenis_kelamin_nama}}
-                                            </td>
-                                            <td align="left"
-                                                style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
-                                            >
-                                            {{ data.email }}
-                                            </td>
-                                            <td align="left"
-                                                style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
-                                            >
-                                            {{ data.alamat }}
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </section>
-                        <div class="html2pdf__page-break"></div>
+                                                <td align="center"
+                                                    style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                                                >
+                                                {{ index +=1 }}
+                                                </td>
+                                                <td align="left"
+                                                    style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                                                >
+                                                {{ data.nip }}
+                                                </td>
+                                                <td align="left"
+                                                    style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                                                >
+                                                {{ data.nama_lengkap}}
+                                                </td>
+                                                <td align="left"
+                                                    style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                                                >
+                                                {{ data.tempat_lahir }}
+                                                </td>
+                                                <td align="left"
+                                                    style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                                                >
+                                                {{ data.tanggal_lahir }}
+                                                </td>
+                                                <td align="center"
+                                                    style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                                                >
+                                                {{ data.jenis_kelamin_nama}}
+                                                </td>
+                                                <td align="left"
+                                                    style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                                                >
+                                                {{ data.email }}
+                                                </td>
+                                                <td align="left"
+                                                    style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                                                >
+                                                {{ data.alamat }}
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </section>
                         </section>
                     </vue-html2pdf>
                 </div>
@@ -571,7 +580,7 @@ export default {
             ],
             detail_data: "",
             htmlToPdfAllOptions: {
-                margin: 0.1,
+                margin: 0.2,
                 filename: `Data Pengajar.pdf`,
                 jsPDF: {
                     unit: "in",
@@ -609,6 +618,8 @@ export default {
                     field: "alamat",
                 },
             ],
+            printingInProgress: false,
+            progressData: 0,
         }
     },
     watch: {
@@ -631,6 +642,19 @@ export default {
         generateReportAll() {
             this.data_santri;
             this.$refs.html2PdfAll.generatePdf();
+        },
+
+        onProgress(data) {
+            this.progressData = data;
+        },
+
+        beforeDownload(){
+            this.printingInProgress = true;
+        },
+
+        hasDownloaded(){
+            this.printingInProgress = false;
+            this.progressData = 0;
         },
 
         formatDate (date) {

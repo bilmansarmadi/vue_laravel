@@ -339,6 +339,16 @@
                 </div>
             </div>
 
+            <div align="center" v-if="printingInProgress">
+                <v-progress-circular
+                    color="primary"
+                    indeterminate
+                    :size="40"
+                    :width="5"
+                ></v-progress-circular>
+                <p>{{ progressData }}%</p>
+            </div>
+
             <div class="card cardHover">
                 <v-data-table responsive show-empty
                     :headers="headers"
@@ -405,165 +415,166 @@
             <!-- PDF ALL Session -->
             <template>
                 <div>
-                <vue-html2pdf
-                    :show-layout="false"
-                    :float-layout="true"
-                    :enable-download="false"
-                    :preview-modal="true"
-                    :paginate-elements-by-height="1400"
-                    :pdf-quality="2"
-                    :manual-pagination="false"
-                    :html-to-pdf-options="htmlToPdfAllOptions"
-                    pdf-content-width="100%"
-                    @hasStartedGeneration="hasStartedGeneration()"
-                    @hasGenerated="hasGenerated($event)"
-                    ref="html2PdfAll"
-                >
-                    <section slot="pdf-content">
-                    <!-- PDF Content Here -->
-                    <section class="pdf-item">
-                        <div align="center">
-                            <p
-                                style="
-                                    font-family: 'Verdana';
-                                    font-style: normal;
-                                    font-size: 16px;
-                                    color: black;
-                                    "
-                                >
-                                Data Santri
-                            </p>
-                        </div>
-                        <br />
-                        <div align="left" class="m-5">
-                        <table border="1"  width="100%" style="text-color:black;overflow:wrap;border-collapse: collapse;">
-                            <thead>
-                            <tr align="center">
-                                <th
-                                    scope="col"
-                                    style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
-                                >
-                                No.
-                                </th>
-                                <th
-                                    scope="col"
-                                    style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
-                                >
-                                Kode Santri
-                                </th>
-                                <th
-                                    scope="col"
-                                    style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
-                                >
-                                Nama
-                                </th>
-                                <th
-                                    scope="col"
-                                    style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
-                                >
-                                Tempat Lahir
-                                </th>
-                                <th
-                                    scope="col"
-                                    style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
-                                >
-                                Tanggal Lahir
-                                </th>
-                                <th
-                                    scope="col"
-                                    style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
-                                >
-                                Jenis Kelamin
-                                </th>
-                                <th
-                                    scope="col"
-                                    style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
-                                >
-                                Email
-                                </th>
-                                <th
-                                    scope="col"
-                                    style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
-                                >
-                                Alamat
-                                </th>
-                                <th
-                                    scope="col"
-                                    style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
-                                >
-                                Nama Ayah/Ibu
-                                </th>
-                                <th
-                                    scope="col"
-                                    style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
-                                >
-                                No HP Ortu
-                                </th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr
-                                v-for="(data, index) in data_santri"
-                                :key="data.santri_id"
-                            >
-                                <td align="center"
-                                    style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
-                                >
-                                {{ index +=1 }}
-                                </td>
-                                <td align="left"
-                                    style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
-                                >
-                                {{ data.kode_santri }}
-                                </td>
-                                
-                                <td align="left"
-                                    style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
-                                >
-                                {{ data.nama_lengkap_santri }}
-                                </td>
-                                <td align="left"
-                                    style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
-                                >
-                                {{ data.tempat_lahir }}
-                                </td>
-                                <td align="left"
-                                    style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
-                                >
-                                {{ data.tanggal_lahir }}
-                                </td>
-                                <td align="center"
-                                    style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
-                                >
-                                {{ data.jenis_kelamin_Nama}}
-                                </td>
-                                <td align="left"
-                                    style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
-                                >
-                                {{ data.email }}
-                                </td>
-                                <td align="left"
-                                    style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
-                                >
-                                {{ data.alamat }}
-                                </td>
-                                <td align="left"
-                                    style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
-                                >
-                                {{ data.nama_ayah }} , {{ data.nama_ibu }}
-                                </td>
-                                <td align="center"
-                                    style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
-                                >
-                                {{ data.hp_ortu }}
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                        </div>
-                    </section>
-                    </section>
-                </vue-html2pdf>
+                    <vue-html2pdf
+                        :show-layout="false"
+                        :float-layout="true"
+                        :enable-download="false"
+                        :preview-modal="true"
+                        :paginate-elements-by-height="1400"
+                        :pdf-quality="2"
+                        :manual-pagination="false"
+                        :html-to-pdf-options="htmlToPdfAllOptions"
+                        pdf-content-width="100%"
+                        @progress="onProgress($event)"
+                        @hasStartedGeneration="hasStartedGeneration()"
+                        @hasGenerated="hasGenerated($event)"
+                        @beforeDownload="beforeDownload($event)"
+                        @hasDownloaded="hasDownloaded($event)"
+                        ref="html2PdfAll"
+                    >
+                        <section slot="pdf-content">
+                        <!-- PDF Content Here -->
+                            <section class="pdf-item">
+                                <p
+                                    align="center"
+                                    style="
+                                        font-family: 'Verdana';
+                                        font-style: normal;
+                                        font-size: 16pt;
+                                        color: black;
+                                        "
+                                    >
+                                    Data Santri
+                                </p>
+                                <div align="left" class="m-5">
+                                    <table border="1"  width="100%" style="text-color:black;overflow:wrap;border-collapse: collapse;">
+                                        <thead>
+                                        <tr align="center">
+                                            <th
+                                                scope="col"
+                                                style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                                            >
+                                            No.
+                                            </th>
+                                            <th
+                                                scope="col"
+                                                style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                                            >
+                                            Kode Santri
+                                            </th>
+                                            <th
+                                                scope="col"
+                                                style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                                            >
+                                            Nama
+                                            </th>
+                                            <th
+                                                scope="col"
+                                                style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                                            >
+                                            Tempat Lahir
+                                            </th>
+                                            <th
+                                                scope="col"
+                                                style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                                            >
+                                            Tanggal Lahir
+                                            </th>
+                                            <th
+                                                scope="col"
+                                                style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                                            >
+                                            Jenis Kelamin
+                                            </th>
+                                            <th
+                                                scope="col"
+                                                style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                                            >
+                                            Email
+                                            </th>
+                                            <th
+                                                scope="col"
+                                                style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                                            >
+                                            Alamat
+                                            </th>
+                                            <th
+                                                scope="col"
+                                                style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                                            >
+                                            Nama Ayah/Ibu
+                                            </th>
+                                            <th
+                                                scope="col"
+                                                style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                                            >
+                                            No HP Ortu
+                                            </th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr
+                                            v-for="(data, index) in data_santri"
+                                            :key="data.santri_id"
+                                        >
+                                            <td align="center"
+                                                style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                                            >
+                                            {{ index +=1 }}
+                                            </td>
+                                            <td align="left"
+                                                style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                                            >
+                                            {{ data.kode_santri }}
+                                            </td>
+                                            
+                                            <td align="left"
+                                                style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                                            >
+                                            {{ data.nama_lengkap_santri }}
+                                            </td>
+                                            <td align="left"
+                                                style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                                            >
+                                            {{ data.tempat_lahir }}
+                                            </td>
+                                            <td align="left"
+                                                style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                                            >
+                                            {{ data.tanggal_lahir }}
+                                            </td>
+                                            <td align="center"
+                                                style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                                            >
+                                            {{ data.jenis_kelamin_Nama}}
+                                            </td>
+                                            <td align="left"
+                                                style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                                            >
+                                            {{ data.email }}
+                                            </td>
+                                            <td align="left"
+                                                style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                                            >
+                                            {{ data.alamat }}
+                                            </td>
+                                            <td align="left"
+                                                style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                                            >
+                                            {{ data.nama_ayah }} , {{ data.nama_ibu }}
+                                            </td>
+                                            <td align="center"
+                                                style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                                            >
+                                            {{ data.hp_ortu }}
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </section>
+                        </section>
+                    </vue-html2pdf>
                 </div>
             </template>
             <!-- END PDF ALL Session -->
@@ -578,9 +589,9 @@ td, th {
     color: #000;
     vertical-align: top;
 }
-tr { 
+/* tr { 
     page-break-inside: avoid !important; 
-}
+} */
 </style>
 
 <script>
@@ -752,6 +763,8 @@ export default {
                     field: "hp_ortu",
                 },
             ],
+            printingInProgress: false,
+            progressData: 0,
         }
     },
     watch: {
@@ -772,6 +785,19 @@ export default {
         generateReportAll() {
             this.data_santri;
             this.$refs.html2PdfAll.generatePdf();
+        },
+
+        onProgress(data) {
+            this.progressData = data;
+        },
+
+        beforeDownload(){
+            this.printingInProgress = true;
+        },
+
+        hasDownloaded(){
+            this.printingInProgress = false;
+            this.progressData = 0;
         },
 
         formatDate (date) {
