@@ -133,11 +133,21 @@
           </b-card>
         </b-collapse>
       </div>
+
+      <div align="center" v-if="printingInProgress">
+        <v-progress-circular
+          color="primary"
+          indeterminate
+          :siize="40"
+          :wdth="5"
+        ></v-progress-circular>
+        <p>{{ progressData }}%</p>
+      </div>
   
       <div class="card cardHover" v-show="showTable">
         <v-data-table 
           :headers="headers" 
-          :items="dataDetail" 
+          :items="dataDetailLaporan" 
           :search="search" 
           loading-text="Loading... Please wait"
           :items-per-page="5"
@@ -163,12 +173,142 @@
             hide-details
             ></v-text-field>
             <v-spacer></v-spacer>
+            <div>
+              <b-dropdown
+                block
+                variant="primary"
+                class="m-2 font-weight-bold rounded-lg"
+                text="CETAK">
+                <b-dropdown-item @click="generateReportAll()">PDF</b-dropdown-item>
+                <b-dropdown-item>
+                  <vue-excel-xlsx
+                    :data="dataDetailLaporan"
+                    :columns="columnsExcel"
+                    :file-name="'data-absensi'"
+                    :file-type="'xlsx'"
+                    :sheet-name="'Data'"
+                    >
+                    EXCEL
+                  </vue-excel-xlsx>
+                </b-dropdown-item>
+              </b-dropdown>
+            </div>
             </v-toolbar>
           </template>
         </v-data-table>
       </div>
+
+      <!-- PDF ALL Session -->
+      <template>
+        <div>
+          <vue-html2pdf
+            :show-layout="false"
+            :float-layout="true"
+            :enable-download="false"
+            :preview-modal="true"
+            :paginate-elements-by-height="1400"
+            :pdf-quality="2"
+            :manual-pagination="false"
+            :html-to-pdf-options="htmlToPdfAllOptions"
+            pdf-content-width="100%"
+            @progress="onProgress($event)"
+            @hasStartedGeneration="hasStartedGeneration()"
+            @hasGenerated="hasGenerated($event)"
+            @beforeDownload="beforeDownload($event)"
+            @hasDownloaded="hasDownloaded($event)"
+            ref="html2PdfAll"
+          >
+            <section slot="pdf-content">
+              <section class="pdf-item">
+                <p
+                  align="center"
+                  style="
+                    font-family: 'Verdana';
+                    font-style: normal;
+                    font-size: 16pt;
+                    color: black;
+                    "
+                  >
+                  Data Absensi
+                </p>
+                <div align="left">
+                  <table border="1" cellspacing="0" cellpadding="2" width="100%" style="text-color:black;overflow:wrap;border-collapse: collapse;">
+                    <thead>
+                      <tr align="center">
+                        <th
+                          scope="col"
+                          style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                        >
+                        No.
+                        </th>
+                        <th
+                          scope="col"
+                          style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                        >
+                        Nama
+                        </th>
+                        <th
+                          scope="col"
+                          style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                        >
+                        Status Kehadiran
+                        </th>
+                        <th
+                          scope="col"
+                          style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                        >
+                        Keterangan
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr
+                        v-for="(data, index) in dataDetailLaporan"
+                        :key="data.santri_id"
+                      >
+                        <td align="center"
+                          style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                        >
+                        {{ index +=1 }}
+                        </td>
+                        <td align="left"
+                          style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                        >
+                        {{ data.nama_lengkap_santri }}
+                        </td>
+                        <td align="left"
+                          style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                        >
+                        {{ data.status_kehadiran}}
+                        </td>
+                        <td align="left"
+                          style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
+                        >
+                        {{ data.keterangan_absensi }}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </section>
+            </section>
+          </vue-html2pdf>
+        </div>
+      </template>
+          <!-- END PDF ALL Session -->
     </div>
   </template>
+
+<style>
+td, th {
+    padding: 4px;
+    color: #000;
+    vertical-align: top;
+}
+tr { 
+    page-break-inside: avoid !important; 
+}
+</style>
       
   <script>
   import Services from "@/core/services/aljazary-api/Services";
@@ -176,6 +316,7 @@
   import localStorage from "@/core/services/store/localStorage";
   import { formatDate } from "@/helpers/helper.js";
   import Swal from 'sweetalert2'
+  import VueHtml2pdf from "vue-html2pdf";
   
   export default {
     name: 'laporan-detail',
@@ -195,10 +336,14 @@
         default: () => []
       }
     },
+
+    components: {
+      VueHtml2pdf
+    },
   
     data: () => ({
       search: '',
-      dataDetail: [],
+      dataDetailLaporan: [],
       progressBar: true,
       add_data_absensi: {
         santri_id: "",
@@ -248,6 +393,23 @@
         { value: "I", text: "Ijin" },
         { value: "S", text: "Sakit" },
       ],
+      columnsExcel : [
+        {
+          label: "Nama",
+          field: "nama_lengkap_santri",
+        }
+      ],
+      htmlToPdfAllOptions: {
+        margin: 0.2,
+        filename: `Data Absensi.pdf`,
+        jsPDF: {
+          unit: "in",
+          format: "a4",
+          orientation: "landscape"
+        }
+      },
+      printingInProgress: false,
+      progressData: 0,
     }),
   
     computed: {
@@ -287,7 +449,25 @@
         const [month, day, year] = date.split('/')
         return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
       },
+
+      generateReportAll() {
+        this.dataDetailLaporan;
+        this.$refs.html2PdfAll.generatePdf();
+      },
   
+      onProgress(data) {
+        this.progressData = data;
+      },
+
+      beforeDownload(){
+        this.printingInProgress = true;
+      },
+
+      hasDownloaded(){
+        this.printingInProgress = false;
+        this.progressData = 0;
+      },
+
       getDataDetailLaporan(idTahun){
         return new Promise(resolve => {
           var mydata = {
@@ -314,7 +494,7 @@
             contentType,
             response => {
               resolve(response.data);
-              this.dataDetail= response.data;
+              this.dataDetailLaporan= response.data;
             },
             err => {
               err;
@@ -358,7 +538,7 @@
               contentType,
               response => {
                 resolve(response.data);
-                this.dataDetail= response.data;
+                this.dataDetailLaporan= response.data;
                 this.showTable = true
               },
               err => {
