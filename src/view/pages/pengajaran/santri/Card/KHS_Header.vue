@@ -87,6 +87,7 @@ import Services from "@/core/services/aljazary-api/Services";
 import ApiService from "@/core/services/api.service";
 import localStorage from "@/core/services/store/localStorage";
 import TableNasihat from "@/view/pages/pengajaran/santri/KHS/KHS_Nasihat";
+import Swal from 'sweetalert2'
 
 export default {
     components: {
@@ -167,12 +168,31 @@ export default {
         },
 
         filterData(){
-            this.getData = this.formFilter.tahun_id;
-            if(this.getData){
-                this.idHeader = this.getData
-                this.showDetail = true
+            if (!this.formFilter.tahun_id) {
+                Swal.fire({
+                    title: "",
+                    text: "Tahun Ajaran Tidak Boleh Kosong.",
+                    icon: "info",
+                    heightAuto: true,
+                    timer: 1500
+                });
             }else{
-                this.showDetail = false
+                this.getData = this.formFilter.tahun_id;
+                if(this.getData){
+                    this.idHeader = this.getData
+                    this.$emit("update-khs-detail", this.idHeader);
+                    this.$emit("update-khs-nasihat", this.idHeader);
+                    this.showDetail = true
+                }else{
+                    Swal.fire({
+                        title: "",
+                        text: "Tahun Ajaran Tidak Boleh Kosong.",
+                        icon: "info",
+                        heightAuto: true,
+                        timer: 1500
+                    });
+                    this.showDetail = false
+                }
             }
         },
 

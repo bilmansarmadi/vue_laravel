@@ -28,9 +28,18 @@ import localStorage from "@/core/services/store/localStorage";
 import { formatDate } from "@/helpers/helper.js";
 
 export default {
+    name: "khs-nasihat",
     mounted() {
         this.Santri_Id  = this.$route.query.id;
     },
+
+    created() {
+        this.$parent.$on("update-khs-nasihat", this.updateKhsNasihat);
+    },
+
+    // destroyed() {
+    //     this.$parent.$off("update-khs-nasihat", this.updateKhsNasihat);
+    // },
 
     props: {
         idHeader: {
@@ -58,9 +67,9 @@ export default {
     },
 
     watch: {
-        idHeader(val){
-            this.getDetailCache(val)
-        },
+        // idHeader(val){
+        //     this.getDetailCache(val)
+        // },
         
         data_nasihat(){
             this.progressBar = false
@@ -90,6 +99,10 @@ export default {
 
             const [year, month, day] = date.split('-')
             return `${day}-${month}-${year}`
+        },
+
+        updateKhsNasihat(idHeader) {
+            this.getMasterRiwayatNilai(idHeader);
         },
 
         parseDate (date) {

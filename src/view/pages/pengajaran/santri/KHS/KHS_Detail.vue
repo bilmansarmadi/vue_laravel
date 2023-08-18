@@ -1,7 +1,7 @@
 <template>
     <v-data-table responsive show-empty
         :headers="headers"
-        :items="tahun_ajaran"
+        :items="khs_detail"
         :search="search"
         loading-text="Loading... Please wait"
         :items-per-page="5"
@@ -28,11 +28,19 @@ import Swal from 'sweetalert2'
 import localStorage from "@/core/services/store/localStorage";
 
 export default {
-    name:"master-tahun-ajaran",
+    name:"khs-detail",
     mounted() {
         this.Santri_Id  = this.$route.query.id;
-        this.load();
+        // this.load();
     },
+
+    created() {
+        this.$parent.$on("update-khs-detail", this.updateKhsDetail);
+    },
+
+    // destroyed() {
+    //     this.$parent.$off("update-khs-detail", this.updateKhsDetail);
+    // },
 
     props: {
         idHeader: {
@@ -45,7 +53,7 @@ export default {
     data(){
         return {
             Santri_Id: "",
-            tahun_ajaran: [],
+            khs_detail: [],
             search: '',
             progressBar: true,
             headers: [
@@ -82,11 +90,11 @@ export default {
     },
 
     watch: {
-        idHeader(val){
-            this.getMasterKHS(val)
-        },
+        // idHeader(val){
+        //     this.getMasterKHS(val)
+        // },
 
-        tahun_ajaran(){
+        khs_detail(){
             this.progressBar = false
         }
     },
@@ -114,7 +122,7 @@ export default {
                     contentType,
                     response => {
                         resolve(response.data);
-                        this.tahun_ajaran = response.data;
+                        this.khs_detail = response.data;
                     },
                     err => {
                         err;
@@ -123,13 +131,17 @@ export default {
             });
         },
 
-        async load() {
-            Promise.all([
-                await this.getMasterKHS(this.idHeader)
-            ]).then(function(results) {
-                results;
-            });
+        updateKhsDetail(idHeader) {
+            this.getMasterKHS(idHeader);
         },
+
+        // async load() {
+        //     Promise.all([
+        //         await this.getMasterKHS(this.idHeader)
+        //     ]).then(function(results) {
+        //         results;
+        //     });
+        // },
     }
 }
 </script>
