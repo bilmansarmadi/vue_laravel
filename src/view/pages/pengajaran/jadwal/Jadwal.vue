@@ -170,8 +170,17 @@
                             </v-btn>
                         </template>
                         <v-card>
-                            <v-card-title>
-                            <span class="text-h5">{{ formTitle }}</span>
+                            <v-card-title class="border">
+                                <span class="text-h5">{{ formTitle }}</span>
+                                <v-spacer></v-spacer>
+                                <v-icon
+                                    class="rounded-circle p-2 shadow-sm"
+                                    small
+                                    @click="close"
+                                    color="#000"
+                                >
+                                    mdi-close
+                                </v-icon>
                             </v-card-title>
                 
                             <v-card-text>
