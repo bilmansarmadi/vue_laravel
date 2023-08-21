@@ -401,6 +401,7 @@ export default {
             dropdown_mapel_tipe: [
                 { value: 'Khusus', text: "Khusus" },
                 { value: 'Wajib', text: "Wajib" },
+                { value: 'Inti', text: "Inti" },
             ],
             headers: [
                 { 

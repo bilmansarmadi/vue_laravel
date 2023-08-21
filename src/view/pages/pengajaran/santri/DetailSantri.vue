@@ -100,6 +100,22 @@
                     aria-selected="false"
                     >
                     <span class="navi-icon mr-2">
+                        <i class="menu-icon flaticon2-list-1"><span></span></i>
+                    </span>
+                    <span class="navi-text font-size-lg font-size-h5">HSK</span>
+                    </a>
+                </div>
+                <div class="navi-item mb-2 col-md-3">
+                    <a
+                    class="navi-link py-4"
+                    @click="setActiveTab"
+                    style="cursor:pointer"
+                    data-tab="4"
+                    data-toggle="tab"
+                    role="tab"
+                    aria-selected="false"
+                    >
+                    <span class="navi-icon mr-2">
                         <span class="svg-icon">
                             <i class="menu-icon flaticon2-layers"><span></span></i>
                         </span>
@@ -371,6 +387,10 @@
                 <b-tab>
                     <KTKHS v-bind:accessList="accessList"></KTKHS>
                 </b-tab>
+
+                <b-tab>
+                    <KTHSK v-bind:accessList="accessList"></KTHSK>
+                </b-tab>
     
                 <b-tab>
                     <KTRiwayat_Sekolah v-bind:accessList="accessList"></KTRiwayat_Sekolah>
@@ -387,6 +407,7 @@ import Services from "@/core/services/aljazary-api/Services";
 import ApiService from "@/core/services/api.service";
 import KTNilai from "@/view/pages/pengajaran/santri/Card/Nilai";
 import KTKHS from "@/view/pages/pengajaran/santri/Card/KHS_Header";
+import KTHSK from "@/view/pages/pengajaran/santri/Card/HSK_Header";
 import KTRiwayat_Sekolah from "@/view/pages/pengajaran/santri/Card/Riwayat_Sekolah";
 import Swal from 'sweetalert2'
 
@@ -429,7 +450,8 @@ export default {
     components:{
         KTNilai,
         KTRiwayat_Sekolah,
-        KTKHS
+        KTKHS,
+        KTHSK
     },
     methods:{
         asyncAccess(){

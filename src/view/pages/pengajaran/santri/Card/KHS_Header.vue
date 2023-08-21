@@ -66,6 +66,13 @@
                 ></table-detail>
             </div>
             <div v-show="showDetail">
+                <table-i-p-s
+                class="without-min-height" 
+                v-bind:idHeader="idHeader"
+                ></table-i-p-s>
+            </div>
+            <br>
+            <div v-show="showDetail">
                 <table-nasihat
                 class="without-min-height" 
                 v-bind:idHeader="idHeader"
@@ -87,11 +94,13 @@ import Services from "@/core/services/aljazary-api/Services";
 import ApiService from "@/core/services/api.service";
 import localStorage from "@/core/services/store/localStorage";
 import TableNasihat from "@/view/pages/pengajaran/santri/KHS/KHS_Nasihat";
+import TableIPS from "@/view/pages/pengajaran/santri/KHS/KHS_IPS";
 import Swal from 'sweetalert2'
 
 export default {
     components: {
         TableDetail,
+        TableIPS,
         TableNasihat
     },
     mounted() {
@@ -182,6 +191,7 @@ export default {
                     this.idHeader = this.getData
                     this.$emit("update-khs-detail", this.idHeader);
                     this.$emit("update-khs-nasihat", this.idHeader);
+                    this.$emit("update-khs-ips", this.idHeader);
                     this.showDetail = true
                 }else{
                     Swal.fire({

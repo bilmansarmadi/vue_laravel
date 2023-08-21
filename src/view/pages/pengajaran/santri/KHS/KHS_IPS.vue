@@ -1,12 +1,11 @@
 <template>
     <v-data-table responsive show-empty
         :headers="headers"
-        :items="khs_detail"
+        :items="data_ips"
         :search="search"
         loading-text="Loading... Please wait"
         :items-per-page="5"
-        group-by="Kurikulum"
-        class="elevation-1 border border-primary mb-10"
+        class="elevation-1 border border-primary card card-custom card-stretch border border-primary"
         :footer-props="{
         showFirstLastPage: false,
             'items-per-page-text':'Page'
@@ -26,21 +25,17 @@ import Services from "@/core/services/aljazary-api/Services";
 import ApiService from "@/core/services/api.service";
 import Swal from 'sweetalert2'
 import localStorage from "@/core/services/store/localStorage";
+import { formatDate } from "@/helpers/helper.js";
 
 export default {
-    name:"khs-detail",
+    name: "khs-ips",
     mounted() {
         this.Santri_Id  = this.$route.query.id;
-        // this.load();
     },
 
     created() {
-        this.$parent.$on("update-khs-detail", this.updateKhsDetail);
+        this.$parent.$on("update-khs-ips", this.updateKhsips);
     },
-
-    // destroyed() {
-    //     this.$parent.$off("update-khs-detail", this.updateKhsDetail);
-    // },
 
     props: {
         idHeader: {
@@ -53,55 +48,20 @@ export default {
     data(){
         return {
             Santri_Id: "",
-            khs_detail: [],
+            data_ips: [],
             search: '',
             progressBar: true,
             headers: [
                 { 
-                    text: 'Kurikulum', 
-                    value: 'Kurikulum',
-                    align: 'start',
-                    width: "100px",
-                    sortable: false 
-                },
-                { 
-                    text: 'Aspek/Mata Pelajaran', 
-                    value: 'mapel_nama',
-                    align: 'start',
-                    width: "100px",
-                    sortable: false 
-                },
-                { 
-                    text: 'Presensi', 
-                    value: 'absensi',
+                    text: 'IPS', 
+                    value: 'ips',
                     align: 'center',
                     width: "100px",
                     sortable: false 
                 },
                 { 
-                    text: 'Tugas', 
-                    value: 'tugas',
-                    align: 'center',
-                    width: "100px",
-                    sortable: false 
-                },
-                { 
-                    text: 'UTS', 
-                    value: 'uts',
-                    align: 'center',
-                    width: "100px",
-                    sortable: false 
-                },
-                { 
-                    text: 'UAS', 
-                    value: 'uas',
-                    align: 'center',
-                    width: "100px",
-                    sortable: false 
-                },
-                { 
-                    text: 'Status', 
-                    value: 'status_lulus',
+                    text: 'SKS', 
+                    value: 'sks',
                     align: 'center',
                     width: "100px",
                     sortable: false 
@@ -111,23 +71,23 @@ export default {
     },
 
     watch: {
-        // idHeader(val){
-        //     this.getMasterKHS(val)
-        // },
-
-        khs_detail(){
+        data_ips(){
             this.progressBar = false
-        }
+        },
     },
 
     methods:{
-        getMasterKHS(idHeader){
+        updateKhsips(idHeader) {
+            this.getMasterRiwayatNilai(idHeader);
+        },
+
+        getMasterRiwayatNilai(idHeader){
             return new Promise(resolve => {
                 var mydata = {
                     UID: localStorage.getLocalStorage("uid"),
                     Token: localStorage.getLocalStorage("token"),
                     Trigger: "R",
-                    Route: "READ_NILAI SEMESTER",
+                    Route: "READ_NILAI_IPS",
                     santri_id: this.Santri_Id,
                     tahun_id: idHeader
                 };
@@ -143,7 +103,7 @@ export default {
                     contentType,
                     response => {
                         resolve(response.data);
-                        this.khs_detail = response.data;
+                        this.data_ips = response.data;
                     },
                     err => {
                         err;
@@ -151,18 +111,6 @@ export default {
                 );
             });
         },
-
-        updateKhsDetail(idHeader) {
-            this.getMasterKHS(idHeader);
-        },
-
-        // async load() {
-        //     Promise.all([
-        //         await this.getMasterKHS(this.idHeader)
-        //     ]).then(function(results) {
-        //         results;
-        //     });
-        // },
     }
 }
 </script>
