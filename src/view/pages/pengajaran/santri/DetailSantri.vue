@@ -39,7 +39,7 @@
                 class="navi navi-bold navi-hover navi-active navi-link-rounded d-flex row col-md-12 mx-auto"
                 role="tablist"
                 >
-                <div class="navi-item mb-2 col-md-3">
+                <div class="navi-item mb-2 col-md-2">
                     <a
                     class="navi-link py-4 active"
                     @click="setActiveTab"
@@ -57,7 +57,7 @@
                     <span class="navi-text font-size-lg font-size-h5">Data</span>
                     </a>
                 </div>
-                <div class="navi-item mb-2 col-md-3">
+                <div class="navi-item mb-2 col-md-2">
                     <a
                     class="navi-link py-4"
                     @click="setActiveTab"
@@ -73,7 +73,7 @@
                     <span class="navi-text font-size-lg font-size-h5">Nilai</span>
                     </a>
                 </div>
-                <div class="navi-item mb-2 col-md-3">
+                <div class="navi-item mb-2 col-md-2">
                     <a
                     class="navi-link py-4"
                     @click="setActiveTab"
@@ -89,7 +89,7 @@
                     <span class="navi-text font-size-lg font-size-h5">KHS</span>
                     </a>
                 </div>
-                <div class="navi-item mb-2 col-md-3">
+                <div class="navi-item mb-2 col-md-2">
                     <a
                     class="navi-link py-4"
                     @click="setActiveTab"

@@ -18,7 +18,6 @@ export default {
     },
     mounted() {
         this.Santri_Id  = this.$route.query.id;
-        this.load();
     },
     data(){
         return{

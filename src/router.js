@@ -201,7 +201,7 @@ export default new Router({
         },
         {
           path: "/absensi/laporan",
-          name: "data-absensi",
+          name: "laporan-absensi",
           component: () => import("@/view/pages/absensi/LaporanAbsensi.vue")
         },
         {
