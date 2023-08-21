@@ -186,9 +186,21 @@ export default new Router({
 
         {
           path: "/inputnilai",
+          name: "page_nilai",
+          component: () => import("@/view/pages/input-nilai-santri/Nilai.vue")
+        },
+        {
+          path: "/inputnilai/data",
           name: "input_nilai_santri",
           component: () => import("@/view/pages/input-nilai-santri/InputNilai.vue")
         },
+        {
+          path: "/inputnilai/laporan",
+          name: "laporan_nilai_santri",
+          component: () => import("@/view/pages/input-nilai-santri/Laporan.vue")
+        },
+
+
         {
           path: "/absensi",
           name: "absensi",
