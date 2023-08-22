@@ -464,6 +464,7 @@
                             </v-card-text>
                 
                             <v-card-actions>
+                            <v-spacer></v-spacer>
                             <button
                                 :disabled='isDisabledSimpan'
                                 @click="formSubmit"
@@ -485,6 +486,15 @@
                             <v-card>
                             <v-card-title class="border">
                                 <span class="text-h5">Detail Foto</span>
+                                <v-spacer></v-spacer>
+                                <v-icon
+                                    class="rounded-circle p-2 shadow-sm"
+                                    small
+                                    @click="dialogSeenBill = false"
+                                    color="#000"
+                                >
+                                    mdi-close
+                                </v-icon>
                             </v-card-title>
         
                             <v-card-text>
