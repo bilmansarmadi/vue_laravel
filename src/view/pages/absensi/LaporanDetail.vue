@@ -168,7 +168,7 @@
             v-model="search"
             append-icon="mdi-magnify"
             label="Search"
-            color="purple"
+            color="#ee8b3d"
             single-line
             hide-details
             ></v-text-field>
@@ -179,7 +179,7 @@
                 variant="primary"
                 class="m-2 font-weight-bold rounded-lg"
                 text="CETAK">
-                <b-dropdown-item @click="generateReportAll()">PDF</b-dropdown-item>
+                <b-dropdown-item @click="openModalExport()">PDF</b-dropdown-item>
                 <b-dropdown-item>
                   <vue-excel-xlsx
                     :data="dataDetailLaporan"
@@ -197,6 +197,79 @@
           </template>
         </v-data-table>
       </div>
+
+      <v-dialog
+        v-model="dialog"
+        max-width="600px"
+        persistent
+      >
+        <v-card>
+          <v-card-title class="border">
+            <span class="text-h5">Cetak Data</span>
+            <v-spacer></v-spacer>
+            <v-icon
+              class="rounded-circle p-2 shadow-sm"
+              small
+              @click="closeModalExport"
+              color="#000"
+            >
+              mdi-close
+            </v-icon>
+          </v-card-title>
+
+          <v-card-text>
+            <v-container>
+              <v-row>
+                <v-col
+                  cols="12"
+                  md="12"
+                >
+                  <v-textarea
+                    v-model="formExport.judul"
+                    label="Judul"
+                    required
+                    clearable
+                    color="#ee8b3d"
+                    rows="1"
+                  ></v-textarea>
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col
+                  cols="12"
+                  md="12"
+                >
+                  <v-textarea
+                    v-model="formExport.sub_judul"
+                    label="Sub Judul"
+                    required
+                    clearable
+                    color="#ee8b3d"
+                    rows="1"
+                  ></v-textarea>
+                </v-col>
+              </v-row>
+            </v-container>
+          </v-card-text>
+
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <button
+              @click="generateReportAll()"
+              class="btn btn-primary btn-sm font-weight-bolder text-md-body-1 rounded-lg py-2 mb-3 mr-3 w-100px"
+            >
+              Cetak
+            </button>
+            <button
+              type="button"
+              @click="closeModalExport"
+              class="btn btn-light-primary btn-sm font-weight-bolder text-md-body-1 rounded-lg py-2 mb-3 w-100px"
+            >
+              Batal
+            </button>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
 
       <!-- PDF ALL Session -->
       <template>
@@ -220,17 +293,19 @@
           >
             <section slot="pdf-content">
               <section class="pdf-item">
-                <p
+                <div
                   align="center"
                   style="
                     font-family: 'Verdana';
                     font-style: normal;
-                    font-size: 16pt;
+                    font-size: 12pt;
                     color: black;
                     "
                   >
-                  Data Absensi
-                </p>
+                  {{ formExport.judul }}
+                  <br>{{ formExport.sub_judul }}
+                </div>
+                <br>
                 <div align="left">
                   <table border="1" cellspacing="0" cellpadding="2" width="100%" style="text-color:black;overflow:wrap;border-collapse: collapse;">
                     <thead>
@@ -325,12 +400,32 @@ tr {
         required: false,
         default: ''
       },
+      tipeAjaran: {
+        type: [String, Number],
+        required: false,
+        default: ''
+      },
+      mapelNama: {
+        type: [String, Number],
+        required: false,
+        default: ''
+      },
+      namaKelas: {
+        type: [String, Number],
+        required: false,
+        default: ''
+      },
+      tahunAjaran: {
+        type: [String, Number],
+        required: false,
+        default: ''
+      },
       accessList: {
         required: false,
         default: () => []
       }
     },
-
+    
     components: {
       VueHtml2pdf
     },
@@ -404,6 +499,11 @@ tr {
       },
       printingInProgress: false,
       progressData: 0,
+      dialog: false,
+      formExport: {
+        judul: "",
+        sub_judul: ""
+      }
     }),
   
     computed: {
@@ -457,6 +557,7 @@ tr {
       },
 
       generateReportAll() {
+        this.dialog = false
         this.$refs.html2PdfAll.generatePdf();
       },
   
@@ -560,6 +661,16 @@ tr {
         this.formFilter.nama_lengkap_santri = ""
         this.formFilter.status_kehadiran = ""
         this.showTable = false
+      },
+
+      openModalExport(){
+        this.dialog = true;
+        this.formExport.judul = "Nilai Mata Pelajaran " + this.mapelNama  + " Kelas " + this.namaKelas
+        this.formExport.sub_judul = "Tahun Ajaran " + this.tahunAjaran  + " Semester " + this.tipeAjaran
+      },
+
+      closeModalExport(){
+        this.dialog = false;
       },
 
       async getDetailCache(idTahun) {
