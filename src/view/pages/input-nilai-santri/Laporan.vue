@@ -17,6 +17,10 @@
                 class="without-min-height" 
                 v-bind:idMapel="idMapel"
                 v-bind:idTahun="idTahun"
+                v-bind:namaKelas="namaKelas"
+                v-bind:mapelNama="mapelNama"
+                v-bind:tahunAjaran="tahunAjaran"
+                v-bind:tipeAjaran="tipeAjaran"
                 v-bind:accessList="accessListCache"
               ></table-detail>
           </div>
@@ -38,8 +42,11 @@
       showDetail: false,
       isDataReload: true,
       accessListCache: [],
-      idTahun: ""
-  
+      idTahun: "",
+      mapelNama: "",
+      namaKelas: "",
+      tahunAjaran: "",
+      tipeAjaran: ""  
     }),
     components: {
       TableHeader,
@@ -51,8 +58,13 @@
     methods: {
       getDataRow(item){
         if(item){
+          console.log(item);
           this.idMapel = item.mapel_id
           this.idTahun = item.tahun_id
+          this.mapelNama = item.mapel_nama
+          this.namaKelas = item.nama_kelas
+          this.tahunAjaran = item.tahun_ajaran_nama
+          this.tipeAjaran = item.tipe_ajaran_nama
           this.showDetail = true
         }
       },

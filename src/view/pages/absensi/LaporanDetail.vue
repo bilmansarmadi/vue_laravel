@@ -245,7 +245,7 @@
                     required
                     clearable
                     color="#ee8b3d"
-                    rows="1"
+                    rows="2"
                   ></v-textarea>
                 </v-col>
               </v-row>
@@ -672,9 +672,13 @@ tr {
       },
 
       openModalExport(){
+        var sdTgl = "";
+        if (this.dateFormatted2 != null) {
+          sdTgl = " s/d Tanggal " + this.dateFormatted2
+        }
         this.dialog = true;
-        this.formExport.judul = "Nilai Mata Pelajaran " + this.mapelNama  + " Kelas " + this.namaKelas
-        this.formExport.sub_judul = "Tahun Ajaran " + this.tahunAjaran  + " Semester " + this.tipeAjaran
+        this.formExport.judul = "Absensi Kelas " + this.namaKelas + " Mata Pelajaran " + this.mapelNama
+        this.formExport.sub_judul = "Tahun Ajaran " + this.tahunAjaran  + " Semester " + this.tipeAjaran + " Per Tanggal " + this.dateFormatted +sdTgl
       },
 
       closeModalExport(){
