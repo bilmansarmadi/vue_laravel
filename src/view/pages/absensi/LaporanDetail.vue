@@ -262,31 +262,25 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr
-                        v-for="(data, index) in dataDetailLaporan"
-                        :key="data.santri_id"
-                      >
-                        <td align="center"
-                          style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
-                        >
-                        {{ index +=1 }}
-                        </td>
-                        <td align="left"
-                          style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
-                        >
-                        {{ data.nama_lengkap_santri }}
-                        </td>
-                        <td align="left"
-                          style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
-                        >
-                        {{ data.status_kehadiran}}
-                        </td>
-                        <td align="left"
-                          style="font-family: 'Verdana'; font-style: normal; font-size: 12px;"
-                        >
-                        {{ data.keterangan_absensi }}
-                        </td>
-                      </tr>
+                      <template v-for="(groupData, date) in groupedData">
+                        <tr>
+                          <td colspan="4" style="font-family: Verdana; font-style: normal; font-size: 12px;">Tanggal : {{ date }}</td>
+                        </tr>
+                        <tr v-for="(data, index) in groupData" :key="index">
+                          <td align="center" style="font-family: Verdana; font-style: normal; font-size: 12px;">
+                            {{ index + 1 }}
+                          </td>
+                          <td align="left" style="font-family: Verdana; font-style: normal; font-size: 12px;">
+                            {{ data.nama_lengkap_santri }}
+                          </td>
+                          <td align="left" style="font-family: Verdana; font-style: normal; font-size: 12px;">
+                            {{ data.status_kehadiran_nama }}
+                          </td>
+                          <td align="left" style="font-family: Verdana; font-style: normal; font-size: 12px;">
+                            {{ data.keterangan_absensi }}
+                          </td>
+                        </tr>
+                      </template>
                     </tbody>
                   </table>
                 </div>
@@ -413,6 +407,18 @@ tr {
     }),
   
     computed: {
+      groupedData() {
+        const grouped = {};
+        this.dataDetailLaporan.forEach((data) => {
+          const tanggal = data.tanggal;
+          if (!grouped[tanggal]) {
+            grouped[tanggal] = [];
+          }
+          grouped[tanggal].push(data);
+        });
+
+        return grouped;
+      },
     },
   
     watch: {
@@ -451,7 +457,6 @@ tr {
       },
 
       generateReportAll() {
-        this.dataDetailLaporan;
         this.$refs.html2PdfAll.generatePdf();
       },
   
