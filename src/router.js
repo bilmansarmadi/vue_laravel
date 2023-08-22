@@ -209,13 +209,19 @@ export default new Router({
         {
           path: "/absensi/data",
           name: "data-absensi",
-          component: () => import("@/view/pages/absensi/DataAbsensi.vue")
+          component: () => import("@/view/pages/absensi/data/DataAbsensi.vue")
         },
         {
           path: "/absensi/laporan",
           name: "laporan-absensi",
-          component: () => import("@/view/pages/absensi/LaporanAbsensi.vue")
+          component: () => import("@/view/pages/absensi/laporan/LaporanAbsensi.vue")
         },
+        {
+          path: "/absensi/agenda",
+          name: "agenda",
+          component: () => import("@/view/pages/absensi/agenda/Agenda.vue")
+        },
+
         {
           path: "/profiles",
           name: "profile",

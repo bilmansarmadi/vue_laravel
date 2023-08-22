@@ -29,8 +29,8 @@
 </template>
   
 <script>
-  import TableHeader from "@/view/pages/absensi/LaporanHeader.vue";
-  import TableDetail from "@/view/pages/absensi/LaporanDetail.vue";
+  import TableHeader from "@/view/pages/absensi/laporan/LaporanHeader.vue";
+  import TableDetail from "@/view/pages/absensi/laporan/LaporanDetail.vue";
   import Services from "@/core/services/aljazary-api/Services";
   import ApiService from "@/core/services/api.service";
   import localStorage from "@/core/services/store/localStorage";

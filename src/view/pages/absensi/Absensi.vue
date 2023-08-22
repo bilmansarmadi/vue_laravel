@@ -17,6 +17,6 @@
 
 <script>
 export default {
-    name: "Absensi Home"
+    name: "Absensi_Home"
 }
 </script>
