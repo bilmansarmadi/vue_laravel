@@ -58,6 +58,8 @@ const actions = {
           resolve(response);
           if (response.status == 1000) {
             context.commit(SET_AUTH, response.data[0]);
+            const timestamp = Date.now();
+            localStorage.setLocalStorage('loginTimestamp', timestamp);
             localStorage.setLocalStorage('role_id', response.data[0].role_id);
             localStorage.setLocalStorage('uid', response.data[0].User_Id);
             localStorage.setLocalStorage('kode_user', response.data[0].kode_user);
@@ -111,6 +113,7 @@ const actions = {
     localStorage.deleteLocalStorage("user_fullname");
     localStorage.deleteLocalStorage("kode_user");
     localStorage.deleteLocalStorage("jenis_user");
+    localStorage.deleteLocalStorage("loginTimestamp");
     context.commit(PURGE_AUTH);
   },
   [REGISTER](context, credentials) {

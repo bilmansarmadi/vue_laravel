@@ -90,6 +90,8 @@ import VueExcelXlsx from "vue-excel-xlsx";
 Vue.use(VueExcelXlsx);
 
 import { OVERRIDE_LAYOUT_CONFIG } from "@/core/services/store/config.module";
+import localStorage from "@/core/services/store/localStorage";
+import { LOGOUT } from "@/core/services/store/auth.module";
 
 export default {
   name: "MetronicVue",
@@ -99,6 +101,25 @@ export default {
      * remove this to use config only from static json (@/core/config/layout.config.json)
      */
     this.$store.dispatch(OVERRIDE_LAYOUT_CONFIG);
+  },
+  created() {
+    this.checkTokenExpiration();
+  },
+  methods: {
+    checkTokenExpiration() {
+      const token = localStorage.getLocalStorage('token');
+      const timestamp = parseInt(localStorage.getLocalStorage('loginTimestamp'), 10);
+      if (token && timestamp) {
+        const currentTime = Date.now();
+        const timeElapsed = currentTime - timestamp;
+        const sixHours = 6 * 60 * 60 * 1000; // 6 jam dalam milidetik
+        if (timeElapsed > sixHours) {
+          this.$store
+          .dispatch(LOGOUT)
+          .then(() => this.$router.push({ name: "login" }));
+        }
+      }
+    },
   }
 };
 </script>
