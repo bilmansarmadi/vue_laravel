@@ -296,7 +296,7 @@
                   style="
                     font-family: 'Verdana';
                     font-style: normal;
-                    font-size: 12pt;
+                    font-size: 11pt;
                     color: black;
                     "
                   >
