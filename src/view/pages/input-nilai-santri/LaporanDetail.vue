@@ -230,7 +230,7 @@
                   Data Nilai Santri
                 </p>
                 <div align="left">
-                  <table border="1" cellspacing="0" cellpadding="2" width="100%" style="text-color:black;overflow:wrap;border-collapse: collapse;">
+                  <table border="1" cellspacing="0" cellpadding="4" width="100%" style="text-color:black;overflow:wrap;border-collapse: collapse;">
                     <thead>
                       <tr align="center">
                         <th
@@ -274,9 +274,9 @@
                     <tbody>
                       <template v-for="(groupData, date) in groupedData">
                         <tr>
-                          <td colspan="6" style="font-family: Verdana; font-style: normal; font-size: 12px;">Tanggal : {{ date }}</td>
+                          <td colspan="6" style="font-family: Verdana; font-style: normal; font-size: 12px;">Tanggal: {{ date }}</td>
                         </tr>
-                        <tr v-for="(data, index) in groupData" :key="index">
+                        <tr v-for="(data, index) in groupData">
                           <td align="center" style="font-family: Verdana; font-style: normal; font-size: 12px;">
                             {{ index + 1 }}
                           </td>
@@ -286,10 +286,10 @@
                           <td align="left" style="font-family: Verdana; font-style: normal; font-size: 12px;">
                             {{ data.nama_lengkap_santri }}
                           </td>
-                          <td align="left" style="font-family: Verdana; font-style: normal; font-size: 12px;">
+                          <td align="center" style="font-family: Verdana; font-style: normal; font-size: 12px;">
                             {{ data.nilai }}
                           </td>
-                          <td align="left" style="font-family: Verdana; font-style: normal; font-size: 12px;">
+                          <td align="center" style="font-family: Verdana; font-style: normal; font-size: 12px;">
                             {{ data.tipe_nilai }}
                           </td>
                           <td align="left" style="font-family: Verdana; font-style: normal; font-size: 12px;">
@@ -425,12 +425,12 @@ tr {
         }
       ],
       htmlToPdfAllOptions: {
-        margin: 0.2,
+        margin: 0.4,
         filename: `Data Nilai Santri.pdf`,
         jsPDF: {
           unit: "in",
           format: "a4",
-          orientation: "landscape"
+          orientation: "portrait"
         }
       },
       printingInProgress: false,

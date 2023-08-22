@@ -264,7 +264,7 @@
                     <tbody>
                       <template v-for="(groupData, date) in groupedData">
                         <tr>
-                          <td colspan="4" style="font-family: Verdana; font-style: normal; font-size: 12px;">Tanggal : {{ date }}</td>
+                          <td colspan="4" style="font-family: Verdana; font-style: normal; font-size: 12px;">Tanggal: {{ date }}</td>
                         </tr>
                         <tr v-for="(data, index) in groupData" :key="index">
                           <td align="center" style="font-family: Verdana; font-style: normal; font-size: 12px;">
@@ -394,12 +394,12 @@ tr {
         }
       ],
       htmlToPdfAllOptions: {
-        margin: 0.2,
+        margin: 0.4,
         filename: `Data Absensi.pdf`,
         jsPDF: {
           unit: "in",
           format: "a4",
-          orientation: "landscape"
+          orientation: "portrait"
         }
       },
       printingInProgress: false,
