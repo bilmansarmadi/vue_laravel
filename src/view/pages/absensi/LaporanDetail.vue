@@ -486,6 +486,14 @@ tr {
         {
           label: "Nama",
           field: "nama_lengkap_santri",
+        },
+        {
+          label: "Status Kehadiran",
+          field: "status_kehadiran_nama"
+        },
+        {
+          label: "Keterangan",
+          field: "keterangan_absensi"
         }
       ],
       htmlToPdfAllOptions: {
