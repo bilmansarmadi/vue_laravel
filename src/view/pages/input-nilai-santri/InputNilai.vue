@@ -1,25 +1,33 @@
 <template>
   <div class="container-fluid">
-    <div class="row">
-      <div class="col-lg-12 col-xxl-4 order-1 order-xxl-2">
-        <table-header 
-          class="without-min-height"
-          @data_row="getDataRow"
-          @isDataReload="hideDetail"
-          v-bind:accessList="accessListCache"
-          >
-        </table-header>
+    <div v-show="accessListCache.R">
+      <div class="row">
+        <div class="col-lg-12 col-xxl-4 order-1 order-xxl-2">
+          <table-header 
+            class="without-min-height"
+            @data_row="getDataRow"
+            @isDataReload="hideDetail"
+            v-bind:accessList="accessListCache"
+            >
+          </table-header>
+        </div>
+      </div>
+      <div class="row" v-show="showDetail">
+          <div class="col-lg-12 col-xxl-4 order-1 order-xxl-2">
+              <table-detail
+                class="without-min-height" 
+                v-bind:idMapel="idMapel"
+                v-bind:idTahun="idTahun"
+                v-bind:accessList="accessListCache"
+              ></table-detail>
+          </div>
       </div>
     </div>
-    <div class="row" v-show="showDetail">
-        <div class="col-lg-12 col-xxl-4 order-1 order-xxl-2">
-            <table-detail
-              class="without-min-height" 
-              v-bind:idMapel="idMapel"
-              v-bind:idTahun="idTahun"
-              v-bind:accessList="accessListCache"
-            ></table-detail>
-        </div>
+
+    <div v-show="accessListCache.R == 0">
+      <div class="d-flex justify-content-center">
+        <img src="media/bg/access.png" alt="Tidak Ada Access" width="35%">
+      </div>
     </div>
   </div>
 </template>

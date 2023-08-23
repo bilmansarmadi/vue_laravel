@@ -129,6 +129,7 @@
                 v-bind="attrs"
                 v-on="on"
                 rounded
+                v-show="accessList.C"
                 >
                 <i class="flaticon-add-circular-button mr-1 text-white"></i>
                     <span class="hideText">Tambah Data</span> 
