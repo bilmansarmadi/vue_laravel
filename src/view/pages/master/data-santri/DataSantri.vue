@@ -128,7 +128,7 @@
                         v-model="search"
                         append-icon="mdi-magnify"
                         label="Search"
-                        color="purple"
+                        color="#ee8b3d"
                         single-line
                         hide-details
                         ></v-text-field>
