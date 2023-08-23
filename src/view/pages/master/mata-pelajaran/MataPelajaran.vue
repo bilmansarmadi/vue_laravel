@@ -549,7 +549,11 @@ export default {
                     UID: localStorage.getLocalStorage("uid"),
                     Token: localStorage.getLocalStorage("token"),
                     Trigger: "R",
-                    Route: "DEFAULT"
+                    Route: "DEFAULT",
+                    mapel_nama: this.formFilter.mapel_nama,
+                    status_mapel: this.formFilter.status_mapel,
+                    kategori_id: this.formFilter.kategori_id,
+                    kurikulum_id: this.formFilter.kurikulum_id
                 };
 
                 let contentType = `application/x-www-form-urlencoded`;

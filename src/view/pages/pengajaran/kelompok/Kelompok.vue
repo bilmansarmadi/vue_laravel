@@ -22,20 +22,6 @@
                 <b-collapse id="collapse-2" class="mt-2">
                     <b-card>
                         <v-row>
-                            <!-- <v-col
-                                cols="12"
-                                md="6"
-                            >
-                                <v-autocomplete
-                                    v-model="formFilter.kelas_id"
-                                    :items="master_data_kelas"
-                                    item-text="nama_kelas"
-                                    item-value="kelas_id"
-                                    label="Kelas"
-                                    clearable
-                                    color="#ee8b3d"
-                                ></v-autocomplete>
-                            </v-col> -->
                             <v-col
                                 cols="12"
                                 md="6"
@@ -470,7 +456,10 @@ export default {
                     UID: localStorage.getLocalStorage("uid"),
                     Token: localStorage.getLocalStorage("token"),
                     Trigger: "R",
-                    Route: "DEFAULT"
+                    Route: "DEFAULT",
+                    santri_id: this.formFilter.santri_id,
+                    tahun_id: this.formFilter.tahun_id,
+                    status_kelompok: this.formFilter.status_kelompok
                 };
 
                 let contentType = `application/x-www-form-urlencoded`;
@@ -790,7 +779,6 @@ export default {
         },
 
         clearFilter(){
-            this.formFilter.kelas_id = ""
             this.formFilter.santri_id= ""
             this.formFilter.tahun_id= ""
             this.formFilter.status_kelompok = ""
@@ -804,7 +792,6 @@ export default {
                     Token: localStorage.getLocalStorage("token"),
                     Trigger: "R",
                     Route: "DEFAULT",
-                    kelas_id: this.formFilter.kelas_id,
                     santri_id: this.formFilter.santri_id,
                     tahun_id: this.formFilter.tahun_id,
                     status_kelompok: this.formFilter.status_kelompok

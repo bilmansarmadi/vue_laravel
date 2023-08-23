@@ -446,7 +446,10 @@ export default {
                     UID: localStorage.getLocalStorage("uid"),
                     Token: localStorage.getLocalStorage("token"),
                     Trigger: "R",
-                    Route: "DEFAULT"
+                    Route: "DEFAULT",
+                    kode_user: this.formFilter.kode_user,
+                    role_id: this.formFilter.role_id,
+                    status: this.formFilter.status
                 };
 
                 let contentType = `application/x-www-form-urlencoded`;
