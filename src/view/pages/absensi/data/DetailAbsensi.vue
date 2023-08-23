@@ -1,247 +1,256 @@
 <template>
     <div>
-      <div class="card cardHover mb-10">
-        <div class="d-block px-3 py-3" data-toggle="collapse" style="background-color: #FFF;"
-          role="button" aria-expanded="true" v-b-toggle.filter-detail variant="primary">
-          <div class="card-toolbar">
-          <div class="d-flex">
-            <v-icon
-            color="#73a4ef">
-              mdi-filter
-            </v-icon>
-            <h6 class="font-weight-bold font-weight-black mt-2">FILTER DETAIL</h6>
-            <v-icon
-              class="ml-auto"
+      <div v-show="accessList.R">
+        <div class="card cardHover mb-10">
+          <div class="d-block px-3 py-3" data-toggle="collapse" style="background-color: #FFF;"
+            role="button" aria-expanded="true" v-b-toggle.filter-detail variant="primary">
+            <div class="card-toolbar">
+            <div class="d-flex">
+              <v-icon
               color="#73a4ef">
-              mdi-arrow-down-drop-circle-outline
-            </v-icon>
+                mdi-filter
+              </v-icon>
+              <h6 class="font-weight-bold font-weight-black mt-2">FILTER DETAIL</h6>
+              <v-icon
+                class="ml-auto"
+                color="#73a4ef">
+                mdi-arrow-down-drop-circle-outline
+              </v-icon>
+            </div>
+            </div>
           </div>
-          </div>
-        </div>
-        <b-collapse visible id="filter-detail" class="mt-2">
-          <b-card>
-            <v-row>
-              <v-col
-              cols="12"
-              md="6"
-              >
-                <v-menu
-                  ref="menu1"
-                  v-model="menu1"
-                  :close-on-content-click="false"
-                  transition="scale-transition"
-                  offset-y
-                  max-width="290px"
-                  min-width="auto"
+          <b-collapse visible id="filter-detail" class="mt-2">
+            <b-card>
+              <v-row>
+                <v-col
+                cols="12"
+                md="6"
                 >
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-text-field
-                      v-model="dateFormatted"
-                      label="Tanggal Absensi"
-                      persistent-hint
-                      prepend-icon="mdi-calendar"
-                      v-bind="attrs"
-                      @blur="date = parseDate(dateFormatted)"
-                      v-on="on"
-                    ></v-text-field>
-                  </template>
-                  <v-date-picker
-                    v-model="date"
-                    no-title
-                    @input="menu1 = false"
-                  ></v-date-picker>
-                </v-menu>
-              </v-col>
-            </v-row>
-  
-            <v-btn 
-                class="accent-4 mr-2"
-                color="#73a4ef"
-                dark
-                rounded
-                @click="filterData()"
-            >
-                Cari
-            </v-btn>
-            <v-btn 
-                dark
-                rounded
-                color="red"
-                @click="clearFilterDetail"
-            >
-                Reset
-            </v-btn>
-          </b-card>
-        </b-collapse>
-      </div>
-  
-      <div class="card cardHover" v-show="showTable">
-        <v-data-table 
-          :headers="headers" 
-          :items="dataDetail" 
-          :search="search" 
-          loading-text="Loading... Please wait"
-          :items-per-page="5"
-          class="elevation-1"
-          :footer-props="{
-          showFirstLastPage: false,
-            'items-per-page-text':'Page'
-          }"
-        >
-          <template v-slot:top>
-            <v-toolbar
-              flat
-              class="mb-5"
-            >
-            <v-spacer></v-spacer>
-            <v-text-field
-            v-model="search"
-            append-icon="mdi-magnify"
-            label="Search"
-            color="purple"
-            single-line
-            hide-details
-            ></v-text-field>
-            <v-spacer></v-spacer>
-            <v-dialog
-              v-model="dialog"
-              max-width="1000px"
-              persistent
-            >
-              <template v-slot:activator="{ on, attrs }">
-                  <v-btn
+                  <v-menu
+                    ref="menu1"
+                    v-model="menu1"
+                    :close-on-content-click="false"
+                    transition="scale-transition"
+                    offset-y
+                    max-width="290px"
+                    min-width="auto"
+                  >
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-text-field
+                        v-model="dateFormatted"
+                        label="Tanggal Absensi"
+                        persistent-hint
+                        prepend-icon="mdi-calendar"
+                        v-bind="attrs"
+                        @blur="date = parseDate(dateFormatted)"
+                        v-on="on"
+                      ></v-text-field>
+                    </template>
+                    <v-date-picker
+                      v-model="date"
+                      no-title
+                      @input="menu1 = false"
+                    ></v-date-picker>
+                  </v-menu>
+                </v-col>
+              </v-row>
+    
+              <v-btn 
+                  class="accent-4 mr-2"
                   color="#73a4ef"
                   dark
-                  v-bind="attrs"
-                  v-on="on"
                   rounded
-                  >
-                  <i class="flaticon-add-circular-button mr-1 text-white"></i>
-                      <span class="hideText">Tambah Data</span> 
-                  </v-btn>
-              </template>
-              <form
-                @submit.prevent="formSubmit"
+                  @click="filterData()"
               >
-                <v-card>
-                  <v-card-title class="border">
-                    <span class="text-h5">{{ formTitle }}</span>
-                    <v-spacer></v-spacer>
-                    <v-icon
-                      class="rounded-circle p-2 shadow-sm"
-                      small
-                      @click="close"
-                      color="#000"
-                    >
-                      mdi-close
-                    </v-icon>
-                  </v-card-title>
-        
-                    <v-card-text>
-                        <v-container v-for="(data, santri_id) in dataDetail" :key="santri_id">
-                            <v-row>
-                                <v-col
-                                    cols="12"
-                                    md="12"
-                                    hidden
-                                >
-                                    <v-text-field
-                                        v-model="data.santri_id"
-                                        label="Id"
-                                        clearable
-                                        color="#ee8b3d"
-                                        name="santri_id"
-                                    ></v-text-field>
-                                </v-col>
-                                <v-col
-                                    cols="12"
-                                    md="4"
-                                >
-                                    <v-text-field
-                                        v-model="data.nama_lengkap_santri"
-                                        label="Nama"
-                                        clearable
-                                        required
-                                        name="nama_lengkap_santri"
-                                        color="#ee8b3d"
-                                    ></v-text-field>
-                                </v-col>
-                                <v-col
-                                    cols="12"
-                                    md="4"
-                                >
-                                    <v-select
-                                        v-model="data.status_kehadiran"
-                                        :items="dropdown_status_kehadiran"
-                                        item-text="text"
-                                        item-value="value"
-                                        label="Status Kehadiran"
-                                        name="status_kehadiran"
-                                        clearable
-                                        color="#ee8b3d"
-                                    ></v-select>
-                                </v-col>
-                                <v-col
-                                    cols="12"
-                                    md="4"
-                                >
-                                    <v-textarea
-                                        v-model="data.keterangan_absensi"
-                                        label="Keterangan"
-                                        required
-                                        clearable
-                                        color="#ee8b3d"
-                                        name="keterangan_absensi"
-                                        rows="1"
-                                    ></v-textarea>
-                                </v-col>
-                            </v-row>
-                        </v-container>
-                    </v-card-text>
-        
-                    <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <button
-                        type="submit"
-                        class="btn btn-primary btn-sm font-weight-bolder text-md-body-1 rounded-lg py-2 mb-3 mr-3 w-100px"
-                    >
-                        Simpan
-                    </button>
-                    <button
-                        type="button"
-                        @click="close"
-                        class="btn btn-light-primary btn-sm font-weight-bolder text-md-body-1 rounded-lg py-2 mb-3 w-100px"
-                    >
-                        Batal
-                    </button>
-                    </v-card-actions>
-                </v-card>
-              </form>
-            </v-dialog>
-            </v-toolbar>
-          </template>
-    
-          <!-- <template v-slot:item.actions="{ item }">
-            <v-tooltip top>
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn
-                  fab
+                  Cari
+              </v-btn>
+              <v-btn 
                   dark
-                  x-small
+                  rounded
                   color="red"
-                  v-bind="attrs"
-                  v-on="on"
-                  @click="deleteItem(item)"
-                  >
-                  <v-icon dark>
-                  mdi-delete
-                  </v-icon>
-                </v-btn>
-              </template>
-              <span>Hapus Data</span>
-            </v-tooltip>
-          </template> -->
-        </v-data-table>
+                  @click="clearFilterDetail"
+              >
+                  Reset
+              </v-btn>
+            </b-card>
+          </b-collapse>
+        </div>
+    
+        <div class="card cardHover" v-show="showTable">
+          <v-data-table 
+            :headers="headers" 
+            :items="dataDetail" 
+            :search="search" 
+            loading-text="Loading... Please wait"
+            :items-per-page="5"
+            class="elevation-1"
+            :footer-props="{
+            showFirstLastPage: false,
+              'items-per-page-text':'Page'
+            }"
+          >
+            <template v-slot:top>
+              <v-toolbar
+                flat
+                class="mb-5"
+              >
+              <v-spacer></v-spacer>
+              <v-text-field
+              v-model="search"
+              append-icon="mdi-magnify"
+              label="Search"
+              color="purple"
+              single-line
+              hide-details
+              ></v-text-field>
+              <v-spacer></v-spacer>
+              <v-dialog
+                v-model="dialog"
+                max-width="1000px"
+                persistent
+              >
+                <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                    color="#73a4ef"
+                    dark
+                    v-bind="attrs"
+                    v-on="on"
+                    rounded
+                    v-show="accessList.C"
+                    >
+                    <i class="flaticon-add-circular-button mr-1 text-white"></i>
+                        <span class="hideText">Tambah Data</span> 
+                    </v-btn>
+                </template>
+                <form
+                  @submit.prevent="formSubmit"
+                >
+                  <v-card>
+                    <v-card-title class="border">
+                      <span class="text-h5">{{ formTitle }}</span>
+                      <v-spacer></v-spacer>
+                      <v-icon
+                        class="rounded-circle p-2 shadow-sm"
+                        small
+                        @click="close"
+                        color="#000"
+                      >
+                        mdi-close
+                      </v-icon>
+                    </v-card-title>
+          
+                      <v-card-text>
+                          <v-container v-for="(data, santri_id) in dataDetail" :key="santri_id">
+                              <v-row>
+                                  <v-col
+                                      cols="12"
+                                      md="12"
+                                      hidden
+                                  >
+                                      <v-text-field
+                                          v-model="data.santri_id"
+                                          label="Id"
+                                          clearable
+                                          color="#ee8b3d"
+                                          name="santri_id"
+                                      ></v-text-field>
+                                  </v-col>
+                                  <v-col
+                                      cols="12"
+                                      md="4"
+                                  >
+                                      <v-text-field
+                                          v-model="data.nama_lengkap_santri"
+                                          label="Nama"
+                                          clearable
+                                          required
+                                          name="nama_lengkap_santri"
+                                          color="#ee8b3d"
+                                      ></v-text-field>
+                                  </v-col>
+                                  <v-col
+                                      cols="12"
+                                      md="4"
+                                  >
+                                      <v-select
+                                          v-model="data.status_kehadiran"
+                                          :items="dropdown_status_kehadiran"
+                                          item-text="text"
+                                          item-value="value"
+                                          label="Status Kehadiran"
+                                          name="status_kehadiran"
+                                          clearable
+                                          color="#ee8b3d"
+                                      ></v-select>
+                                  </v-col>
+                                  <v-col
+                                      cols="12"
+                                      md="4"
+                                  >
+                                      <v-textarea
+                                          v-model="data.keterangan_absensi"
+                                          label="Keterangan"
+                                          required
+                                          clearable
+                                          color="#ee8b3d"
+                                          name="keterangan_absensi"
+                                          rows="1"
+                                      ></v-textarea>
+                                  </v-col>
+                              </v-row>
+                          </v-container>
+                      </v-card-text>
+          
+                      <v-card-actions>
+                      <v-spacer></v-spacer>
+                      <button
+                          type="submit"
+                          class="btn btn-primary btn-sm font-weight-bolder text-md-body-1 rounded-lg py-2 mb-3 mr-3 w-100px"
+                      >
+                          Simpan
+                      </button>
+                      <button
+                          type="button"
+                          @click="close"
+                          class="btn btn-light-primary btn-sm font-weight-bolder text-md-body-1 rounded-lg py-2 mb-3 w-100px"
+                      >
+                          Batal
+                      </button>
+                      </v-card-actions>
+                  </v-card>
+                </form>
+              </v-dialog>
+              </v-toolbar>
+            </template>
+      
+            <!-- <template v-slot:item.actions="{ item }">
+              <v-tooltip top>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    fab
+                    dark
+                    x-small
+                    color="red"
+                    v-bind="attrs"
+                    v-on="on"
+                    @click="deleteItem(item)"
+                    >
+                    <v-icon dark>
+                    mdi-delete
+                    </v-icon>
+                  </v-btn>
+                </template>
+                <span>Hapus Data</span>
+              </v-tooltip>
+            </template> -->
+          </v-data-table>
+        </div>
+      </div>
+
+      <div v-show="accessList.R == 0">
+        <div class="d-flex justify-content-center">
+          <img src="media/bg/access.png" alt="Tidak Ada Access" width="35%">
+        </div>
       </div>
     </div>
   </template>

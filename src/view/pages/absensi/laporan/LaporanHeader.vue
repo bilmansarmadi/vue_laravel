@@ -1,154 +1,162 @@
 <template>
-    <div class="">
-        <div class="card cardHover mb-10">
-            <div class="d-block px-3 py-3" data-toggle="collapse" style="background-color: #FFF;"
-                role="button" aria-expanded="true" v-b-toggle.filter-header variant="primary">
-                <div class="card-toolbar">
-                <div class="d-flex">
-                    <v-icon
-                    color="#73a4ef">
-                        mdi-filter
-                    </v-icon>
-                    <h6 class="font-weight-bold font-weight-black mt-2">FILTER</h6>
-                    <v-icon
-                        class="ml-auto"
+    <div>
+        <div v-show="accessList.R">
+            <div class="card cardHover mb-10">
+                <div class="d-block px-3 py-3" data-toggle="collapse" style="background-color: #FFF;"
+                    role="button" aria-expanded="true" v-b-toggle.filter-header variant="primary">
+                    <div class="card-toolbar">
+                    <div class="d-flex">
+                        <v-icon
                         color="#73a4ef">
-                        mdi-arrow-down-drop-circle-outline
-                    </v-icon>
+                            mdi-filter
+                        </v-icon>
+                        <h6 class="font-weight-bold font-weight-black mt-2">FILTER</h6>
+                        <v-icon
+                            class="ml-auto"
+                            color="#73a4ef">
+                            mdi-arrow-down-drop-circle-outline
+                        </v-icon>
+                    </div>
+                    </div>
                 </div>
-                </div>
+                <b-collapse id="filter-header" class="mt-2">
+                    <b-card>
+                        <v-row>
+                            <v-col
+                                cols="12"
+                                md="6"
+                            >
+                                <v-autocomplete
+                                    v-model="formFilter.kelas_id"
+                                    :items="master_data_kelas"
+                                    item-text="nama_kelas"
+                                    item-value="kelas_id"
+                                    label="Kelas"
+                                    clearable
+                                    color="#ee8b3d"
+                                ></v-autocomplete>
+                            </v-col>
+                            <v-col
+                                cols="12"
+                                md="6"
+                            >
+                                <v-autocomplete
+                                    v-model="formFilter.tahun_id"
+                                    :items="master_data_tahunAjaran"
+                                    item-text="tahun_ajaran"
+                                    item-value="tahun_ajaran"
+                                    label="Tahun Ajaran"
+                                    clearable
+                                    color="#ee8b3d"
+                                ></v-autocomplete>
+                            </v-col>
+                            <v-col
+                                cols="12"
+                                md="6"
+                            >
+                                <v-autocomplete
+                                    v-model="formFilter.mapel_id"
+                                    :items="master_data_mapel"
+                                    item-text="mapel_nama"
+                                    item-value="mapel_id"
+                                    label="Mata Pelajaran"
+                                    clearable
+                                    color="#ee8b3d"
+                                ></v-autocomplete>
+                            </v-col>
+                            <v-col
+                                cols="12"
+                                md="6"
+                            >
+                                <v-select
+                                    v-model="formFilter.semester"
+                                    :items="dropdown_semester"
+                                    item-text="text"
+                                    item-value="value"
+                                    label="Semester"
+                                    clearable
+                                    color="#ee8b3d"
+                                ></v-select>
+                            </v-col>
+                        </v-row>
+    
+                        <v-btn 
+                            class="accent-4 mr-2"
+                            color="#73a4ef"
+                            dark
+                            rounded
+                            @click="filterData()"
+                        >
+                            Cari
+                        </v-btn>
+                        <v-btn 
+                            dark
+                            rounded
+                            color="red"
+                            @click="clearFilter"
+                        >
+                            Reset
+                        </v-btn>
+                    </b-card>
+                </b-collapse>
             </div>
-            <b-collapse id="filter-header" class="mt-2">
-                <b-card>
-                    <v-row>
-                        <v-col
-                            cols="12"
-                            md="6"
-                        >
-                            <v-autocomplete
-                                v-model="formFilter.kelas_id"
-                                :items="master_data_kelas"
-                                item-text="nama_kelas"
-                                item-value="kelas_id"
-                                label="Kelas"
-                                clearable
-                                color="#ee8b3d"
-                            ></v-autocomplete>
-                        </v-col>
-                        <v-col
-                            cols="12"
-                            md="6"
-                        >
-                            <v-autocomplete
-                                v-model="formFilter.tahun_id"
-                                :items="master_data_tahunAjaran"
-                                item-text="tahun_ajaran"
-                                item-value="tahun_ajaran"
-                                label="Tahun Ajaran"
-                                clearable
-                                color="#ee8b3d"
-                            ></v-autocomplete>
-                        </v-col>
-                        <v-col
-                            cols="12"
-                            md="6"
-                        >
-                            <v-autocomplete
-                                v-model="formFilter.mapel_id"
-                                :items="master_data_mapel"
-                                item-text="mapel_nama"
-                                item-value="mapel_id"
-                                label="Mata Pelajaran"
-                                clearable
-                                color="#ee8b3d"
-                            ></v-autocomplete>
-                        </v-col>
-                        <v-col
-                            cols="12"
-                            md="6"
-                        >
-                            <v-select
-                                v-model="formFilter.semester"
-                                :items="dropdown_semester"
-                                item-text="text"
-                                item-value="value"
-                                label="Semester"
-                                clearable
-                                color="#ee8b3d"
-                            ></v-select>
-                        </v-col>
-                    </v-row>
-
-                    <v-btn 
-                        class="accent-4 mr-2"
-                        color="#73a4ef"
-                        dark
-                        rounded
-                        @click="filterData()"
+    
+            <div class="card cardHover">
+                <v-data-table responsive show-empty
+                    :headers="headers"
+                    :items="dataHeader"
+                    :search="search"
+                    :loading="loading"
+                    loading-text="Loading... Please wait"
+                    :items-per-page="5"
+                    item-key="tahun_id"
+                    class="elevation-1"
+                    :footer-props="{
+                    showFirstLastPage: false,
+                        'items-per-page-text':'Data Per Halaman'
+                    }"
+                >
+                    <v-progress-linear 
+                    v-show="progressBar"
+                    slot="progress"
+                    color="#73a4ef" 
+                    indeterminate>
+                    </v-progress-linear>
+        
+                    <template v-slot:top>
+                    <v-toolbar
+                        flat
+                        class="mb-5"
                     >
-                        Cari
-                    </v-btn>
-                    <v-btn 
-                        dark
-                        rounded
-                        color="red"
-                        @click="clearFilter"
-                    >
-                        Reset
-                    </v-btn>
-                </b-card>
-            </b-collapse>
+                        <v-spacer></v-spacer>
+                        <v-text-field
+                        v-model="search"
+                        append-icon="mdi-magnify"
+                        label="Search"
+                        color="purple"
+                        single-line
+                        hide-details
+                        ></v-text-field>
+                        <v-spacer></v-spacer>
+                    </v-toolbar>
+                    </template>
+                    <template v-slot:[`item.actions`]="{ item }">
+                        <v-btn
+                            rounded color="#73a4ef"
+                            small
+                            @click="handleRowClick(item)"
+                        >
+                            <span class="text-white">Detail</span>
+                        </v-btn>
+                    </template>
+                </v-data-table>
+            </div>
         </div>
 
-        <div class="card cardHover">
-            <v-data-table responsive show-empty
-                :headers="headers"
-                :items="dataHeader"
-                :search="search"
-                :loading="loading"
-                loading-text="Loading... Please wait"
-                :items-per-page="5"
-                item-key="tahun_id"
-                class="elevation-1"
-                :footer-props="{
-                showFirstLastPage: false,
-                    'items-per-page-text':'Data Per Halaman'
-                }"
-            >
-                <v-progress-linear 
-                v-show="progressBar"
-                slot="progress"
-                color="#73a4ef" 
-                indeterminate>
-                </v-progress-linear>
-    
-                <template v-slot:top>
-                <v-toolbar
-                    flat
-                    class="mb-5"
-                >
-                    <v-spacer></v-spacer>
-                    <v-text-field
-                    v-model="search"
-                    append-icon="mdi-magnify"
-                    label="Search"
-                    color="purple"
-                    single-line
-                    hide-details
-                    ></v-text-field>
-                    <v-spacer></v-spacer>
-                </v-toolbar>
-                </template>
-                <template v-slot:[`item.actions`]="{ item }">
-                    <v-btn
-                        rounded color="#73a4ef"
-                        small
-                        @click="handleRowClick(item)"
-                    >
-                        <span class="text-white">Detail</span>
-                    </v-btn>
-                </template>
-            </v-data-table>
+        <div v-show="accessList.R == 0">
+            <div class="d-flex justify-content-center">
+                <img src="media/bg/access.png" alt="Tidak Ada Access" width="35%">
+            </div>
         </div>
     </div>
 </template>

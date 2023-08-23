@@ -126,6 +126,7 @@
                   v-bind="attrs"
                   v-on="on"
                   rounded
+                  v-show="accessList.C"
                   >
                   <i class="flaticon-add-circular-button mr-1 text-white"></i>
                       <span class="hideText">Tambah Data</span> 
@@ -247,6 +248,7 @@
                 color="#73a4ef"
                 v-bind="attrs"
                 v-on="on"
+                v-show="accessList.U"
                 @click="editItem(item)"
                 >
                 <i class="flaticon2-pen text-white"></i>
@@ -263,6 +265,7 @@
                 color="red"
                 v-bind="attrs"
                 v-on="on"
+                v-show="accessList.D"
                 @click="deleteItem(item)"
                 >
                 <v-icon dark>
