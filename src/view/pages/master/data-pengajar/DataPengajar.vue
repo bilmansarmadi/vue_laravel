@@ -763,7 +763,10 @@ export default {
                     UID: localStorage.getLocalStorage("uid"),
                     Token: localStorage.getLocalStorage("token"),
                     Trigger: "R",
-                    Route: "Read_Pengajar"
+                    Route: "Read_Pengajar",
+                    nip: this.formFilter.nip,
+                    nama_lengkap: this.formFilter.nama_lengkap,
+                    status: this.formFilter.status
                 };
 
                 let contentType = `application/x-www-form-urlencoded`;
