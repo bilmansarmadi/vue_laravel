@@ -466,7 +466,7 @@
                         </v-tooltip>
                     </template>
                     <template v-slot:[`item.foto`]="{ item }">
-                        <img :src="item.foto" class="rounded" alt="Foto" style="max-width: 100px;" v-show="item.foto.length > 40"/>
+                        <img :src="item.foto" class="rounded" alt="Foto" style="max-width: 100px;" v-show="item.foto.length > 10"/>
                         <v-btn
                             color="#73a4ef"
                             light
@@ -475,7 +475,7 @@
                             @click="seenFileBill(item)"
                             data-toggle="tooltip"
                             title="Lihat Foto"
-                            v-show="item.foto.length > 40"
+                            v-show="item.foto.length > 10"
                             style="text-transform: capitalize !important; min-width: 0px; padding: 0 6px;"
                         >
                         <v-icon small color="white">
@@ -942,10 +942,10 @@ export default {
         updateDataPengajar() {
             let media = "";
             var check = this.editedItem.foto;
-            if (this.images != null && check.length < 40 ) {
+            if (this.images != null ) {
                 media =  this.images
             } else {
-                media = ""
+                media = check
             }
             return new Promise(resolve => {
                 const formData = new FormData()
