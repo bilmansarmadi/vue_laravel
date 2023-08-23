@@ -72,6 +72,7 @@
           this.namaKelas = item.nama_kelas
           this.tahunAjaran = item.tahun_ajaran_nama
           this.tipeAjaran = item.tipe_ajaran_nama
+          this.$emit('reset_detail_laporan', true);
           this.showDetail = true
         }
       },

@@ -429,6 +429,10 @@ tr {
     components: {
       VueHtml2pdf
     },
+
+    created() {
+      this.$parent.$on("reset_detail_laporan", this.updateResetLaporan);
+    },
   
     data: () => ({
       search: '',
@@ -669,6 +673,10 @@ tr {
         this.formFilter.nama_lengkap_santri = ""
         this.formFilter.status_kehadiran = ""
         this.showTable = false
+      },
+
+      updateResetLaporan(){
+        this.clearFilterDetail()
       },
 
       openModalExport(){
