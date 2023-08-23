@@ -920,6 +920,7 @@ export default {
     },
 
     updateDetailAgenda(item) {
+      this.dateFormatted = ""
       this.idMapel = item.mapel_id
       this.idTahun = item.tahun_id
       this.mapelNama = item.mapel_nama
