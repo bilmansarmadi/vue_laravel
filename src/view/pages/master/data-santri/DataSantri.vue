@@ -51,7 +51,7 @@
                                 md="6"
                             >
                                 <v-select
-                                    v-model="formInput.jenis_kelamin"
+                                    v-model="formFilter.jenis_kelamin"
                                     :items="dropdown_jenkel"
                                     item-text="text"
                                     item-value="value"
@@ -65,7 +65,7 @@
                                 md="6"
                             >
                                 <v-select
-                                    v-model="formInput.status"
+                                    v-model="formFilter.status"
                                     :items="dropdown_status"
                                     item-text="text"
                                     item-value="value"
@@ -554,7 +554,7 @@
                         </v-tooltip>
                     </template>
                     <template v-slot:[`item.foto`]="{ item }">
-                        <img :src="item.foto" class="rounded" alt="Foto" style="max-width: 100px;" v-show="item.foto.length > 40"/>
+                        <img :src="item.foto" class="rounded" alt="Foto" style="max-width: 100px;" v-show="item.foto.length > 10"/>
                         <v-btn
                             color="#73a4ef"
                             light
@@ -563,7 +563,7 @@
                             @click="seenFileBill(item)"
                             data-toggle="tooltip"
                             title="Lihat Foto"
-                            v-show="item.foto.length > 40"
+                            v-show="item.foto.length > 10"
                             style="text-transform: capitalize !important; min-width: 0px; padding: 0 6px;"
                         >
                         <v-icon small color="white">
@@ -883,7 +883,11 @@ export default {
                     UID: localStorage.getLocalStorage("uid"),
                     Token: localStorage.getLocalStorage("token"),
                     Trigger: "R",
-                    Route: "Read_Santri"
+                    Route: "Read_Santri",
+                    kode_santri: this.formFilter.kode_santri,
+                    nama_lengkap_santri: this.formFilter.nama_lengkap_santri,
+                    status: this.formFilter.status,
+                    jenis_kelamin: this.formFilter.jenis_kelamin,
                 };
 
                 let contentType = `application/x-www-form-urlencoded`;
@@ -1069,10 +1073,10 @@ export default {
         updateDataSantri() {
             let media = "";
             var check = this.editedItem.foto;
-            if (this.images != null && check.length < 40 ) {
+            if (this.images != null) {
                 media =  this.images
             } else {
-                media = ""
+                media = check
             }
             return new Promise(resolve => {
                 const formData = new FormData()
