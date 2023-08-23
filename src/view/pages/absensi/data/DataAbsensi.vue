@@ -47,7 +47,6 @@ export default {
     isDataReload: true,
     accessListCache: [],
     idTahun: ""
-
   }),
   components: {
     TableHeader,
@@ -62,6 +61,7 @@ export default {
         this.idMapel = item.mapel_id
         this.idTahun = item.tahun_id
         this.showDetail = true
+        this.$emit('reset_detail', true);
       }
     },
 

@@ -121,6 +121,17 @@
                 color="#73a4ef" 
                 indeterminate>
                 </v-progress-linear>
+
+                <template v-slot:item="{ item }">
+                    <tr 
+                        :class="{ 'bg-primary': item === clickedRow, '': item !== clickedRow }"
+                        @click="handleRowClick(item)"
+                    >
+                        <td v-for="(header, key) in headers" :key="key">
+                            {{ item[header.value] }}
+                        </td>
+                    </tr>
+                </template>
     
                 <template v-slot:top>
                 <v-toolbar
@@ -138,15 +149,6 @@
                     ></v-text-field>
                     <v-spacer></v-spacer>
                 </v-toolbar>
-                </template>
-                <template v-slot:[`item.actions`]="{ item }">
-                    <v-btn
-                        rounded color="#73a4ef"
-                        small
-                        @click="handleRowClick(item)"
-                    >
-                        <span class="text-white">Detail</span>
-                    </v-btn>
                 </template>
             </v-data-table>
         </div>
@@ -187,7 +189,7 @@ export default {
                 { 
                     text: 'Kelas', 
                     value: 'nama_kelas',
-                    align: 'center',
+                    align: 'left',
                     width: "100px",
                     sortable: false 
                 },
@@ -201,26 +203,20 @@ export default {
                 { 
                     text: 'Tahun Ajaran', 
                     value: 'tahun_ajaran_nama',
-                    align: 'center',
+                    align: 'left',
                     width: "100px",
                     sortable: false 
                 },
                 { 
                     text: 'Semester', 
                     value: 'tipe_ajaran_nama',
-                    align: 'center',
+                    align: 'left',
                     width: "100px",
                     sortable: false 
-                },
-                { 
-                    text: 'Aksi', 
-                    value: 'actions', 
-                    align: 'center',
-                    width: "150px",
-                    sortable: false 
-                },
+                }
             ],
-            loading: false
+            loading: false,
+            clickedRow: null
         }
     },
     watch: {
@@ -384,6 +380,8 @@ export default {
             if(item){
                 var obj = Object.assign({}, item)
                 this.$emit('data_row', obj);
+
+                this.clickedRow = item;
             }
         },
         async load() {

@@ -334,6 +334,10 @@
         { value: "S", text: "Sakit" },
       ],
     }),
+
+    created() {
+      this.$parent.$on("reset_detail", this.updateReset);
+    },
   
     computed: {
       formTitle () {
@@ -657,6 +661,9 @@
       clearFilterDetail(){
         this.dateFormatted = ""
         this.showTable = false
+      },
+      updateReset(){
+        this.clearFilterDetail()
       },
       async getDetailCache(idTahun) {
         Promise.all([
