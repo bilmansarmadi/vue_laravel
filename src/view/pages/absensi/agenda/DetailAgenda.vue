@@ -18,7 +18,7 @@
         </div>
         </div>
       </div>
-      <b-collapse visible id="filter-detail" class="mt-2">
+      <b-collapse id="filter-detail" class="mt-2">
         <b-card>
           <v-row>
             <v-col

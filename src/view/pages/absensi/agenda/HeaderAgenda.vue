@@ -100,6 +100,7 @@
             </b-collapse>
         </div>
 
+        <!-- @click:row="handleRowClick" -->
         <div class="card cardHover">
             <v-data-table responsive show-empty
                 :headers="headers"
