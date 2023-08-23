@@ -85,7 +85,7 @@
       <p>{{ progressData }}%</p>
     </div>
 
-    <div class="card cardHover" v-show="showTable">
+    <div class="card cardHover">
       <v-data-table 
         :headers="headers" 
         :items="dataDetailAgenda" 
@@ -455,36 +455,6 @@ import VueHtml2pdf from "vue-html2pdf";
 export default {
   name: 'laporan-detail',
   props: {
-    idMapel: {
-      type: [String, Number],
-      required: false,
-      default: ''
-    },
-    idTahun: {
-      type: [String, Number],
-      required: false,
-      default: ''
-    },
-    tipeAjaran: {
-      type: [String, Number],
-      required: false,
-      default: ''
-    },
-    mapelNama: {
-      type: [String, Number],
-      required: false,
-      default: ''
-    },
-    namaKelas: {
-      type: [String, Number],
-      required: false,
-      default: ''
-    },
-    tahunAjaran: {
-      type: [String, Number],
-      required: false,
-      default: ''
-    },
     accessList: {
       required: false,
       default: () => []
@@ -535,7 +505,6 @@ export default {
     date2: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
     dateFormatted: "",
     dateFormatted2: "",
-    showTable: false,
     columnsExcel : [
       {
         label: "Tanggal",
@@ -562,7 +531,13 @@ export default {
     formExport: {
       judul: "",
       sub_judul: ""
-    }
+    },
+    idMapel: '',
+    idTahun: "",
+    mapelNama: "",
+    namaKelas: "",
+    tahunAjaran: "",
+    tipeAjaran: ""
   }),
 
   computed: {
@@ -589,6 +564,10 @@ export default {
         ? this.createAgenda
         : this.updateAgenda;
     }
+  },
+
+  created() {
+    this.$parent.$on("get_detail_agenda", this.updateDetailAgenda);
   },
 
   watch: {
@@ -644,14 +623,14 @@ export default {
       this.progressData = 0;
     },
 
-    getAgenda(idTahun){
+    getAgenda(thnId){
       return new Promise(resolve => {
         var mydata = {
           UID: localStorage.getLocalStorage("kode_user"),
           Token: localStorage.getLocalStorage("token"),
           Trigger: "R",
           Route: "DEFAULT",
-          tahun_id: idTahun,
+          tahun_id: thnId,
           mapel_id: this.idMapel,
           tanggal_agenda: this.dateFormatted,
         };
@@ -710,7 +689,6 @@ export default {
           response => {
             resolve(response.data);
             this.dataDetailAgenda= response.data;
-            this.showTable = true
           },
           err => {
             err;
@@ -721,7 +699,6 @@ export default {
 
     clearFilterDetail(){
       this.dateFormatted = ""
-      this.showTable = false
     },
 
     openModalExport(){
@@ -940,6 +917,16 @@ export default {
         }
       }
       this.closeCreate();
+    },
+
+    updateDetailAgenda(item) {
+      this.idMapel = item.mapel_id
+      this.idTahun = item.tahun_id
+      this.mapelNama = item.mapel_nama
+      this.namaKelas = item.nama_kelas
+      this.tahunAjaran = item.tahun_ajaran_nama
+      this.tipeAjaran = item.tipe_ajaran_nama
+      this.getDetailCache(this.idTahun);
     },
 
     async getDetailCache(idTahun) {

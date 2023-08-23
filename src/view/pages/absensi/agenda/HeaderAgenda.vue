@@ -141,7 +141,8 @@
                 </template>
                 <template v-slot:[`item.actions`]="{ item }">
                     <v-btn
-                        rounded color="#73a4ef"
+                        rounded 
+                        color="#73a4ef"
                         small
                         @click="handleRowClick(item)"
                     >
@@ -383,7 +384,7 @@ export default {
         handleRowClick(item) {
             if(item){
                 var obj = Object.assign({}, item)
-                this.$emit('data_row', obj);
+                this.$emit("detail-agenda", obj);
             }
         },
         async load() {

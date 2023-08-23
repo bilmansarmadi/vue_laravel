@@ -5,7 +5,7 @@
         <div class="col-lg-12 col-xxl-4 order-1 order-xxl-2">
           <table-header 
             class="without-min-height"
-            @data_row="getDataRow"
+            @detail-agenda="getDataDetail"
             @isDataReload="hideDetail"
             v-bind:accessList="accessListCache"
             >
@@ -16,12 +16,6 @@
           <div class="col-lg-12 col-xxl-4 order-1 order-xxl-2">
               <table-detail
                 class="without-min-height" 
-                v-bind:idMapel="idMapel"
-                v-bind:idTahun="idTahun"
-                v-bind:namaKelas="namaKelas"
-                v-bind:mapelNama="mapelNama"
-                v-bind:tahunAjaran="tahunAjaran"
-                v-bind:tipeAjaran="tipeAjaran"
                 v-bind:accessList="accessListCache"
               ></table-detail>
           </div>
@@ -46,15 +40,9 @@ import localStorage from "@/core/services/store/localStorage";
 export default {
   name: 'agenda',
   data: () => ({
-    idMapel: '',
     showDetail: false,
     isDataReload: true,
     accessListCache: [],
-    idTahun: "",
-    mapelNama: "",
-    namaKelas: "",
-    tahunAjaran: "",
-    tipeAjaran: ""
   }),
   components: {
     TableHeader,
@@ -64,16 +52,9 @@ export default {
     this.loadAcces()
   },
   methods: {
-    getDataRow(item){
-      if(item){
-        this.idMapel = item.mapel_id
-        this.idTahun = item.tahun_id
-        this.mapelNama = item.mapel_nama
-        this.namaKelas = item.nama_kelas
-        this.tahunAjaran = item.tahun_ajaran_nama
-        this.tipeAjaran = item.tipe_ajaran_nama
-        this.showDetail = true
-      }
+    getDataDetail(item){
+      this.$emit("get_detail_agenda", item);
+      this.showDetail = true
     },
 
     hideDetail(item){

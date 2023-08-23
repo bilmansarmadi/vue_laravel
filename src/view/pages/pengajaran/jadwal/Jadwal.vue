@@ -585,7 +585,12 @@ export default {
                     UID: localStorage.getLocalStorage("uid"),
                     Token: localStorage.getLocalStorage("token"),
                     Trigger: "R",
-                    Route: "DEFAULT"
+                    Route: "DEFAULT",
+                    hari: this.formFilter.hari,
+                    kelas_id: this.formFilter.kelas_id,
+                    pengajar_id: this.formFilter.pengajar_id,
+                    mapel_id: this.formFilter.mapel_id,
+                    tahun_id: this.formFilter.tahun_id
                 };
 
                 let contentType = `application/x-www-form-urlencoded`;
