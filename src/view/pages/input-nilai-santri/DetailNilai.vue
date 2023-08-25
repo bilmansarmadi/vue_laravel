@@ -275,7 +275,6 @@ export default {
   data: () => ({
     search: '',
     dataDetail: [],
-    progressBar: true,
     dialog: false,
     data_item: [],
     editedIndex: -1,
@@ -657,7 +656,6 @@ export default {
         await this.getDataDetail(idTahun)
       ])
       .then(async (results) => {
-        this.progressBar = false
         results
       })
     },

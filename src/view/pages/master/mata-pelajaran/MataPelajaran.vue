@@ -58,7 +58,6 @@
                                 <v-text-field
                                     v-model="formFilter.mapel_nama"
                                     label="Mata Pelajaran"
-                                    :rules="rulesNotNull"
                                     required
                                     clearable
                                     color="#ee8b3d"
@@ -106,6 +105,7 @@
                     :headers="headers"
                     :items="data_mapel"
                     :search="search"
+                    :loading="progressBar"
                     loading-text="Loading... Please wait"
                     :items-per-page="5"
                     item-key="mapel_id"
@@ -114,14 +114,7 @@
                     showFirstLastPage: false,
                         'items-per-page-text':'Page'
                     }"
-                >
-                    <v-progress-linear 
-                    v-show="progressBar"
-                    slot="progress"
-                    color="#73a4ef" 
-                    indeterminate>
-                    </v-progress-linear>
-        
+                >        
                     <template v-slot:top>
                     <v-toolbar
                         flat

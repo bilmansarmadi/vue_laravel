@@ -290,7 +290,6 @@ export default {
             Pengajar_Id: "",
             tabIndex: 0,
             data_header: [],
-            progressBar: true,
             dropdown_jenkel: [
                 { value: 'L', text: "Ikhwan" },
                 { value: 'P', text: "Akhwat " },
@@ -306,10 +305,6 @@ export default {
         }
     },
     watch: {
-        data_header(){
-            this.progressBar = false
-        },
-
         date (val) {
             this.data_header.tanggal_lahir = this.formatDate(this.date)
         }

@@ -468,7 +468,6 @@ export default {
   data: () => ({
     search: '',
     dataDetailAgenda: [],
-    progressBar: true,
     data_item: [],
     editedIndex: -1,
     editedItem: {},
@@ -935,7 +934,6 @@ export default {
         await this.getAgenda(idTahun)
       ])
       .then(async (results) => {
-        this.progressBar = false
         results
       })
     },

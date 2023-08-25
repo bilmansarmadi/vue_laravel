@@ -437,7 +437,6 @@ tr {
     data: () => ({
       search: '',
       dataDetailLaporan: [],
-      progressBar: true,
       add_data_absensi: {
         santri_id: "",
         status_kehadiran: "",
@@ -698,7 +697,6 @@ tr {
           await this.getDataDetailLaporan(idTahun)
         ])
         .then(async (results) => {
-          this.progressBar = false
           results
         })
       },

@@ -4,6 +4,7 @@
             :headers="headers"
             :items="riwayat_sekolah"
             :search="search"
+            :loading="progressBar"
             loading-text="Loading... Please wait"
             :items-per-page="5"
             item-key="r_pendidikan_id"
@@ -14,12 +15,6 @@
                 'items-per-page-text':'Page'
             }"
         >
-            <v-progress-linear 
-            v-show="progressBar"
-            slot="progress"
-            color="#73a4ef" 
-            indeterminate>
-            </v-progress-linear>
     
             <template v-slot:top>
             <v-toolbar

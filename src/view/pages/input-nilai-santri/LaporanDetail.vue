@@ -449,7 +449,6 @@ tr {
     data: () => ({
       search: '',
       dataDetailLaporan: [],
-      progressBar: true,
       formFilter: {
         nama_lengkap_santri: "",
         kode_santri: ""
@@ -713,7 +712,6 @@ tr {
           await this.getDataDetailLaporan(idTahun)
         ])
         .then(async (results) => {
-          this.progressBar = false
           results
         })
       },

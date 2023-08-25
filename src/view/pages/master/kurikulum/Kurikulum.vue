@@ -5,6 +5,7 @@
                 :headers="headers"
                 :items="data_kurikulum"
                 :search="search"
+                :loading="progressBar"
                 loading-text="Loading... Please wait"
                 :items-per-page="5"
                 item-key="kurikulum_id"
@@ -13,14 +14,7 @@
                 showFirstLastPage: false,
                     'items-per-page-text':'Page'
                 }"
-            >
-                <v-progress-linear 
-                v-show="progressBar"
-                slot="progress"
-                color="#73a4ef" 
-                indeterminate>
-                </v-progress-linear>
-    
+            >    
                 <template v-slot:top>
                 <v-toolbar
                     flat

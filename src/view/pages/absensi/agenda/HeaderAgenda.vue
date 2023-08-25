@@ -106,7 +106,7 @@
                 :headers="headers"
                 :items="dataHeader"
                 :search="search"
-                :loading="loading"
+                :loading="progressBar"
                 loading-text="Loading... Please wait"
                 :items-per-page="5"
                 item-key="tahun_id"
@@ -116,13 +116,6 @@
                     'items-per-page-text':'Data Per Halaman'
                 }"
             >
-                <v-progress-linear 
-                v-show="progressBar"
-                slot="progress"
-                color="#73a4ef" 
-                indeterminate>
-                </v-progress-linear>
-
                 <template v-slot:item="{ item }">
                     <tr 
                         :class="{ 'bg-primary': item === clickedRow, '': item !== clickedRow }"
@@ -217,8 +210,7 @@ export default {
                     width: "100px",
                     sortable: false 
                 }
-            ],
-            loading: false
+            ]
         }
     },
     watch: {

@@ -3,6 +3,7 @@
         :headers="headers"
         :items="data_ips"
         :search="search"
+        :loading="progressBar"
         loading-text="Loading... Please wait"
         :items-per-page="5"
         class="elevation-1 border border-primary card card-custom card-stretch border border-primary"
@@ -11,12 +12,6 @@
             'items-per-page-text':'Page'
         }"
     >
-        <v-progress-linear 
-        v-show="progressBar"
-        slot="progress"
-        color="#73a4ef" 
-        indeterminate>
-        </v-progress-linear>
     </v-data-table>
 </template>
 

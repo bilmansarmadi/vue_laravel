@@ -4,6 +4,7 @@
             :headers="headers"
             :items="HSK_detail"
             :search="search"
+            :loading="progressBar"
             loading-text="Loading... Please wait"
             :items-per-page="15"
             group-by="Kurikulum"
@@ -13,12 +14,6 @@
                 'items-per-page-text':'Page'
             }"
         >
-            <v-progress-linear 
-            v-show="progressBar"
-            slot="progress"
-            color="#73a4ef" 
-            indeterminate>
-            </v-progress-linear>
         </v-data-table>
 
         <div class="d-none card card-custom card-stretch border border-primary cardHover table-responsive">

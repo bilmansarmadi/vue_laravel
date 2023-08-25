@@ -5,7 +5,7 @@
                 :headers="headers"
                 :items="tahun_ajaran"
                 :search="search"
-                :loading="loading"
+                :loading="progressBar"
                 loading-text="Loading... Please wait"
                 :items-per-page="5"
                 item-key="tahun_id"
@@ -14,14 +14,7 @@
                 showFirstLastPage: false,
                     'items-per-page-text':'Data Per Halaman'
                 }"
-            >
-                <v-progress-linear 
-                v-show="progressBar"
-                slot="progress"
-                color="#73a4ef" 
-                indeterminate>
-                </v-progress-linear>
-    
+            >    
                 <template v-slot:top>
                 <v-toolbar
                     flat
