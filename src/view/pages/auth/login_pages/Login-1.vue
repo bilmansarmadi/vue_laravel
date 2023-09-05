@@ -308,7 +308,7 @@ export default {
 
     backgroundImage() {
       return (
-        process.env.BASE_URL + "media/svg/illustrations/aljazary.svg"
+        process.env.BASE_URL + "media/bg/aljazary.svg"
       );
     },
 
