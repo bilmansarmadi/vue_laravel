@@ -114,10 +114,10 @@
                         <br>
                         <div style="font-weight: bold;font-size: 12pt;">I.&emsp;&emsp;KURIKULUM AL-QUR'AN</div>
                         <div style="font-weight: bold;font-size: 12pt;">&emsp;&emsp;&emsp;&emsp;A.&emsp;&emsp;TAHFIDZ</div>
-                        <table class="forPdf" width="100%" style="font-size: 11pt;margin-top: 10px;" border="1" cellpadding="5" cellspacing="10">
+                        <table class="forPdf" width="100%" style="font-size: 11pt;margin-top: 10px;" border="1" >
                             <tr align="center">
-                                <th width="10%">No.</th>
-                                <th width="30%">Aspek</th>
+                                <th width="5%">No.</th>
+                                <th width="35%">Aspek</th>
                                 <th width="20%">Nilai</th>
                                 <th width="20%">Grade</th>
                                 <th width="20%">Predikat</th>
@@ -144,10 +144,10 @@
                         </table>
                         <br>
                         <div style="font-weight: bold;font-size: 12pt;">&emsp;&emsp;&emsp;&emsp;B.&emsp;&emsp;QIRO'AH</div>
-                        <table class="forPdf" width="100%" style="font-size: 11pt;margin-top: 10px;" border="1" cellpadding="5" cellspacing="10">
+                        <table class="forPdf" width="100%" style="font-size: 11pt;margin-top: 10px;" border="1" >
                             <tr align="center">
-                                <th width="10%">No.</th>
-                                <th width="30%">Aspek</th>
+                                <th width="5%">No.</th>
+                                <th width="35%">Aspek</th>
                                 <th width="20%">Nilai</th>
                                 <th width="20%">Grade</th>
                                 <th width="20%">Predikat</th>
@@ -176,26 +176,36 @@
                         </table>
                         <br>
                         <div style="font-weight: bold;font-size: 12pt;">II.&emsp;&emsp;KURIKULUM DIROSAH ISLAMIYAH</div>
-                        <table class="forPdf" width="100%" style="font-size: 11pt;margin-top: 10px;" border="1" cellpadding="5" cellspacing="10">
+                        <table class="forPdf" width="100%" style="font-size: 11pt;margin-top: 10px;" border="1" >
                             <tr align="center">
-                                <th>No</th>
-                                <th>Kode</th>
-                                <th>Mata Pelajaran</th>
-                                <th>Nilai</th>
-                                <th>Grade</th>
-                                <th>Mutu</th>
-                                <th>Predikat</th>
-                                <th>Deskripsi</th>
+                                <th width="5%">No</th>
+                                <th width="13%">Kode</th>
+                                <th width="31%">Mata Pelajaran</th>
+                                <th width="5%">Nilai</th>
+                                <th width="5%">Grade</th>
+                                <th width="5%">Mutu</th>
+                                <th width="19%">Predikat</th>
+                                <th width="17%">Deskripsi</th>
                             </tr>
                             <tr align="center">
                                 <td>1</td>
-                                <td>MPAQ1/3/l</td>
-                                <td>Aqidatul Awam</td>
+                                <td align="left">MPAQ1/3/l</td>
+                                <td align="left">Aqidatul Awam</td>
                                 <td>75</td>
                                 <td>C</td>
                                 <td>6</td>
                                 <td>JAYYID</td>
                                 <td>TUNTAS</td>
+                            </tr>
+                            <tr align="center">
+                                <td>2</td>
+                                <td align="left">MPAK1/3/l</td>
+                                <td align="left">Akhlak (Ala la)</td>
+                                <td>48</td>
+                                <td>E</td>
+                                <td>0</td>
+                                <td>JAYYID JIDDAN</td>
+                                <td>TIDAK TUNTAS</td>
                             </tr>
                             <tr align="center">
                                 <th colspan="3">Jumlah Mutu</th>
@@ -210,13 +220,261 @@
                                 <th colspan="5">2.04</th>
                             </tr>
                         </table>
-                        <table class="forPdf" width="100%" style="font-size: 11pt;margin-top: 5px;" cellpadding="5" cellspacing="10">
+                        <table class="forPdf" width="100%" style="font-size: 11pt;margin-top: 5px;" >
                             <tr>
                                 <th width="45%">Nilai Grade = A:4, B:3, C:2, D:1, E:0</th>
                                 <th width="55%">Mutu = SKS * Nilai Grade</th>
                             </tr>
                             <tr>
                                 <th colspan="2">Index Prestasi Semester = Jumlah SKS/Jumlah Mutu</th>
+                            </tr>
+                        </table>
+                        <div class="html2pdf__page-break"/>
+                        <div style="font-weight: bold;font-size: 12pt;">III.&emsp;&emsp;AKHLAK</div>
+                        <table class="forPdf" width="100%" style="font-size: 11pt;margin-top: 10px;" border="1" >
+                            <tr align="center">
+                                <th width="5%">No.</th>
+                                <th width="40%">Aspek</th>
+                                <th width="15%">Nilai</th>
+                                <th width="15%">Grade</th>
+                                <th width="25%">Predikat</th>
+                            </tr>
+                            <tr align="center">
+                                <td>1.</td> 
+                                <td align="left">Akhlaq kepada Ustadz/Ustadzah</td> 
+                                <td>86</td> 
+                                <td>B</td> 
+                                <td>JAYYID JIDDAN</td> 
+                            </tr>
+                            <tr align="center">
+                                <td>2.</td> 
+                                <td align="left">Akhlaq kepada Pegawai/Tamu</td> 
+                                <td>85</td> 
+                                <td>B</td> 
+                                <td>JAYYID JIDDAN</td> 
+                            </tr>
+                        </table>
+                        <br>
+                        <div style="font-weight: bold;font-size: 12pt;">III.&emsp;&emsp;NASIHAT</div>
+                        <table class="forPdf" width="100%" style="font-size: 11pt;margin-top: 10px;" border="1" >
+                            <tr>
+                                <td class="text-justify">
+                                    Ananda sudah mengikuti program dengan baik, namun masih perlu perbaikan untuk Kelancaran dan 
+                                    kefasihan baca’annya, untuk materi Syari’ahnya masih ada yang belum tuntas, harus lebih giat lagi 
+                                    belajarnya agar nilainya lebih maksimal. Lebih semangat lagi belajar dan menghafal Al-Qur’annya.
+                                    <br>
+                                    <br>
+                                    Teruslah belajar di manapun kamu berada. Jangan pernah berhenti berjuang. Hormatilah kedua 
+                                    orang tuamu dan guru – gurumu. Doakanlah mereka semua dalam sholatmu. Teruslah menghafal 
+                                    quran sampai mati. Tetap murojaah bagaimanamun kondisinya. Terus perbaiki bacaan Quranmu, 
+                                    pahami isinya dan amalkan kandungannya. 
+                                </td>
+                            </tr>
+                        </table>
+                        <table width="100%" style="font-size: 11pt;margin-top: 40px;text-align: center;">
+                            <tr>
+                                <td>Mengetahui</td>
+                                <td>Mudir</td>
+                                <td>Bogor</td>
+                            </tr>
+                            <tr>
+                                <td>Orang Tua/Wali</td>
+                                <td>Pondok Pesantren Al-Jazary</td>
+                                <td>Murobbi</td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" height="80px"></td>
+                            </tr>
+                            <tr>
+                                <td>(.................................)</td>
+                                <td>Ustadz Muhammad Agung Alhaz, S.Kom </td>
+                                <td>Ustadz Khaerul Anam, S.Kom</td>
+                            </tr>
+                        </table>
+                    </div>
+                </section>
+                <div class="html2pdf__page-break"/>
+                <section class="pdf-item">
+                    <div style="font-family: 'Times New Roman', Times, serif;color: black;">
+                        <p style="font-size: 12pt;font-weight: bold;text-align: center;text-decoration: underline;">HASIL STUDI KUMULATIF</p>
+                        <table width="100%" style="font-size: 11pt;text-align: left;">
+                            <tr>
+                                <td width="22%">Nama</td>
+                                <td width="2%">:</td>
+                                <td>RAVANNO KHALIFAH AKBAR ALFARIZI</td>
+                            </tr>
+                            <tr>
+                                <td>Nomor Induk</td>
+                                <td>:</td>
+                                <td>AZ1020</td>
+                            </tr>
+                            <tr>
+                                <td>Program Pendidikan</td>
+                                <td>:</td>
+                                <td>Tsanawiyah</td>
+                            </tr>
+                            <tr>
+                                <td>Semester</td>
+                                <td>:</td>
+                                <td>1</td>
+                            </tr>
+                        </table>
+                        <br>
+                        <table width="100%" style="font-size: 11pt;text-align: center;" border="1">
+                            <tr>
+                                <th width="5%" rowspan="2">No</th>
+                                <th width="14%" rowspan="2">Kode</th>
+                                <th width="40%" rowspan="2">Mata Pelajaran</th>
+                                <th width="30%" colspan="4" height="40px">Prestasi SKS</th>
+                                <th width="11%" rowspan="2">Ijazah Sanad</th>
+                            </tr>
+                            <tr>
+                                <td width="7%">K</td>
+                                <td width="8%">AM</td>
+                                <td width="7%">M</td>
+                                <td width="8%">HM</td>
+                            </tr>
+                            <tr>
+                                <td>1.</td>
+                                <td align="left">MPAQ1/3/l</td>
+                                <td align="left">Aqidatul Awwam</td>
+                                <td>3</td>
+                                <td>2</td>
+                                <td>6</td>
+                                <td>C</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>2.</td>
+                                <td align="left">MPAQ1/3/l</td>
+                                <td align="left">Aqidatul Awwam</td>
+                                <td>3</td>
+                                <td>2</td>
+                                <td>6</td>
+                                <td>C</td>
+                                <td></td>
+                            </tr>
+                        </table>
+                        <br>
+                        <table class="forNoBorder" width="100%" style="font-size: 11pt;text-align: left;">
+                            <tr>
+                                <td width="7%">HM</td>
+                                <td width="2%">:</td>
+                                <td width="52%">Huruf Mutu</td>
+                                <td width="5%">K</td>
+                                <td width="2%">:</td>
+                                <td width="32%">Kredit</td>
+                            </tr>
+                            <tr>
+                                <td>AM</td>
+                                <td>:</td>
+                                <td>Angka Mutu</td>
+                                <td>M</td>
+                                <td>:</td>
+                                <td>Mutu</td>
+                            </tr>
+                            <tr>
+                                <td>Ijazah</td>
+                                <td>:</td>
+                                <td colspan="4">Indeks Prestasi Semester</td>
+                            </tr>
+                        </table>
+                        <br>
+                        <table class="forNoBorder" width="100%" style="font-size: 11pt;text-align: left;">
+                            <tr>
+                                <td width="30%">Jumlah Kredit Kumulatif</td>
+                                <td width="2%">:</td>
+                                <td width="23%">21</td>
+                                <td width="25%">Jumla Mutu</td>
+                                <td width="2%">:</td>
+                                <td width="8%">43</td>
+                            </tr>
+                            <tr>
+                                <td>Jumlah Kredit Semester</td>
+                                <td>:</td>
+                                <td>1</td>
+                                <td>Total SKS Yang Didapat</td>
+                                <td>:</td>
+                                <td>21</td>
+                            </tr>
+                            <tr>
+                                <td>Indeks Prestasi Semester</td>
+                                <td>:</td>
+                                <td colspan="4">2.04</td>
+                            </tr>                            
+                        </table>
+                        <br>
+                        <table class="forNoBorder" width="100%" style="font-size: 11pt;text-align: left;">
+                            <tr>
+                                <td width="30%">Mata Pelajaran</td>
+                                <td width="2%">:</td>
+                                <td width="23%">9 Mata Pelajaran</td>
+                                <td width="8%">Nilai A</td>
+                                <td width="2%">:</td>
+                                <td width="23%">- Mata Pelajaran / - SKS</td>
+                            </tr>
+                            <tr>
+                                <td width="30%">SKS</td>
+                                <td width="2%">:</td>
+                                <td width="23%">21 SKS</td>
+                                <td width="8%">Nilai B</td>
+                                <td width="2%">:</td>
+                                <td width="23%">2 Mata Pelajaran / 5 SKS</td>
+                            </tr>
+                            <tr>
+                                <td width="30%">SKS Lulus</td>
+                                <td width="2%">:</td>
+                                <td width="23%">19 SKS</td>
+                                <td width="8%">Nilai C</td>
+                                <td width="2%">:</td>
+                                <td width="23%">6 Mata Pelajaran / 14 SKS</td>
+                            </tr>
+                            <tr>
+                                <td width="30%">Inti (Lulus)</td>
+                                <td width="2%">:</td>
+                                <td width="23%">9 SKS</td>
+                                <td width="8%">Nilai D</td>
+                                <td width="2%">:</td>
+                                <td width="23%">- Mata Pelajaran / - SKS</td>
+                            </tr>
+                            <tr>
+                                <td width="30%">Inti (Gagal)</td>
+                                <td width="2%">:</td>
+                                <td width="23%">- SKS</td>
+                                <td width="8%">Nilai E</td>
+                                <td width="2%">:</td>
+                                <td width="23%">1 Mata Pelajaran / 2 SKS</td>
+                            </tr>
+                            <tr>
+                                <td width="30%">Wajib (Lulus)</td>
+                                <td width="2%">:</td>
+                                <td width="23%" colspan="4">8 SKS</td>
+                            </tr>
+                            <tr>
+                                <td width="30%">Wajib (Gagal)</td>
+                                <td width="2%">:</td>
+                                <td width="23%" colspan="4">2 SKS</td>
+                            </tr>
+                            <tr>
+                                <td width="30%">Khusus (Lulus)</td>
+                                <td width="2%">:</td>
+                                <td width="23%">2 SKS</td>
+                                <td width="8%" style="font-weight: bold;">IPK</td>
+                                <td width="2%" style="font-weight: bold;">:</td>
+                                <td width="23%" style="font-weight: bold;">2.04</td>
+                            </tr>
+                            <tr>
+                                <td width="30%">Khusus (Gagal)</td>
+                                <td width="2%">:</td>
+                                <td width="23%" colspan="4">- SKS</td>
+                            </tr>
+                            <tr>
+                                <td height="25px"></td>
+                            </tr>
+                            <tr>
+                                <td width="30%">IPS Smt-1 (2022/2023-Gasal)</td>
+                                <td width="2%">:</td>
+                                <td width="23%" colspan="4" style="font-weight: bold;">2.04</td>
                             </tr>
                         </table>
                     </div>
@@ -236,6 +494,10 @@
 
 .forPdf th, td {
     padding: 4px;
+}
+
+.forNoBorder td{
+    padding: 1px;
 }
 </style>
 
