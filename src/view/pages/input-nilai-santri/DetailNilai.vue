@@ -119,7 +119,7 @@
           <v-spacer></v-spacer>
           <v-dialog
             v-model="dialog"
-            max-width="800px"
+            max-width="1200px"
             persistent
           >
             <template v-slot:activator="{ on, attrs }">
@@ -132,7 +132,7 @@
                 v-show="accessList.C"
                 >
                 <i class="flaticon-add-circular-button mr-1 text-white"></i>
-                    <span class="hideText">Tambah Data</span> 
+                    <span class="hideText">Ubah Data</span> 
                 </v-btn>
             </template>
             <form
@@ -153,11 +153,11 @@
                 </v-card-title>
       
                   <v-card-text>
-                      <v-container v-for="(data, santri_id) in dataDetail" :key="santri_id">
-                          <v-row>
+                      <v-container>
+                          <v-row v-for="(data, santri_id) in dataDetail" :key="santri_id">
                               <v-col
                                   cols="12"
-                                  md="6"
+                                  md="2"
                                   hidden
                               >
                                   <v-text-field
@@ -170,12 +170,13 @@
                               </v-col>
                               <v-col
                                   cols="12"
-                                  md="6"
+                                  md="2"
                               >
                                   <v-text-field
                                       v-model="data.nama_lengkap_santri"
                                       label="Nama"
                                       clearable
+                                      class="font-weight-medium"
                                       required
                                       name="nama_lengkap_santri"
                                       color="#ee8b3d"
@@ -183,17 +184,68 @@
                               </v-col>
                               <v-col
                                   cols="12"
-                                  md="6"
+                                  md="2"
                               >
                                   <v-text-field
-                                      v-model="data.nilai"
-                                      label="Nilai"
-                                      required
+                                      v-model="data.uas"
+                                      label="UAS"
                                       type="number"
                                       clearable
-                                      name="nilai"
+                                      name="uas"
                                       color="#ee8b3d"
                                   ></v-text-field>
+                              </v-col>
+                              <v-col
+                                  cols="12"
+                                  md="2"
+                              >
+                                  <v-text-field
+                                      v-model="data.uts"
+                                      label="UTS"
+                                      type="number"
+                                      clearable
+                                      name="uts"
+                                      color="#ee8b3d"
+                                  ></v-text-field>
+                              </v-col>
+                              <v-col
+                                  cols="12"
+                                  md="2"
+                              >
+                                  <v-text-field
+                                      v-model="data.tugas"
+                                      label="Tugas"
+                                      type="number"
+                                      clearable
+                                      name="tugas"
+                                      color="#ee8b3d"
+                                  ></v-text-field>
+                              </v-col>
+                              <v-col
+                                  cols="12"
+                                  md="2"
+                              >
+                                  <v-text-field
+                                      v-model="data.praktek"
+                                      label="Praktek"
+                                      type="number"
+                                      clearable
+                                      name="praktek"
+                                      color="#ee8b3d"
+                                  ></v-text-field>
+                              </v-col>
+                              <v-col
+                                  cols="12"
+                                  md="2"
+                              >
+                                  <v-textarea
+                                      v-model="data.keterangan_nilai"
+                                      label="Catatan"
+                                      clearable
+                                      rows="1"
+                                      name="keterangan_nilai"
+                                      color="#ee8b3d"
+                                  ></v-textarea>
                               </v-col>
                           </v-row>
                       </v-container>
@@ -298,13 +350,68 @@ export default {
     },
     headers: [
       {
+        text: 'Kode Santri',
+        value: 'kode_santri',
+        sortable: false
+      },
+      {
         text: 'Nama',
         value: 'nama_lengkap_santri',
         sortable: false
       },
       {
-        text: 'Nilai',
-        value: 'nilai',
+        text: 'Tugas',
+        value: 'tugas',
+        sortable: false
+      },
+      {
+        text: 'UTS',
+        value: 'uts',
+        sortable: false
+      },
+      {
+        text: 'UAS',
+        value: 'uas',
+        sortable: false
+      },
+      {
+        text: 'Praktek',
+        value: 'praktek',
+        sortable: false
+      },
+      {
+        text: 'Kehadiran',
+        value: 'kehadiran',
+        sortable: false
+      },
+      {
+        text: 'Total Pertemuan',
+        value: 'total_pertemuan',
+        sortable: false
+      },
+      {
+        text: 'Hasil Akhir',
+        value: 'hasil_akhir',
+        sortable: false
+      },
+      {
+        text: 'KKM',
+        value: 'kkm',
+        sortable: false
+      },
+      {
+        text: 'Status',
+        value: 'status',
+        sortable: false
+      },
+      {
+        text: 'Predikat',
+        value: 'predikat',
+        sortable: false
+      },
+      {
+        text: 'Catatan',
+        value: 'keterangan_nilai',
         sortable: false
       },
       // { text: 'Actions', value: 'actions', sortable: false , width: "150px"},
@@ -332,7 +439,11 @@ export default {
     date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
     dateFormatted: "",
     SantriId: [],
-    NilaiSantri: [],
+    SantriUas: [],
+    SantriUts: [],
+    SantriTugas: [],
+    SantriPraktek: [],
+    SantriCttn: [],
     showTable: false,
     idTahun: "",
     idMapel: ""
@@ -340,7 +451,7 @@ export default {
 
   computed: {
     formTitle () {
-      return this.editedIndex === -1 ? 'Tambah Data' : 'Ubah Data'
+      return this.editedIndex === -1 ? 'Ubah Data' : 'Ubah Data'
     },
     formInput() {
       return this.editedIndex === -1 ? this.add_data_nilai : this.editedItem;
@@ -374,11 +485,22 @@ export default {
     inputNIlai (submitEvent) {
       return new Promise(resolve => {
         var lengthData = 0;
+        const currentDate = new Date();
+
+        const day = currentDate.getDate().toString().padStart(2, '0'); // Mendapatkan hari (dd)
+        const month = (currentDate.getMonth() + 1).toString().padStart(2, '0'); // Mendapatkan bulan (mm)
+        const year = currentDate.getFullYear().toString(); // Mendapatkan tahun (yyyy)
+
+        const formattedDate = `${day}-${month}-${year}`;
 
         lengthData = submitEvent.target.elements.santri_id.length;
         for (let i = 0; i < lengthData; i++) {
           this.SantriId.push(submitEvent.target.elements.santri_id[i]._value)
-          this.NilaiSantri.push(submitEvent.target.elements.nilai[i]._value)
+          this.SantriUas.push(submitEvent.target.elements.uas[i]._value)
+          this.SantriUts.push(submitEvent.target.elements.uts[i]._value)
+          this.SantriTugas.push(submitEvent.target.elements.tugas[i]._value)
+          this.SantriPraktek.push(submitEvent.target.elements.praktek[i]._value)
+          this.SantriCttn.push(submitEvent.target.elements.keterangan_nilai[i]._value)
         }
 
         var formData = new FormData();
@@ -388,12 +510,15 @@ export default {
         formData.append("Route", "INSERT_NILAI")
         formData.append("tahun_id", this.idTahun)
         formData.append("mapel_id", this.idMapel)
-        formData.append("tipe_nilai", this.formFilter.tipe_nilai)
-        formData.append("tanggal_nilai", this.dateFormatted)
+        formData.append("tanggal_nilai", formattedDate)
 
         for (let i = 0; i < this.SantriId.length; i++) {
           formData.append("import["+[i]+"][santri_id]", this.SantriId[i])
-          formData.append("import["+[i]+"][nilai]", this.NilaiSantri[i])
+          formData.append("import["+[i]+"][uas]", this.SantriUas[i])
+          formData.append("import["+[i]+"][uts]", this.SantriUts[i])
+          formData.append("import["+[i]+"][tugas]", this.SantriTugas[i])
+          formData.append("import["+[i]+"][praktek]", this.SantriPraktek[i])
+          formData.append("import["+[i]+"][keterangan_nilai]", this.SantriCttn[i])
         }
 
         let contentType = `application/x-www-form-urlencoded`;
@@ -575,7 +700,11 @@ export default {
           this.add_data_nilai.santri_id = ""
           this.add_data_nilai.nilai = ""
           this.SantriId = []
-          this.NilaiSantri = []
+          this.SantriUas = []
+          this.SantriUts = []
+          this.SantriTugas = []
+          this.SantriPraktek = []
+          this.SantriCttn = []
           this.editedItem = Object.assign({}, this.defaultItem)
           this.editedIndex = -1
       })
@@ -587,7 +716,7 @@ export default {
           UID: localStorage.getLocalStorage("kode_user"),
           Token: localStorage.getLocalStorage("token"),
           Trigger: "R",
-          Route: "READ_DETAIL_NILIA",
+          Route: "READ_DETAIL_NILAI_V1",
           tahun_id: this.idTahun,
           mapel_id: this.idMapel,
           // tipe_nilai: this.formFilter.tipe_nilai,

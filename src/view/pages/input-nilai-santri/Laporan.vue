@@ -65,7 +65,6 @@
     methods: {
       getDataRow(item){
         if(item){
-          console.log(item);
           this.idMapel = item.mapel_id
           this.idTahun = item.tahun_id
           this.mapelNama = item.mapel_nama

@@ -475,11 +475,6 @@ tr {
           sortable: false
         },
         {
-          text: 'Tipe',
-          value: 'tipe_nilai',
-          sortable: false
-        },
-        {
             text: 'Keterangan',
             value: 'keterangan_nilai',
             sortable: 'false'

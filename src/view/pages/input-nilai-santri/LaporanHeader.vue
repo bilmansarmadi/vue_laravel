@@ -132,7 +132,17 @@
                     <v-spacer></v-spacer>
                 </v-toolbar>
                 </template>
-                <template v-slot:[`item.actions`]="{ item }">
+                <template v-slot:item="{ item }">
+                    <tr 
+                        :class="{ 'bg-primary': item === clickedRow, '': item !== clickedRow }"
+                        @click="handleRowClick(item)"
+                    >
+                        <td v-for="(header, key) in headers" :key="key">
+                            {{ item[header.value] }}
+                        </td>
+                    </tr>
+                </template> 
+                <!-- <template v-slot:[`item.actions`]="{ item }">
                     <v-btn
                         rounded color="#73a4ef"
                         small
@@ -140,7 +150,7 @@
                     >
                         <span class="text-white">Detail</span>
                     </v-btn>
-                </template>
+                </template> -->
             </v-data-table>
         </div>
     </div>
@@ -185,7 +195,7 @@ export default {
                 { 
                     text: 'Kelas', 
                     value: 'nama_kelas',
-                    align: 'center',
+                    align: 'left',
                     width: "100px",
                     sortable: false 
                 },
@@ -199,25 +209,26 @@ export default {
                 { 
                     text: 'Tahun Ajaran', 
                     value: 'tahun_ajaran_nama',
-                    align: 'center',
+                    align: 'left',
                     width: "100px",
                     sortable: false 
                 },
                 { 
                     text: 'Semester', 
                     value: 'tipe_ajaran_nama',
-                    align: 'center',
+                    align: 'left',
                     width: "100px",
                     sortable: false 
                 },
-                { 
-                    text: 'Aksi', 
-                    value: 'actions', 
-                    align: 'center',
-                    width: "150px",
-                    sortable: false 
-                },
-            ]
+                // { 
+                //     text: 'Aksi', 
+                //     value: 'actions', 
+                //     align: 'center',
+                //     width: "150px",
+                //     sortable: false 
+                // },
+            ],
+            clickedRow: null
         }
     },
     watch: {
@@ -291,7 +302,7 @@ export default {
                     UID: localStorage.getLocalStorage("uid"),
                     Token: localStorage.getLocalStorage("token"),
                     Trigger: "R",
-                    Route: "DEFAULT",
+                    Route: "READ_HEADER_NILIA",
                     mapel_id: this.formFilter.mapel_id,
                     kelas_id: this.formFilter.kelas_id,
                     semester: this.formFilter.semester,
@@ -304,12 +315,12 @@ export default {
 
                 Services.PostData(
                     ApiService,
-                    "Master/Users",
+                    "Riwayat/Riwayat_Nilai",
                     qs.stringify(mydata),
                     contentType,
                     response => {
                         resolve(response.data);
-                        this.data_user = response.data;
+                        this.dataHeader = response.data;
                     },
                     err => {
                         err;
@@ -355,6 +366,8 @@ export default {
             if(item){
                 var obj = Object.assign({}, item)
                 this.$emit('data_row', obj);
+
+                this.clickedRow = item;
             }
         },
         async load() {
