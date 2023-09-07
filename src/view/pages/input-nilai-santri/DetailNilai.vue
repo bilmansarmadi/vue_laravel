@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="card cardHover mb-10">
+    <!-- <div class="card cardHover mb-10">
       <div class="d-block px-3 py-3" data-toggle="collapse" style="background-color: #FFF;"
         role="button" aria-expanded="true" v-b-toggle.collapse-2 variant="primary">
         <div class="card-toolbar">
@@ -87,9 +87,9 @@
           </v-btn>
         </b-card>
       </b-collapse>
-    </div>
+    </div> -->
 
-    <div class="card cardHover" v-show="showTable">
+    <div class="card cardHover">
       <v-data-table 
         :headers="headers" 
         :items="dataDetail" 
@@ -256,20 +256,28 @@ import Swal from 'sweetalert2'
 export default {
   name: 'detail_nilai_santri',
   props: {
-    idMapel: {
-      type: [String, Number],
-      required: false,
-      default: ''
-    },
-    idTahun: {
-      type: [String, Number],
-      required: false,
-      default: ''
-    },
+    // idMapel: {
+    //   type: [String, Number],
+    //   required: false,
+    //   default: ''
+    // },
+    // idTahun: {
+    //   type: [String, Number],
+    //   required: false,
+    //   default: ''
+    // },
     accessList: {
       required: false,
       default: () => []
     }
+  },
+
+  created() {
+    this.$parent.$on("get-detail-nilai", this.getDetailCache);
+  },
+
+  destroyed() {
+    this.$parent.$off("get-detail-nilai", this.getDetailCache);
   },
 
   data: () => ({
@@ -325,7 +333,9 @@ export default {
     dateFormatted: "",
     SantriId: [],
     NilaiSantri: [],
-    showTable: false
+    showTable: false,
+    idTahun: "",
+    idMapel: ""
   }),
 
   computed: {
@@ -571,7 +581,7 @@ export default {
       })
     },
 
-    getDataDetail(idTahun){
+    getDataDetail(){
       return new Promise(resolve => {
         var mydata = {
           UID: localStorage.getLocalStorage("kode_user"),
@@ -580,8 +590,8 @@ export default {
           Route: "READ_DETAIL_NILIA",
           tahun_id: this.idTahun,
           mapel_id: this.idMapel,
-          tipe_nilai: this.formFilter.tipe_nilai,
-          tanggal_nilai: this.dateFormatted
+          // tipe_nilai: this.formFilter.tipe_nilai,
+          // tanggal_nilai: this.dateFormatted
         };
 
         let contentType = `application/x-www-form-urlencoded`;
@@ -603,57 +613,62 @@ export default {
         );
       });
     },
-    filterData(){
-      if (!this.formFilter.tipe_nilai || !this.dateFormatted) {
-        Swal.fire({
-          title: "",
-          text: "Filter Tidak Boleh Kosong.",
-          icon: "info",
-          heightAuto: true,
-          timer: 1500
-        });
-      } else {
-        return new Promise(resolve => {
-          var mydata = {
-            UID: localStorage.getLocalStorage("kode_user"),
-            Token: localStorage.getLocalStorage("token"),
-            Trigger: "R",
-            Route: "READ_DETAIL_NILIA",
-            tahun_id: this.idTahun,
-            mapel_id: this.idMapel,
-            tipe_nilai: this.formFilter.tipe_nilai,
-            tanggal_nilai: this.dateFormatted
-          };
+
+    // filterData(){
+    //   if (!this.formFilter.tipe_nilai || !this.dateFormatted) {
+    //     Swal.fire({
+    //       title: "",
+    //       text: "Filter Tidak Boleh Kosong.",
+    //       icon: "info",
+    //       heightAuto: true,
+    //       timer: 1500
+    //     });
+    //   } else {
+    //     return new Promise(resolve => {
+    //       var mydata = {
+    //         UID: localStorage.getLocalStorage("kode_user"),
+    //         Token: localStorage.getLocalStorage("token"),
+    //         Trigger: "R",
+    //         Route: "READ_DETAIL_NILIA",
+    //         tahun_id: this.idTahun,
+    //         mapel_id: this.idMapel,
+    //         tipe_nilai: this.formFilter.tipe_nilai,
+    //         tanggal_nilai: this.dateFormatted
+    //       };
   
-          let contentType = `application/x-www-form-urlencoded`;
+    //       let contentType = `application/x-www-form-urlencoded`;
   
-          const qs = require("qs");
+    //       const qs = require("qs");
   
-          Services.PostData(
-            ApiService,
-            "Riwayat/Riwayat_Nilai",
-            qs.stringify(mydata),
-            contentType,
-            response => {
-              resolve(response.data);
-              this.dataDetail= response.data;
-              this.showTable = true
-            },
-            err => {
-              err;
-            }
-          );
-        });
-      }
-    },
-    clearFilter(){
-      this.dateFormatted = ""
-      this.formFilter.tipe_nilai = ""
-      this.showTable = false
-    },
-    async getDetailCache(idTahun) {
+    //       Services.PostData(
+    //         ApiService,
+    //         "Riwayat/Riwayat_Nilai",
+    //         qs.stringify(mydata),
+    //         contentType,
+    //         response => {
+    //           resolve(response.data);
+    //           this.dataDetail= response.data;
+    //           // this.showTable = true
+    //         },
+    //         err => {
+    //           err;
+    //         }
+    //       );
+    //     });
+    //   }
+    // },
+    // clearFilter(){
+    //   this.dateFormatted = ""
+    //   this.formFilter.tipe_nilai = ""
+    //   // this.showTable = false
+    // },
+    
+    async getDetailCache(item) {
+      this.idTahun = item.tahun_id
+      this.idMapel = item.mapel_id
+      
       Promise.all([
-        await this.getDataDetail(idTahun)
+        await this.getDataDetail()
       ])
       .then(async (results) => {
         results

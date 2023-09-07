@@ -150,6 +150,7 @@
 import Services from "@/core/services/aljazary-api/Services";
 import ApiService from "@/core/services/api.service";
 import localStorage from "@/core/services/store/localStorage";
+import { mapGetters } from "vuex";
 
 export default {
     props: {
@@ -220,6 +221,9 @@ export default {
             this.progressBar = false
         }
     },
+    computed:{
+        ...mapGetters(["masterTahunAjaran"]),
+    },
     methods: {
         getMasterKelas(){
             return new Promise(resolve => {
@@ -250,32 +254,33 @@ export default {
             });
         },
         getMasterTahunAjaran(){
-            return new Promise(resolve => {
-                var mydata = {
-                    UID: localStorage.getLocalStorage("uid"),
-                    Token: localStorage.getLocalStorage("token"),
-                    Trigger: "R",
-                    Route: "DEFAULT"
-                };
+            this.master_data_tahunAjaran = this.masterTahunAjaran;
+            // return new Promise(resolve => {
+            //     var mydata = {
+            //         UID: localStorage.getLocalStorage("uid"),
+            //         Token: localStorage.getLocalStorage("token"),
+            //         Trigger: "R",
+            //         Route: "DEFAULT"
+            //     };
 
-                let contentType = `application/x-www-form-urlencoded`;
+            //     let contentType = `application/x-www-form-urlencoded`;
 
-                const qs = require("qs");
+            //     const qs = require("qs");
 
-                Services.PostData(
-                    ApiService,
-                    "Master/TahunAjaran",
-                    qs.stringify(mydata),
-                    contentType,
-                    response => {
-                        resolve(response.data);
-                        this.master_data_tahunAjaran = response.data;
-                    },
-                    err => {
-                        err;
-                    }
-                );
-            });
+            //     Services.PostData(
+            //         ApiService,
+            //         "Master/TahunAjaran",
+            //         qs.stringify(mydata),
+            //         contentType,
+            //         response => {
+            //             resolve(response.data);
+            //             this.master_data_tahunAjaran = response.data;
+            //         },
+            //         err => {
+            //             err;
+            //         }
+            //     );
+            // });
         },
         getMasterMapel(){
             return new Promise(resolve => {

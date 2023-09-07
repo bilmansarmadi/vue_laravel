@@ -86,9 +86,7 @@
 <script>
 import TableDetail from "@/view/pages/pengajaran/santri/Nilai/DetailNilai";
 import TableNasihat from "@/view/pages/pengajaran/santri/Nilai/DetailNasihat";
-import Services from "@/core/services/aljazary-api/Services";
-import ApiService from "@/core/services/api.service";
-import localStorage from "@/core/services/store/localStorage";
+import { Fetch_MThn_Ajaran_By_Santri } from "@/core/services/store/m_ThnAjaran.module";
 
 export default {
     components: {
@@ -129,33 +127,11 @@ export default {
         },
 
         getMasterTahunAjaran(){
-            return new Promise(resolve => {
-                var mydata = {
-                    UID: localStorage.getLocalStorage("uid"),
-                    Token: localStorage.getLocalStorage("token"),
-                    Trigger: "R",
-                    Route: "DEFAULT",
-                    santri_id: this.Santri_Id
-                };
-
-                let contentType = `application/x-www-form-urlencoded`;
-
-                const qs = require("qs");
-
-                Services.PostData(
-                    ApiService,
-                    "Master/TahunAjaran",
-                    qs.stringify(mydata),
-                    contentType,
-                    response => {
-                        resolve(response.data);
-                        this.master_data_tahunAjaran = response.data;
-                    },
-                    err => {
-                        err;
-                    }
-                );
-            });
+            var SantriId = this.Santri_Id;
+            this.$store
+                .dispatch(Fetch_MThn_Ajaran_By_Santri, { SantriId })
+                .then((res) => this.master_data_tahunAjaran = res.data)
+                .catch((err) => err);
         },
 
         hideDetail(item){

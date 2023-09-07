@@ -1,5 +1,6 @@
 import ApiService from "@/core/services/api.service";
 import JwtService from "@/core/services/jwt.service";
+import { Fetch_MThn_Ajaran } from "@/core/services/store/m_ThnAjaran.module";
 
 import Service from '@/core/services/aljazary-api/Services';
 import localStorage from './localStorage'
@@ -67,6 +68,8 @@ const actions = {
             localStorage.setLocalStorage('token', response.data[0].token);
             localStorage.setLocalStorage('jenis_user', response.data[0].jenis_user);
 
+            context.dispatch(Fetch_MThn_Ajaran)
+
             const Toast = Swal.mixin({
               toast: true,
               position: 'top-end',
@@ -94,6 +97,7 @@ const actions = {
           }
         },
         err => {
+          console.log(err);
           Swal.fire({
             title: "Gagal Login",
             icon: "error",

@@ -16,10 +16,14 @@
           <div class="col-lg-12 col-xxl-4 order-1 order-xxl-2">
               <table-detail
                 class="without-min-height" 
+                v-bind:accessList="accessListCache"
+              ></table-detail>
+              <!-- <table-detail
+                class="without-min-height" 
                 v-bind:idMapel="idMapel"
                 v-bind:idTahun="idTahun"
                 v-bind:accessList="accessListCache"
-              ></table-detail>
+              ></table-detail> -->
           </div>
       </div>
     </div>
@@ -43,11 +47,11 @@ import localStorage from "@/core/services/store/localStorage";
 export default {
   name: 'input_nilai_santri',
   data: () => ({
-    idMapel: '',
+    // idMapel: '',
     showDetail: false,
     isDataReload: true,
     accessListCache: [],
-    idTahun: ""
+    // idTahun: ""
 
   }),
   components: {
@@ -60,8 +64,9 @@ export default {
   methods: {
     getDataRow(item){
       if(item){
-        this.idMapel = item.mapel_id
-        this.idTahun = item.tahun_id
+        // this.idMapel = item.mapel_id
+        // this.idTahun = item.tahun_id
+        this.$emit('get-detail-nilai', item);
         this.showDetail = true
       }
     },
