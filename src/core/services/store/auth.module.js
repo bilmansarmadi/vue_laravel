@@ -1,6 +1,6 @@
 import ApiService from "@/core/services/api.service";
 import JwtService from "@/core/services/jwt.service";
-import { Fetch_MThn_Ajaran } from "@/core/services/store/m_ThnAjaran.module";
+import { Fetch_MThn_Ajaran, Fetch_MThn_Ajaran_ComboBox } from "@/core/services/store/m_ThnAjaran.module";
 import { Fetch_MKelas} from "@/core/services/store/mKelas.module";
 import { Fetch_mMapel} from "@/core/services/store/mMapel.module";
 
@@ -71,6 +71,7 @@ const actions = {
             localStorage.setLocalStorage('jenis_user', response.data[0].jenis_user);
 
             context.dispatch(Fetch_MThn_Ajaran)
+            context.dispatch(Fetch_MThn_Ajaran_ComboBox)
             context.dispatch(Fetch_MKelas)
             context.dispatch(Fetch_mMapel)
 

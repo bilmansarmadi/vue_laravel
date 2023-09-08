@@ -752,6 +752,7 @@ export default {
                             this.submitted = true;
                             this.data_mapel.splice(this.deletedIndex, 1);
                             this.getMasterMapel()
+                            this.$store.dispatch(Fetch_mMapel)
                         },
                         err => {
                             err;
@@ -826,6 +827,7 @@ export default {
                         this.submitted = true;
                         this.save("edit_data_mapel");
                         this.getMasterMapel();
+                        this.$store.dispatch(Fetch_mMapel)
                     },
                     err => {
                         err;

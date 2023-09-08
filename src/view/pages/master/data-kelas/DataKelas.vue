@@ -454,6 +454,7 @@ export default {
                             this.submitted = true;
                             this.data_kelas.splice(this.deletedIndex, 1);
                             this.getMasterDataKelas()
+                            this.$store.dispatch(Fetch_MKelas)
                         },
                         err => {
                             err;
@@ -520,6 +521,7 @@ export default {
                         this.submitted = true;
                         this.save("edit_data_kelas");
                         this.getMasterDataKelas();
+                        this.$store.dispatch(Fetch_MKelas)
                     },
                     err => {
                         err;

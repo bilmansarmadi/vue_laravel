@@ -174,6 +174,7 @@ import Services from "@/core/services/aljazary-api/Services";
 import ApiService from "@/core/services/api.service";
 import Swal from 'sweetalert2'
 import localStorage from "@/core/services/store/localStorage";
+import { Fetch_MThn_Ajaran_ComboBox, Fetch_MThn_Ajaran} from "@/core/services/store/m_ThnAjaran.module";
 
 export default {
     name:"master-tahun-ajaran",
@@ -292,32 +293,7 @@ export default {
         },
 
         getMasterTahunAjaran(){
-            return new Promise(resolve => {
-                var mydata = {
-                    UID: localStorage.getLocalStorage("uid"),
-                    Token: localStorage.getLocalStorage("token"),
-                    Trigger: "R",
-                    Route: "COMBOBOX_TAHUN_AJARAN"
-                };
-
-                let contentType = `application/x-www-form-urlencoded`;
-
-                const qs = require("qs");
-
-                Services.PostData(
-                    ApiService,
-                    "Master/TahunAjaran",
-                    qs.stringify(mydata),
-                    contentType,
-                    response => {
-                        resolve(response.data);
-                        this.tahun_ajaran = response.data;
-                    },
-                    err => {
-                        err;
-                    }
-                );
-            });
+            this.tahun_ajaran = this.$store.state.mThnAjaran.master_tahun_ajaran_combobox
         },
 
         createTahunAjaran(){
@@ -363,6 +339,8 @@ export default {
                     this.submitted = true;
                     this.save("add_tahun_ajaran");
                     this.getMasterTahunAjaran();
+                    this.$store.dispatch(Fetch_MThn_Ajaran_ComboBox)
+                    this.$store.dispatch(Fetch_MThn_Ajaran)
                 },
                 err => {
                     err;
@@ -431,6 +409,8 @@ export default {
                             this.submitted = true;
                             this.tahun_ajaran.splice(this.deletedIndex, 1);
                             this.getMasterTahunAjaran()
+                            this.$store.dispatch(Fetch_MThn_Ajaran_ComboBox)
+                            this.$store.dispatch(Fetch_MThn_Ajaran)
                         },
                         err => {
                             err;
@@ -495,6 +475,8 @@ export default {
                         this.submitted = true;
                         this.save("edit_tahun_ajaran");
                         this.getMasterTahunAjaran();
+                        this.$store.dispatch(Fetch_MThn_Ajaran_ComboBox)
+                        this.$store.dispatch(Fetch_MThn_Ajaran)
                     },
                     err => {
                         err;
