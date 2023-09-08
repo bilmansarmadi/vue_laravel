@@ -357,6 +357,7 @@ import Services from "@/core/services/aljazary-api/Services";
 import ApiService from "@/core/services/api.service";
 import Swal from 'sweetalert2'
 import localStorage from "@/core/services/store/localStorage";
+import { Fetch_mMapel} from "@/core/services/store/mMapel.module";
 
 export default {
     name:"master-mata-pelajaran",
@@ -681,6 +682,7 @@ export default {
                     this.submitted = true;
                     this.save("add_data_mapel");
                     this.getMasterMapel();
+                    this.$store.dispatch(Fetch_mMapel)
                 },
                 err => {
                     err;

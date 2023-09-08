@@ -2,6 +2,7 @@ import ApiService from "@/core/services/api.service";
 import JwtService from "@/core/services/jwt.service";
 import { Fetch_MThn_Ajaran } from "@/core/services/store/m_ThnAjaran.module";
 import { Fetch_MKelas} from "@/core/services/store/mKelas.module";
+import { Fetch_mMapel} from "@/core/services/store/mMapel.module";
 
 import Service from '@/core/services/aljazary-api/Services';
 import localStorage from './localStorage'
@@ -71,6 +72,7 @@ const actions = {
 
             context.dispatch(Fetch_MThn_Ajaran)
             context.dispatch(Fetch_MKelas)
+            context.dispatch(Fetch_mMapel)
 
             const Toast = Swal.mixin({
               toast: true,

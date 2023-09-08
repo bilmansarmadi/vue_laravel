@@ -609,32 +609,7 @@ export default {
         },
 
         getMasterMapel(){
-            return new Promise(resolve => {
-                var mydata = {
-                    UID: localStorage.getLocalStorage("uid"),
-                    Token: localStorage.getLocalStorage("token"),
-                    Trigger: "R",
-                    Route: "COMBOBOX_MAPEL"
-                };
-
-                let contentType = `application/x-www-form-urlencoded`;
-
-                const qs = require("qs");
-
-                Services.PostData(
-                    ApiService,
-                    "Master/Mapel",
-                    qs.stringify(mydata),
-                    contentType,
-                    response => {
-                        resolve(response.data);
-                        this.master_data_mapel = response.data;
-                    },
-                    err => {
-                        err;
-                    }
-                );
-            });
+            this.master_data_mapel = this.$store.state.mMapel.master_mapel;
         },
 
         getMasterKelas(){
