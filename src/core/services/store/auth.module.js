@@ -1,6 +1,7 @@
 import ApiService from "@/core/services/api.service";
 import JwtService from "@/core/services/jwt.service";
 import { Fetch_MThn_Ajaran } from "@/core/services/store/m_ThnAjaran.module";
+import { Fetch_MKelas} from "@/core/services/store/mKelas.module";
 
 import Service from '@/core/services/aljazary-api/Services';
 import localStorage from './localStorage'
@@ -69,6 +70,7 @@ const actions = {
             localStorage.setLocalStorage('jenis_user', response.data[0].jenis_user);
 
             context.dispatch(Fetch_MThn_Ajaran)
+            context.dispatch(Fetch_MKelas)
 
             const Toast = Swal.mixin({
               toast: true,

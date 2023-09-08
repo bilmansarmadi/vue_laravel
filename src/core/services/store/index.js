@@ -8,6 +8,7 @@ import config from "./config.module";
 import breadcrumbs from "./breadcrumbs.module";
 import profile from "./profile.module";
 import mThnAjaran from './m_ThnAjaran.module';
+import mKelas from './mKelas.module';
 
 Vue.use(Vuex);
 
@@ -18,7 +19,8 @@ export default new Vuex.Store({
     config,
     breadcrumbs,
     profile,
-    mThnAjaran
+    mThnAjaran,
+    mKelas
   },
   plugins: [createPersistedState()],
 });

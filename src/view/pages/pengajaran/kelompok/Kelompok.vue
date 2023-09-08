@@ -154,20 +154,6 @@
                             <v-card-text>
                                 <v-container>
                                     <v-row>
-                                        <!-- <v-col
-                                            cols="12"
-                                            md="12"
-                                        >
-                                            <v-autocomplete
-                                                v-model="formInput.kelas_id"
-                                                :items="master_data_kelas"
-                                                item-text="nama_kelas"
-                                                item-value="kelas_id"
-                                                label="Kelas"
-                                                clearable
-                                                color="#ee8b3d"
-                                            ></v-autocomplete>
-                                        </v-col> -->
                                         <v-col
                                             cols="12"
                                             md="12"
@@ -375,7 +361,6 @@ export default {
             rulesNotNull: [
                 value => !!value || 'Tidak boleh kosong.',
             ],
-            master_data_kelas: [],
             master_data_santri: [],
             master_data_tahunAjaran: [],
             dropdown_status: [
@@ -497,35 +482,6 @@ export default {
                     response => {
                         resolve(response.data);
                         this.master_data_tahunAjaran = response.data;
-                    },
-                    err => {
-                        err;
-                    }
-                );
-            });
-        },
-
-        getMasterKelas(){
-            return new Promise(resolve => {
-                var mydata = {
-                    UID: localStorage.getLocalStorage("uid"),
-                    Token: localStorage.getLocalStorage("token"),
-                    Trigger: "R",
-                    Route: "COMBOBOX_KELAS"
-                };
-
-                let contentType = `application/x-www-form-urlencoded`;
-
-                const qs = require("qs");
-
-                Services.PostData(
-                    ApiService,
-                    "Master/Kelas",
-                    qs.stringify(mydata),
-                    contentType,
-                    response => {
-                        resolve(response.data);
-                        this.master_data_kelas= response.data;
                     },
                     err => {
                         err;

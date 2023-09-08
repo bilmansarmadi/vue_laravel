@@ -186,6 +186,7 @@ import Services from "@/core/services/aljazary-api/Services";
 import ApiService from "@/core/services/api.service";
 import Swal from 'sweetalert2'
 import localStorage from "@/core/services/store/localStorage";
+import { Fetch_MKelas} from "@/core/services/store/mKelas.module";
 
 export default {
     name:"master-kelas",
@@ -384,6 +385,7 @@ export default {
                     this.submitted = true;
                     this.save("add_data_kelas");
                     this.getMasterDataKelas();
+                    this.$store.dispatch(Fetch_MKelas)
                 },
                 err => {
                     err;

@@ -638,32 +638,7 @@ export default {
         },
 
         getMasterKelas(){
-            return new Promise(resolve => {
-                var mydata = {
-                    UID: localStorage.getLocalStorage("uid"),
-                    Token: localStorage.getLocalStorage("token"),
-                    Trigger: "R",
-                    Route: "COMBOBOX_KELAS"
-                };
-
-                let contentType = `application/x-www-form-urlencoded`;
-
-                const qs = require("qs");
-
-                Services.PostData(
-                    ApiService,
-                    "Master/Kelas",
-                    qs.stringify(mydata),
-                    contentType,
-                    response => {
-                        resolve(response.data);
-                        this.master_data_kelas= response.data;
-                    },
-                    err => {
-                        err;
-                    }
-                );
-            });
+            this.master_data_kelas = this.$store.state.mKelas.master_kelas;
         },
 
         getMasterPengajar(){
