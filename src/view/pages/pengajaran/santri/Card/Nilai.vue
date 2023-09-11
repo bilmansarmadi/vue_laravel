@@ -59,11 +59,11 @@
                 </b-collapse>
             </div>
             <div v-show="showDetail">
-                <table-quran
+                <table-tahsin
                 class="without-min-height" 
                 v-bind:idHeader="idHeader"
                 v-bind:accessList="accessList"
-                ></table-quran>
+                ></table-tahsin>
             </div>
             <div v-show="showDetail">
                 <table-detail
@@ -72,21 +72,19 @@
                 v-bind:accessList="accessList"
                 ></table-detail>
             </div>
-            <div class="row col-md-12">
-                <div class="col-md-6" v-show="showDetail">
-                    <table-akhlak
-                    class="without-min-height" 
-                    v-bind:idHeader="idHeader"
-                    v-bind:accessList="accessList"
-                    ></table-akhlak>
-                </div>
-                <div class="col-md-6" v-show="showDetail">
-                    <table-nasihat
-                    class="without-min-height" 
-                    v-bind:idHeader="idHeader"
-                    v-bind:accessList="accessList"
-                    ></table-nasihat>
-                </div>
+            <div v-show="showDetail">
+                <table-akhlak
+                class="without-min-height" 
+                v-bind:idHeader="idHeader"
+                v-bind:accessList="accessList"
+                ></table-akhlak>
+            </div>
+            <div v-show="showDetail">
+                <table-nasihat
+                class="without-min-height" 
+                v-bind:idHeader="idHeader"
+                v-bind:accessList="accessList"
+                ></table-nasihat>
             </div>
         </div>
 
@@ -99,7 +97,7 @@
 </template>
 
 <script>
-import TableQuran from "@/view/pages/pengajaran/santri/Nilai/DetailQuran";
+import TableTahsin from "@/view/pages/pengajaran/santri/Nilai/DetailTahsin";
 import TableDetail from "@/view/pages/pengajaran/santri/Nilai/DetailNilai";
 import TableAkhlak from "@/view/pages/pengajaran/santri/Nilai/DetailAkhlak";
 import TableNasihat from "@/view/pages/pengajaran/santri/Nilai/DetailNasihat";
@@ -107,7 +105,7 @@ import { Fetch_MThn_Ajaran_By_Santri } from "@/core/services/store/m_ThnAjaran.m
 
 export default {
     components: {
-        TableQuran,
+        TableTahsin,
         TableDetail,
         TableAkhlak,
         TableNasihat

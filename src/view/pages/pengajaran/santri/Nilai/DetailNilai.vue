@@ -7,7 +7,7 @@
         loading-text="Loading... Please wait"
         :items-per-page="5"
         v-show="accessList.R"
-        class="elevation-1 border border-primary card card-custom card-stretch border border-primary mt-8 mb-8"
+        class="elevation-1 border border-primary card card-custom card-stretch border border-primary mt-5"
         :footer-props="{
         showFirstLastPage: false,
             'items-per-page-text':'Page'
@@ -18,6 +18,7 @@
             flat
             class="mb-5"
         >
+            <h5>{{ CustomMessage }}</h5>
             <v-spacer></v-spacer>
             <v-text-field
             v-model="search"
@@ -433,6 +434,7 @@ export default {
             dateFormatted: "",
             dataDetailCttn: "",
             dialogSeenBill: false,
+            CustomMessage: ""
         }
     },
 
@@ -508,6 +510,7 @@ export default {
                     contentType,
                     response => {
                         resolve(response.data);
+                        this.CustomMessage = response.message_opt
                         this.data_nilai = response.data;
                     },
                     err => {
