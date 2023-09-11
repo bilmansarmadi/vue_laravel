@@ -8,7 +8,6 @@
         :items-per-page="5"
         v-show="accessList.R"
         class="elevation-1 border border-primary card card-custom card-stretch border border-primary mt-8 mb-8"
-        group-by="Kurikulum"
         :footer-props="{
         showFirstLastPage: false,
             'items-per-page-text':'Page'
@@ -73,40 +72,71 @@
                                     :items="master_data_mapel"
                                     item-text="mapel_nama"
                                     item-value="mapel_id"
-                                    label="Aspek/Mata Pelajaran"
+                                    label="Mata Pelajaran"
                                     clearable
                                     color="#ee8b3d"
                                 ></v-autocomplete>
                             </v-col>
                             <v-col
-                                cols="12"
-                                md="6"
-                            >
-                                <v-text-field
-                                    v-model="formInput.nilai"
-                                    label="Nilai"
-                                    :rules="rulesNotNull"
-                                    required
-                                    type="number"
-                                    clearable
-                                    color="#ee8b3d"
-                                ></v-text-field>
-                            </v-col>
-                            <v-col
-                                cols="12"
-                                md="6"
-                            >
-                                <v-select
-                                    v-model="formInput.tipe_nilai"
-                                    :items="dropdown_tipe_nilai"
-                                    item-text="text"
-                                    item-value="value"
-                                    label="Tipe"
-                                    clearable
-                                    color="#ee8b3d"
-                                ></v-select>
-                            </v-col>
-                            <v-col
+                                  cols="12"
+                                  md="6"
+                              >
+                                  <v-text-field
+                                      v-model="formInput.uas"
+                                      label="UAS"
+                                      type="number"
+                                      clearable
+                                      color="#ee8b3d"
+                                  ></v-text-field>
+                              </v-col>
+                              <v-col
+                                  cols="12"
+                                  md="6"
+                              >
+                                  <v-text-field
+                                      v-model="formInput.uts"
+                                      label="UTS"
+                                      type="number"
+                                      clearable
+                                      color="#ee8b3d"
+                                  ></v-text-field>
+                              </v-col>
+                              <v-col
+                                  cols="12"
+                                  md="6"
+                              >
+                                  <v-text-field
+                                      v-model="formInput.tugas"
+                                      label="Tugas"
+                                      type="number"
+                                      clearable
+                                      color="#ee8b3d"
+                                  ></v-text-field>
+                              </v-col>
+                              <v-col
+                                  cols="12"
+                                  md="6"
+                              >
+                                  <v-text-field
+                                      v-model="formInput.praktek"
+                                      label="Praktek"
+                                      clearable
+                                      color="#ee8b3d"
+                                  ></v-text-field>
+                              </v-col>
+                              <v-col
+                                  cols="12"
+                                  md="6"
+                              >
+                                  <v-textarea
+                                      v-model="formInput.keterangan_nilai"
+                                      label="Catatan"
+                                      clearable
+                                      rows="1"
+                                      color="#ee8b3d"
+                                  ></v-textarea>
+                              </v-col>
+                            <!-- <v-col
                             cols="12"
                             md="6"
                             >
@@ -136,7 +166,7 @@
                                     @input="menu1 = false"
                                     ></v-date-picker>
                                 </v-menu>
-                            </v-col>
+                            </v-col> -->
                         </v-row>
                     </v-container>
                 </v-card-text>
@@ -159,6 +189,35 @@
                 </button>
                 </v-card-actions>
             </v-card>
+            </v-dialog>
+            <v-dialog v-model="dialogSeenBill" max-width="800px">
+                <v-card>
+                <v-card-title class="border">
+                    <span class="text-h5">Detail Catatan</span>
+                    <v-spacer></v-spacer>
+                    <v-icon
+                        class="rounded-circle p-2 shadow-sm"
+                        small
+                        @click="dialogSeenBill = false"
+                        color="#000"
+                    >
+                        mdi-close
+                    </v-icon>
+                </v-card-title>
+
+                <v-card-text>
+                    <v-container>
+                        <h6>{{ dataDetailCttn }}</h6>
+                    </v-container>
+                </v-card-text>
+                <v-divider></v-divider>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn class="text-xl-subtitle-1" color="#73a4ef" text @click="dialogSeenBill = false">
+                    Tutup
+                    </v-btn>
+                </v-card-actions>
+                </v-card>
             </v-dialog>
         </v-toolbar>
         </template>
@@ -201,6 +260,24 @@
             </template>
         <span>Hapus Data</span>
         </v-tooltip>
+        </template>
+
+        <template v-slot:[`item.keterangan_nilai`]="{ item }">
+          <v-btn
+              color="#73a4ef"
+              light
+              small
+              fab
+              class="ml-3"
+              @click="seenFileBill(item)"
+              data-toggle="tooltip"
+              title="Lihat Catatan"
+              style="text-transform: capitalize !important; min-width: 0px; padding: 0 6px;"
+          >
+          <v-icon small color="white">
+              mdi-message
+          </v-icon>
+          </v-btn>
         </template>
     </v-data-table>
 </template>
@@ -247,8 +324,11 @@ export default {
             delete_data_nilai: [],
             add_data_nilai: {
                 mapel_id: "",
-                nilai: "",
-                tipe_nilai: ""
+                uas: "",
+                uts: "",
+                tugas: "",
+                praktek: "",
+                keterangan_nilai: "",
             },
             dropdown_tipe_nilai: [
                 { value: "Tugas", text: "Tugas" },
@@ -257,45 +337,90 @@ export default {
             ],
             headers: [
                 { 
-                    text: 'Kurikulum', 
-                    value: 'Kurikulum',
-                    align: 'start',
-                    width: "100px",
-                    sortable: false 
-                },
-                { 
-                    text: 'Aspek/Mata Pelajaran', 
+                    text: 'Mata Pelajaran', 
                     value: 'mapel_nama',
+                    width: "190px",
                     align: 'start',
-                    width: "200px",
                     sortable: false 
                 },
                 { 
-                    text: 'Nilai', 
-                    value: 'nilai',
-                    align: 'center',
-                    width: "80px",
+                    text: 'Tugas', 
+                    value: 'tugas',
+                    align: 'start',
                     sortable: false 
                 },
                 { 
-                    text: 'Tipe', 
-                    value: 'tipe_nilai',
-                    align: 'center',
-                    width: "80px",
+                    text: 'UTS', 
+                    value: 'uts',
+                    align: 'start',
                     sortable: false 
                 },
                 { 
-                    text: 'Tanggal', 
-                    value: 'tanggal_nilai',
-                    align: 'center',
-                    width: "100px",
+                    text: 'UAS', 
+                    value: 'uas',
+                    align: 'start',
+                    sortable: false 
+                },
+                { 
+                    text: 'Praktek', 
+                    value: 'praktek',
+                    align: 'start',
+                    sortable: false 
+                },
+                { 
+                    text: 'Kehadiran', 
+                    value: 'kehadiran',
+                    align: 'start',
+                    sortable: false 
+                },
+                { 
+                    text: 'Total Pertemuan', 
+                    value: 'total_pertemuan',
+                    width: "120px",
+                    align: 'start',
+                    sortable: false 
+                },
+                { 
+                    text: 'Hasil Akhir', 
+                    value: 'hasil_akhir',
+                    align: 'start',
+                    sortable: false 
+                },
+                { 
+                    text: 'KKM', 
+                    value: 'kkm',
+                    align: 'start',
+                    sortable: false 
+                },
+                { 
+                    text: 'Status', 
+                    value: 'STATUS',
+                    align: 'start',
+                    sortable: false 
+                },
+                { 
+                    text: 'Predikat', 
+                    value: 'predikat',
+                    align: 'start',
+                    sortable: false 
+                },
+                { 
+                    text: 'Nilai Akhir', 
+                    value: 'hasil_akhir',
+                    align: 'start',
+                    sortable: false 
+                },
+                { 
+                    text: 'Catatan', 
+                    value: 'keterangan_nilai',
+                    align: 'start',
                     sortable: false 
                 },
                 { 
                     text: 'Aksi', 
                     value: 'actions', 
                     align: 'center',
-                    width: "150px",
+                    width: "120px",
                     sortable: false 
                 },
             ],
@@ -306,6 +431,8 @@ export default {
             menu1: false,
             date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
             dateFormatted: "",
+            dataDetailCttn: "",
+            dialogSeenBill: false,
         }
     },
 
@@ -340,8 +467,7 @@ export default {
                 : this.updateTahunAjaran;
         },
         isDisabledSimpan(){
-            return !this.formInput.mapel_id || !this.formInput.nilai
-            || !this.formInput.tipe_nilai || !this.dateFormatted
+            return !this.formInput.mapel_id
         }
     },
 
@@ -366,7 +492,7 @@ export default {
                     UID: localStorage.getLocalStorage("uid"),
                     Token: localStorage.getLocalStorage("token"),
                     Trigger: "R",
-                    Route: "READ_RIWAYAT_NILAI",
+                    Route: "READ_NILAI_INTI",
                     santri_id: this.Santri_Id,
                     tahun_id: idHeader
                 };
@@ -407,6 +533,13 @@ export default {
 
         createTahunAjaran(){
             return new Promise(resolve => {
+                const currentDate = new Date();
+                const day = currentDate.getDate().toString().padStart(2, '0'); // Mendapatkan hari (dd)
+                const month = (currentDate.getMonth() + 1).toString().padStart(2, '0'); // Mendapatkan bulan (mm)
+                const year = currentDate.getFullYear().toString(); // Mendapatkan tahun (yyyy)
+
+                const formattedDate = `${day}-${month}-${year}`;
+
                 var mydata = {
                     UID: localStorage.getLocalStorage("uid"),
                     Token: localStorage.getLocalStorage("token"),
@@ -414,10 +547,13 @@ export default {
                     Route: "DEFAULT",
                     santri_id: this.Santri_Id,
                     tahun_id: this.idHeader,
-                    tipe_nilai: this.add_data_nilai.tipe_nilai,
-                    nilai: this.add_data_nilai.nilai,
-                    tanggal_nilai: this.dateFormatted,
-                    mapel_id: this.add_data_nilai.mapel_id
+                    mapel_id: this.add_data_nilai.mapel_id,
+                    uas: this.add_data_nilai.uas,
+                    uts: this.add_data_nilai.uts,
+                    tugas: this.add_data_nilai.tugas,
+                    praktek: this.add_data_nilai.praktek,
+                    keterangan_nilai: this.add_data_nilai.keterangan_nilai,
+                    tanggal_nilai: formattedDate
                 };
 
                 let contentType = `application/x-www-form-urlencoded`;
@@ -536,9 +672,11 @@ export default {
             this.dialog = false
             this.$nextTick(() => {
                 this.add_data_nilai.mapel_id = ""
-                this.add_data_nilai.nilai = ""
-                this.add_data_nilai.tipe_nilai = ""
-                this.dateFormatted = ""
+                this.add_data_nilai.uas = ""
+                this.add_data_nilai.uts= ""
+                this.add_data_nilai.tugas= ""
+                this.add_data_nilai.praktek= ""
+                this.add_data_nilai.keterangan_nilai= ""
                 this.editedItem = Object.assign({}, this.defaultItem)
                 this.editedIndex = -1
             })
@@ -546,18 +684,28 @@ export default {
 
         updateTahunAjaran() {
             return new Promise(resolve => {
+                const currentDate = new Date();
+                const day = currentDate.getDate().toString().padStart(2, '0'); // Mendapatkan hari (dd)
+                const month = (currentDate.getMonth() + 1).toString().padStart(2, '0'); // Mendapatkan bulan (mm)
+                const year = currentDate.getFullYear().toString(); // Mendapatkan tahun (yyyy)
+
+                const formattedDate = `${day}-${month}-${year}`;
+
                 var mydata = {
                     UID: localStorage.getLocalStorage("uid"),
                     Token: localStorage.getLocalStorage("token"),
                     Trigger: "U",
                     Route: "DEFAULT",
-                    nilai_id: this.data_item.nilai_id,
-                    tahun_id: this.data_item.tahun_id,
                     santri_id: this.Santri_Id,
-                    tipe_nilai: this.editedItem.tipe_nilai,
-                    nilai: this.editedItem.nilai,
-                    tanggal_nilai: this.dateFormatted,
-                    mapel_id: this.editedItem.mapel_id
+                    tahun_id: this.data_item.tahun_id,
+                    nilai_id: this.data_item.nilai_id,
+                    mapel_id: this.editedItem.mapel_id,
+                    uas: this.editedItem.uas,
+                    uts: this.editedItem.uts,
+                    tugas: this.editedItem.tugas,
+                    praktek: this.editedItem.praktek,
+                    keterangan_nilai: this.editedItem.keterangan_nilai,
+                    tanggal_nilai: formattedDate
                 };
 
                 let contentType = `application/x-www-form-urlencoded`;
@@ -619,6 +767,11 @@ export default {
             }
             this.close();
         },
+
+        seenFileBill(item) {
+            this.dataDetailCttn = item.keterangan_nilai
+            this.dialogSeenBill = true;
+        },  
 
         async load() {
             Promise.all([
