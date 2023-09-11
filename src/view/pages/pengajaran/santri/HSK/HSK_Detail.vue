@@ -8,7 +8,7 @@
             loading-text="Loading... Please wait"
             :items-per-page="15"
             group-by="Kurikulum"
-            class="elevation-1 border border-primary mb-10"
+            class="elevation-1 border border-primary card card-custom card-stretch border border-primary"
             :footer-props="{
             showFirstLastPage: false,
                 'items-per-page-text':'Page'
