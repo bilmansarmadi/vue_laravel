@@ -1,5 +1,5 @@
 <template>
-    <div class="container-fluid">
+    <div>
         <div v-show="showSearch">
             <div class="card mt-4 shadow-xs cardHover mb-5">
                 <div class="d-block px-3 py-3" data-toggle="collapse" style="background-color: #FFF;"

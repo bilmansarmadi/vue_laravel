@@ -1,9 +1,6 @@
 <template>
     <div>
-        <div
-            class="col-md-12"
-        >
-            <div class="card card-custom card-stretch border border-primary">
+        <div class="card card-custom card-stretch border border-primary">
             <div class="card-body pt-4">
                 <!--begin::User-->
                 <!-- <div class="card-toolbar">
@@ -39,7 +36,7 @@
                 class="navi navi-bold navi-hover navi-active navi-link-rounded d-flex row col-md-12 mx-auto"
                 role="tablist"
                 >
-                <div class="navi-item mb-2 col-md-2">
+                <div class="navi-item mb-2 col-md-3">
                     <a
                     class="navi-link py-4 active"
                     @click="setActiveTab"
@@ -57,7 +54,7 @@
                     <span class="navi-text font-size-lg font-size-h5">Data</span>
                     </a>
                 </div>
-                <div class="navi-item mb-2 col-md-2">
+                <div class="navi-item mb-2 col-md-3">
                     <a
                     class="navi-link py-4"
                     @click="setActiveTab"
@@ -73,7 +70,7 @@
                     <span class="navi-text font-size-lg font-size-h5">Nilai</span>
                     </a>
                 </div>
-                <div class="navi-item mb-2 col-md-2">
+                <!-- <div class="navi-item mb-2 col-md-2">
                     <a
                     class="navi-link py-4"
                     @click="setActiveTab"
@@ -104,13 +101,13 @@
                     </span>
                     <span class="navi-text font-size-lg font-size-h5">HSK</span>
                     </a>
-                </div>
+                </div> -->
                 <div class="navi-item mb-2 col-md-3">
                     <a
                     class="navi-link py-4"
                     @click="setActiveTab"
                     style="cursor:pointer"
-                    data-tab="4"
+                    data-tab="2"
                     data-toggle="tab"
                     role="tab"
                     aria-selected="false"
@@ -127,11 +124,10 @@
                 <v-divider></v-divider>
     
             </div>
-            </div>
         </div>
         
         <!--begin::Content-->
-        <div class="flex-row-fluid col-md-12">
+        <div class="flex-row-fluid mt-5">
             <b-tabs class="hide-tabs" v-model="tabIndex">
                 <b-tab active>
                     <div class="card card-custom card-stretch border border-primary" v-show="accessList.R">
@@ -384,13 +380,13 @@
                     <KTNilai v-bind:accessList="accessList"></KTNilai>
                 </b-tab>
     
-                <b-tab>
+                <!-- <b-tab>
                     <KTKHS v-bind:accessList="accessList"></KTKHS>
                 </b-tab>
 
                 <b-tab>
                     <KTHSK v-bind:accessList="accessList"></KTHSK>
-                </b-tab>
+                </b-tab> -->
     
                 <b-tab>
                     <KTRiwayat_Sekolah v-bind:accessList="accessList"></KTRiwayat_Sekolah>
@@ -406,8 +402,8 @@ import localStorage from "@/core/services/store/localStorage";
 import Services from "@/core/services/aljazary-api/Services";
 import ApiService from "@/core/services/api.service";
 import KTNilai from "@/view/pages/pengajaran/santri/Card/Nilai";
-import KTKHS from "@/view/pages/pengajaran/santri/Card/KHS_Header";
-import KTHSK from "@/view/pages/pengajaran/santri/Card/HSK_Header";
+// import KTKHS from "@/view/pages/pengajaran/santri/Card/KHS_Header";
+// import KTHSK from "@/view/pages/pengajaran/santri/Card/HSK_Header";
 import KTRiwayat_Sekolah from "@/view/pages/pengajaran/santri/Card/Riwayat_Sekolah";
 import Swal from 'sweetalert2'
 
@@ -450,8 +446,8 @@ export default {
     components:{
         KTNilai,
         KTRiwayat_Sekolah,
-        KTKHS,
-        KTHSK
+        // KTKHS,
+        // KTHSK
     },
     methods:{
         asyncAccess(){

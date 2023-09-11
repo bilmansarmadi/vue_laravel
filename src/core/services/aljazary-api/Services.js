@@ -1,5 +1,4 @@
 function getRes(response) {
-  console.log(response);
   var newRess = {
     status: response.status,
     data: response.data,
