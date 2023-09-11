@@ -1,7 +1,7 @@
 <template>
     <v-data-table responsive show-empty
         :headers="headers"
-        :items="data_nasihat"
+        :items="data_akhlak"
         :search="search"
         :loading="progressBar"
         loading-text="Loading... Please wait"
@@ -13,7 +13,6 @@
             'items-per-page-text':'Page'
         }"
     >
-
         <template v-slot:top>
         <v-toolbar
             flat
@@ -31,7 +30,7 @@
             <v-spacer></v-spacer>
             <v-dialog
                 v-model="dialog"
-                max-width="800px"
+                max-width="500px"
                 persistent
             >
             <template v-slot:activator="{ on, attrs }">
@@ -68,15 +67,26 @@
                                 cols="12"
                                 md="12"
                             >
-                                <v-textarea
-                                    v-model="formInput.nasihat"
-                                    label="Nasihat"
-                                    :rules="rulesNotNull"
-                                    required
+                                <v-autocomplete
+                                    v-model="formInput.mapel_id"
+                                    :items="master_data_mapel"
+                                    item-text="mapel_nama"
+                                    item-value="mapel_id"
+                                    label="Mata Pelajaran"
                                     clearable
-                                    rows="2"
                                     color="#ee8b3d"
-                                ></v-textarea>
+                                ></v-autocomplete>
+                            </v-col>
+                            <v-col
+                                cols="12"
+                                md="12"
+                            >
+                                <v-text-field
+                                    v-model="formInput.praktek"
+                                    label="Praktek"
+                                    clearable
+                                    color="#ee8b3d"
+                                ></v-text-field>
                             </v-col>
                         </v-row>
                     </v-container>
@@ -151,11 +161,11 @@ import Services from "@/core/services/aljazary-api/Services";
 import ApiService from "@/core/services/api.service";
 import Swal from 'sweetalert2'
 import localStorage from "@/core/services/store/localStorage";
-import { formatDate } from "@/helpers/helper.js";
 
 export default {
     mounted() {
         this.Santri_Id  = this.$route.query.id;
+        this.load();
     },
 
     props: {
@@ -173,7 +183,7 @@ export default {
     data(){
         return {
             Santri_Id: "",
-            data_nasihat: [],
+            data_akhlak: [],
             search: '',
             progressBar: true,
             dialog: false,
@@ -182,30 +192,49 @@ export default {
             editedItem: {},
             defaultItem: {},
             submitted: false,
-            create_data_nasihat: [],
-            update_data_nasihat: [],
-            delete_data_nasihat: [],
-            add_data_nasihat: {
-                nasihat: ""
+            create_data_akhlak: [],
+            update_data_akhlak: [],
+            delete_data_akhlak: [],
+            add_data_akhlak: {
+                mapel_id: "",
+                praktek: "",
             },
             headers: [
                 { 
-                    text: 'Nasihat', 
-                    value: 'nasihat',
-                    align: 'justify',
+                    text: 'Aspek', 
+                    value: 'mapel_nama',
+                    align: 'start',
+                    sortable: false 
+                },
+                { 
+                    text: 'Nilai', 
+                    value: 'praktek',
+                    align: 'start',
+                    sortable: false 
+                },
+                { 
+                    text: 'Predikat', 
+                    value: 'predikat',
+                    align: 'start',
                     sortable: false 
                 },
                 { 
                     text: 'Aksi', 
-                    width: '120px',
                     value: 'actions', 
                     align: 'center',
+                    width: "120px",
                     sortable: false 
                 },
             ],
             rulesNotNull: [
                 value => !!value || 'Tidak boleh kosong.',
-            ]
+            ],
+            master_data_mapel: [],
+            menu1: false,
+            date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+            dateFormatted: "",
+            dataDetailCttn: "",
+            dialogSeenBill: false,
         }
     },
 
@@ -218,8 +247,12 @@ export default {
             val || this.close()
         },
 
-        data_nasihat(){
+        data_akhlak(){
             this.progressBar = false
+        },
+
+        date (val) {
+            this.dateFormatted = this.formatDate(this.date)
         },
     },
 
@@ -228,15 +261,15 @@ export default {
             return this.editedIndex === -1 ? 'Tambah Data' : 'Ubah Data'
         },
         formInput() {
-            return this.editedIndex === -1 ? this.add_data_nasihat : this.editedItem;
+            return this.editedIndex === -1 ? this.add_data_akhlak : this.editedItem;
         },
         formSubmit() {
             return this.editedIndex === -1
-                ? this.createDetailNasihat
-                : this.updateDetailNasihat;
+                ? this.createAkhllak
+                : this.updateAkhlak;
         },
         isDisabledSimpan(){
-            return !this.formInput.nasihat
+            return !this.formInput.mapel_id || !this.formInput.praktek
         }
     },
 
@@ -261,7 +294,7 @@ export default {
                     UID: localStorage.getLocalStorage("uid"),
                     Token: localStorage.getLocalStorage("token"),
                     Trigger: "R",
-                    Route: "DEFAULT",
+                    Route: "READ_NILAI_AHLAK",
                     santri_id: this.Santri_Id,
                     tahun_id: idHeader
                 };
@@ -272,18 +305,22 @@ export default {
 
                 Services.PostData(
                     ApiService,
-                    "Riwayat/Riwayat_Nasihat",
+                    "Riwayat/Riwayat_Nilai",
                     qs.stringify(mydata),
                     contentType,
                     response => {
                         resolve(response.data);
-                        this.data_nasihat = response.data;
+                        this.data_akhlak = response.data;
                     },
                     err => {
                         err;
                     }
                 );
             });
+        },
+
+        getMasterMapel(){
+            this.master_data_mapel = this.$store.state.mMapel.master_mapel;
         },
 
         async getDetailCache(idHeader) {
@@ -296,8 +333,15 @@ export default {
             })
         },
 
-        createDetailNasihat(){
+        createAkhllak(){
             return new Promise(resolve => {
+                const currentDate = new Date();
+                const day = currentDate.getDate().toString().padStart(2, '0'); // Mendapatkan hari (dd)
+                const month = (currentDate.getMonth() + 1).toString().padStart(2, '0'); // Mendapatkan bulan (mm)
+                const year = currentDate.getFullYear().toString(); // Mendapatkan tahun (yyyy)
+
+                const formattedDate = `${day}-${month}-${year}`;
+
                 var mydata = {
                     UID: localStorage.getLocalStorage("uid"),
                     Token: localStorage.getLocalStorage("token"),
@@ -305,7 +349,9 @@ export default {
                     Route: "DEFAULT",
                     santri_id: this.Santri_Id,
                     tahun_id: this.idHeader,
-                    nasihat: this.add_data_nasihat.nasihat
+                    mapel_id: this.add_data_akhlak.mapel_id,
+                    praktek: this.add_data_akhlak.praktek,
+                    tanggal_nilai: formattedDate
                 };
 
                 let contentType = `application/x-www-form-urlencoded`;
@@ -314,7 +360,7 @@ export default {
 
                 Services.PostData(
                 ApiService,
-                "Riwayat/Riwayat_Nasihat",
+                "Riwayat/Riwayat_Nilai",
                 qs.stringify(mydata),
                 contentType,
                 response => {
@@ -336,9 +382,9 @@ export default {
                             timer: 1500
                         });
                     }
-                    this.create_data_nasihat = response.data;
+                    this.create_data_akhlak = response.data;
                     this.submitted = true;
-                    this.save("add_data_nasihat");
+                    this.save("add_data_akhlak");
                     this.getMasterRiwayatNilai(this.idHeader);
                 },
                 err => {
@@ -349,7 +395,8 @@ export default {
         },
 
         editItem (item) {
-            this.editedIndex = this.data_nasihat.indexOf(item)
+            console.log(item);
+            this.editedIndex = this.data_akhlak.indexOf(item)
             this.editedItem = Object.assign({}, item)
             this.dateFormatted = item.tanggal_nilai
             this.data_item = item
@@ -375,7 +422,7 @@ export default {
                         Token: localStorage.getLocalStorage("token"),
                         Trigger: "D",
                         Route: "DEFAULT",
-                        nasihat_id: item.nasihat_id
+                        nilai_id: item.nilai_id
                     };
 
                     let contentType = `application/x-www-form-urlencoded`;
@@ -383,7 +430,7 @@ export default {
 
                     Services.PostData(
                         ApiService,
-                        'Riwayat/Riwayat_Nasihat',
+                        'Riwayat/Riwayat_Nilai',
                         qs.stringify(mydata),
                         contentType,
                         response => {
@@ -405,10 +452,10 @@ export default {
                                     timer: 1500
                                 });
                             }
-                            this.delete_data_nasihat = response.data;
+                            this.delete_data_akhlak = response.data;
                             this.submitted = true;
-                            this.data_nasihat.splice(this.deletedIndex, 1);
-                            this.getMasterRiwayatNilai(this.idHeader);
+                            this.data_akhlak.splice(this.deletedIndex, 1);
+                            this.getMasterRiwayatNilai(this.idHeader)
                         },
                         err => {
                             err;
@@ -422,23 +469,37 @@ export default {
         close () {
             this.dialog = false
             this.$nextTick(() => {
-                this.add_data_nasihat.nasihat = ""
+                this.add_data_akhlak.mapel_id = ""
+                this.add_data_akhlak.uas = ""
+                this.add_data_akhlak.uts= ""
+                this.add_data_akhlak.tugas= ""
+                this.add_data_akhlak.praktek= ""
+                this.add_data_akhlak.keterangan_nilai= ""
                 this.editedItem = Object.assign({}, this.defaultItem)
                 this.editedIndex = -1
             })
         },
 
-        updateDetailNasihat() {
+        updateAkhlak() {
             return new Promise(resolve => {
+                const currentDate = new Date();
+                const day = currentDate.getDate().toString().padStart(2, '0'); // Mendapatkan hari (dd)
+                const month = (currentDate.getMonth() + 1).toString().padStart(2, '0'); // Mendapatkan bulan (mm)
+                const year = currentDate.getFullYear().toString(); // Mendapatkan tahun (yyyy)
+
+                const formattedDate = `${day}-${month}-${year}`;
+
                 var mydata = {
                     UID: localStorage.getLocalStorage("uid"),
                     Token: localStorage.getLocalStorage("token"),
                     Trigger: "U",
                     Route: "DEFAULT",
-                    nasihat_id: this.data_item.nasihat_id,
-                    tahun_id: this.data_item.tahun_id,
                     santri_id: this.Santri_Id,
-                    nasihat: this.editedItem.nasihat
+                    tahun_id: this.data_item.tahun_id,
+                    nilai_id: this.data_item.nilai_id,
+                    mapel_id: this.editedItem.mapel_id,
+                    praktek: this.editedItem.praktek,
+                    tanggal_nilai: formattedDate
                 };
 
                 let contentType = `application/x-www-form-urlencoded`;
@@ -447,7 +508,7 @@ export default {
 
                 Services.PostData(
                     ApiService,
-                    'Riwayat/Riwayat_Nasihat',
+                    'Riwayat/Riwayat_Nilai',
                     qs.stringify(mydata),
                     contentType,
                     response => {
@@ -469,9 +530,9 @@ export default {
                                 timer: 1500
                             });
                         }
-                        this.update_data_nasihat = response.data;
+                        this.update_data_akhlak = response.data;
                         this.submitted = true;
-                        this.save("edit_data_nasihat");
+                        this.save("edit_data_akhlak");
                         this.getMasterRiwayatNilai(this.idHeader);
                     },
                     err => {
@@ -482,24 +543,37 @@ export default {
         },
 
         save(formInput) {
-            if (formInput == "add_data_nasihat") {
+            if (formInput == "add_data_akhlak") {
                 if (this.editedIndex > -1) {
                 Object.assign(
-                    this.data_nasihat[this.editedIndex],
-                    this.add_data_nasihat
+                    this.data_akhlak[this.editedIndex],
+                    this.add_data_akhlak
                 );
                 } else {
-                    this.data_nasihat.push(this.add_data_nasihat);
+                    this.data_akhlak.push(this.add_data_akhlak);
                 }
-            } else if (formInput == "edit_data_nasihat") {
+            } else if (formInput == "edit_data_akhlak") {
                 if (this.editedIndex > -1) {
-                    Object.assign(this.data_nasihat[this.editedIndex], this.editedItem);
+                    Object.assign(this.data_akhlak[this.editedIndex], this.editedItem);
                 } else {
-                    this.data_nasihat.push(this.editedItem);
+                    this.data_akhlak.push(this.editedItem);
                 }
             }
             this.close();
-        }
+        },
+
+        seenFileBill(item) {
+            this.dataDetailCttn = item.keterangan_nilai
+            this.dialogSeenBill = true;
+        },  
+
+        async load() {
+            Promise.all([
+                await this.getMasterMapel()
+            ]).then(function(results) {
+                results;
+            });
+        },
     }
 }
 </script>

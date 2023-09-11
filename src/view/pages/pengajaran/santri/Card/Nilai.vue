@@ -58,7 +58,13 @@
                     </b-card>
                 </b-collapse>
             </div>
-    
+            <div v-show="showDetail">
+                <table-quran
+                class="without-min-height" 
+                v-bind:idHeader="idHeader"
+                v-bind:accessList="accessList"
+                ></table-quran>
+            </div>
             <div v-show="showDetail">
                 <table-detail
                 class="without-min-height" 
@@ -66,12 +72,21 @@
                 v-bind:accessList="accessList"
                 ></table-detail>
             </div>
-            <div v-show="showDetail">
-                <table-nasihat
-                class="without-min-height" 
-                v-bind:idHeader="idHeader"
-                v-bind:accessList="accessList"
-                ></table-nasihat>
+            <div class="row col-md-12">
+                <div class="col-md-6" v-show="showDetail">
+                    <table-akhlak
+                    class="without-min-height" 
+                    v-bind:idHeader="idHeader"
+                    v-bind:accessList="accessList"
+                    ></table-akhlak>
+                </div>
+                <div class="col-md-6" v-show="showDetail">
+                    <table-nasihat
+                    class="without-min-height" 
+                    v-bind:idHeader="idHeader"
+                    v-bind:accessList="accessList"
+                    ></table-nasihat>
+                </div>
             </div>
         </div>
 
@@ -84,13 +99,17 @@
 </template>
 
 <script>
+import TableQuran from "@/view/pages/pengajaran/santri/Nilai/DetailQuran";
 import TableDetail from "@/view/pages/pengajaran/santri/Nilai/DetailNilai";
+import TableAkhlak from "@/view/pages/pengajaran/santri/Nilai/DetailAkhlak";
 import TableNasihat from "@/view/pages/pengajaran/santri/Nilai/DetailNasihat";
 import { Fetch_MThn_Ajaran_By_Santri } from "@/core/services/store/m_ThnAjaran.module";
 
 export default {
     components: {
+        TableQuran,
         TableDetail,
+        TableAkhlak,
         TableNasihat
     },
     mounted() {
