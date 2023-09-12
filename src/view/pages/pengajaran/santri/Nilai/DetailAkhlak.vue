@@ -388,7 +388,7 @@ export default {
                     this.create_data_akhlak = response.data;
                     this.submitted = true;
                     this.save("add_data_akhlak");
-                    this.getMasterRiwayatNilai(this.idHeader);
+                    this.getDetailCache(this.idHeader);
                 },
                 err => {
                     err;
@@ -398,7 +398,6 @@ export default {
         },
 
         editItem (item) {
-            console.log(item);
             this.editedIndex = this.data_akhlak.indexOf(item)
             this.editedItem = Object.assign({}, item)
             this.dateFormatted = item.tanggal_nilai
@@ -458,7 +457,7 @@ export default {
                             this.delete_data_akhlak = response.data;
                             this.submitted = true;
                             this.data_akhlak.splice(this.deletedIndex, 1);
-                            this.getMasterRiwayatNilai(this.idHeader)
+                            this.getDetailCache(this.idHeader)
                         },
                         err => {
                             err;
@@ -536,7 +535,7 @@ export default {
                         this.update_data_akhlak = response.data;
                         this.submitted = true;
                         this.save("edit_data_akhlak");
-                        this.getMasterRiwayatNilai(this.idHeader);
+                        this.getDetailCache(this.idHeader);
                     },
                     err => {
                         err;

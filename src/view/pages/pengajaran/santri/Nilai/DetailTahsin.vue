@@ -172,8 +172,227 @@
             </v-tooltip>
             </template>
         </v-data-table>
+
+        <!-- PDF ALL Session -->
+        <template>
+            <vue-html2pdf
+                :show-layout="false"
+                :float-layout="true"
+                :enable-download="false"
+                :preview-modal="false"
+                :paginate-elements-by-height="1400"
+                :pdf-quality="3"
+                filename="KHS"
+                :manual-pagination="true"
+                :html-to-pdf-options="htmlToPdfAllOptions"
+                pdf-content-width="100%"
+                @progress="onProgress($event)"
+                @hasStartedGeneration="hasStartedGeneration()"
+                @hasGenerated="hasGenerated($event)"
+                @beforeDownload="beforeDownload($event)"
+                @hasDownloaded="hasDownloaded($event)"
+                ref="html2PdfAll"
+            >
+            <pdf-content slot="pdf-content">
+                <section class="pdf-item">
+                    <div style="font-family: 'Times New Roman', Times, serif;color: black;" class="mt-39 mr-15 ml-15 mb-15">
+                        <p style="font-size: 12pt;font-weight: bold;text-align: center;margin-top: 20px;">LAPORAN HASIL BELAJAR SEMESTER GENAP</p>
+                        <table width="100%" style="font-size: 11pt;">
+                            <tr>
+                                <td width="65%">
+                                    <table width="100%">
+                                        <tr>
+                                            <td width="25%">Nama Santri</td>
+                                            <td width="5%">:</td>
+                                            <td width="70">RAVANNO KHALIFAH AKBAR ALFARIZI</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Nomor Induk</td>
+                                            <td>:</td>
+                                            <td>AZ1020</td>
+                                        </tr>                                
+                                    </table>
+                                </td>
+                                <td width="35%">
+                                    <table width="100%">
+                                        <tr>
+                                            <td width="50%">Semester</td>
+                                            <td width="5%">:</td>
+                                            <td width="45">1 (SATU)</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Tahun Ajaran</td>
+                                            <td>:</td>
+                                            <td>2021/2022</td>
+                                        </tr>                                
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                        <br>
+
+                        <div style="font-weight: bold;font-size: 12pt;">I.&emsp;&emsp;KURIKULUM AL-QUR'AN</div>
+                        <div style="font-weight: bold;font-size: 12pt;">&emsp;&emsp;&emsp;&emsp;A.&emsp;&emsp;TAHFIDZ</div>
+                        <table class="forPdf" width="100%" style="font-size: 11pt;margin-top: 10px;border-color: black;" border="1" >
+                            <tr align="center">
+                                <th width="5%">No.</th>
+                                <th width="35%">Aspek</th>
+                                <th width="30%">Nilai</th>
+                                <th width="30%">Predikat</th>
+                            </tr>
+                            <tr align="center">
+                            <td>1.</td> 
+                            <td align="left">Kuantitas Hafalan</td> 
+                            <td>60</td> 
+                            <td>RASIB</td> 
+                            </tr>
+                            <tr align="center">
+                            <td>2.</td> 
+                            <td align="left">Kualitas Hafalan</td> 
+                            <td>55</td> 
+                            <td>RASIB</td> 
+                            </tr>
+                            <tr align="center">
+                                <td>3.</td>
+                                <td align="left">Total Hafalan Mutqin</td>
+                                <td colspan="3" style="font-weight: bold;">1/2 Juz (Juz 30)</td>
+                            </tr>
+                        </table>
+                        <br>
+                        <div style="font-weight: bold;font-size: 12pt;">&emsp;&emsp;&emsp;&emsp;B.&emsp;&emsp;QIRO'AH</div>
+                        <table class="forPdf" width="100%" style="font-size: 11pt;margin-top: 10px;border-color: black;" border="1" >
+                            <tr align="center">
+                                <th width="5%">No.</th>
+                                <th width="35%">Aspek</th>
+                                <th width="30%">Nilai</th>
+                                <th width="30%">Predikat</th>
+                            </tr>
+                            <tr align="center">
+                            <td>1.</td> 
+                            <td align="left">Fashohah</td> 
+                            <td>65</td> 
+                            <td>JAYYID</td> 
+                            </tr>
+                            <tr align="center">
+                            <td>2.</td> 
+                            <td align="left">Maqomat</td> 
+                            <td>75</td> 
+                            <td>JAYYID</td> 
+                            </tr>
+                            <tr align="center">
+                            <td>3.</td> 
+                            <td align="left">Teori</td> 
+                            <td>60</td> 
+                            <td>RASIB</td> 
+                            </tr>
+                        </table>
+                        <br>
+
+                        <div style="font-weight: bold;font-size: 12pt;">II.&emsp;&emsp;SYARIAH</div>
+                        <table class="forPdf" width="100%" style="font-size: 11pt;margin-top: 10px;border-color: black;" border="1" >
+                            <tr align="center">
+                                <th width="5%">No</th>
+                                <th width="40%">Aspek</th>
+                                <th width="15%">Nilai</th>
+                                <th width="20%">Predikat</th>
+                                <th width="20%">Deskripsi</th>
+                            </tr>
+                            <tr align="center">
+                                <td>1</td>
+                                <td align="left">Akhlaq kepada Ustadz/Ustadzah</td>
+                                <td>75</td>
+                                <td>JAYYID</td>
+                                <td>TUNTAS</td>
+                            </tr>
+                            <tr align="center">
+                                <td>2</td>
+                                <td align="left">MPAK1/3/l</td>
+                                <td>48</td>
+                                <td>JAYYID JIDDAN</td>
+                                <td>TIDAK TUNTAS</td>
+                            </tr>
+                        </table>
+
+                        <div class="html2pdf__page-break"/>
+
+                        <div style="font-weight: bold;font-size: 12pt;" class="mt-39">III.&emsp;&emsp;AKHLAK</div>
+                        <table class="forPdf" width="100%" style="font-size: 11pt;margin-top: 10px;border-color: black;" border="1" >
+                            <tr align="center">
+                                <th width="5%">No.</th>
+                                <th width="40%">Aspek</th>
+                                <th width="15%">Nilai</th>
+                                <th width="20%">Pedikat</th>
+                                <th width="20%">Deskripsi</th>
+                            </tr>
+                            <tr align="center">
+                                <td>1.</td> 
+                                <td align="left">Akhlaq kepada Ustadz/Ustadzah</td> 
+                                <td>86</td> 
+                                <td>JAYYID JIDDAN</td> 
+                                <td>TUNTAS</td> 
+                            </tr>
+                            <tr align="center">
+                                <td>2.</td> 
+                                <td align="left">Akhlaq kepada Pegawai/Tamu</td> 
+                                <td>85</td> 
+                                <td>JAYYID JIDDAN</td> 
+                                <td>TUNTAS</td> 
+                            </tr>
+                        </table>
+                        <br>
+                        <div style="font-weight: bold;font-size: 12pt;">III.&emsp;&emsp;NASIHAT</div>
+                        <table class="forPdfNasihat" width="100%" style="font-size: 11pt;margin-top: 10px;border-color: black;" border="1" >
+                            <tr>
+                                <td class="text-justify p-7">
+                                    Ananda sudah mengikuti program dengan baik, namun masih perlu perbaikan untuk Kelancaran dan 
+                                    kefasihan baca’annya, untuk materi Syari’ahnya masih ada yang belum tuntas, harus lebih giat lagi 
+                                    belajarnya agar nilainya lebih maksimal. Lebih semangat lagi belajar dan menghafal Al-Qur’annya.
+                                </td>
+                            </tr>
+                        </table>
+                        <table width="100%" style="font-size: 11pt;margin-top: 40px;text-align: center;">
+                            <tr>
+                                <td>Mengetahui</td>
+                                <td>Mudir</td>
+                                <td>Bogor</td>
+                            </tr>
+                            <tr>
+                                <td>Orang Tua/Wali</td>
+                                <td>Pondok Pesantren Al-Jazary</td>
+                                <td>Murobbi</td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" height="80px"></td>
+                            </tr>
+                            <tr>
+                                <td>(.................................)</td>
+                                <td>Ustadz Muhammad Agung Alhaz, S.Kom </td>
+                                <td>Ustadz Khaerul Anam, S.Kom</td>
+                            </tr>
+                        </table>
+                    </div>
+                </section>
+            </pdf-content>
+            </vue-html2pdf>
+        </template>
+        <!-- END PDF ALL Session -->
     </div>
 </template>
+
+<style>
+.forPdf table {
+    border-collapse: collapse;
+    border-color: black;
+}
+
+.forPdf th, td {
+    padding: 4px;
+}
+
+.forNoBorder td{
+    padding: 1px;
+}
+</style>
 
 <script>
 import Services from "@/core/services/aljazary-api/Services";
@@ -267,12 +486,22 @@ export default {
             dialogSeenBill: false,
             CustomMessage: "",
             htmlToPdfAllOptions: {
-                margin: [1.4, 0.4, 0.4, 0.4],
+                margin: {
+                    top: 15,    // Margin atas
+                    right: 15,  // Margin kanan
+                    bottom: 15, // Margin bawah
+                    left: 15    // Margin kiri
+                },
                 image: {
                     type: 'jpeg', 
-                    quality: 0.98
+                    quality: 1
                 },
-                html2canvas: {useCORS: true}, 
+                html2canvas: {
+                    dpi: 192,
+                    scale:4,
+                    letterRendering: true,
+                    useCORS: true
+                },
                 jsPDF: {
                     unit: "in",
                     format: "a4",
@@ -321,6 +550,74 @@ export default {
     },
 
     methods:{
+        generateReportAll() {
+            this.data_tahsin;
+            this.$refs.html2PdfAll.generatePdf();
+        },
+
+        onProgress(data) {
+            this.progressData = data;
+        },
+
+        async beforeDownload ({ html2pdf, options, pdfContent }) {
+            await html2pdf().set(options).from(pdfContent).toPdf().get('pdf').then((pdf) => {
+                const totalPages = pdf.internal.getNumberOfPages()
+                
+                for (let i = 1; i <= totalPages; i++) {
+                    pdf.setPage(i)
+                    
+                    const imageWidth = 0.87;
+                    const imageHeight = 1;
+                    const imageX = 0.4;
+                    const imageY = 0.08;
+                    pdf.addImage('./LogoAlJazary.png', 'PNG', imageX, imageY, imageWidth, imageHeight);
+
+                    const pageWidth = pdf.internal.pageSize.getWidth();
+                    const pageHeight = pdf.internal.pageSize.getHeight();
+                    const imageWidth1 = 6;
+                    const imageHeight1 = 7;
+                    const imageX1 = (pageWidth - imageWidth1) / 2;
+                    const imageY1 = (pageHeight - imageHeight1) / 2;
+                    pdf.addImage('./Trans.png', 'PNG', imageX1, imageY1, imageWidth1, imageHeight1);
+
+                    const imageWidth2 = 2.4;
+                    const imageHeight2 = 0.52;
+                    const imageX2 = 3;
+                    const imageY2 = 0.15;
+                    pdf.addImage('./KopArab.png', 'PNG', imageX2, imageY2, imageWidth2, imageHeight2);
+
+                    const imageWidth3 = 3.6;
+                    const imageHeight3 = 0.37;
+                    const imageX3 = 2.3;
+                    const imageY3 = 0.6;
+                    pdf.addImage('./KopIndo.png', 'PNG', imageX3, imageY3, imageWidth3, imageHeight3);
+                    // pdf.setFontSize(10)
+                    // pdf.setTextColor(150)
+                    // pdf.text(i + ' ' + totalPages, (pdf.internal.pageSize.getWidth() * 0.88), (pdf.internal.pageSize.getHeight() - 0.3))
+                    
+                    // pdf.setPage(i);
+                    // pdf.setFontSize(17);
+                    // pdf.setTextColor('#be6f30');
+                    // pdf.text('معهد اجلزري', (pdf.internal.pageSize.getWidth() / 2), (pdf.internal.pageSize.getHeight() * 0.04), { align: 'center' });
+                    // pdf.text('PONDOK PESANTREN AL-JAZARY', (pdf.internal.pageSize.getWidth() / 2), (pdf.internal.pageSize.getHeight() * 0.07), { align: 'center' });
+
+                    pdf.setFontSize(7);
+                    pdf.setTextColor('#000');
+                    pdf.text('Jl. Raya Cipari Batulayang RT 01/RW 04, Kec. Cisarua, Kabupaten Bogor, Jawa Barat 16750', (pdf.internal.pageSize.getWidth() / 2), (pdf.internal.pageSize.getHeight() * 0.09), { align: 'center' });
+                    
+                    pdf.setLineWidth(0.03);
+                    pdf.line(9, (pdf.internal.pageSize.getHeight() * 0.10), pdf.internal.pageSize.getWidth() - 10, (pdf.internal.pageSize.getHeight() * 0.10));
+                    pdf.setLineWidth(0.01);
+                    pdf.line(9, (pdf.internal.pageSize.getHeight() * 0.105), pdf.internal.pageSize.getWidth() - 10, (pdf.internal.pageSize.getHeight() * 0.105));
+                } 
+            }).save()
+        },
+
+        hasDownloaded(){
+            // this.printingInProgress = false;
+            this.progressData = 0;
+        },
+
         formatDate (date) {
             if (!date) return null
 
@@ -433,7 +730,7 @@ export default {
                     this.create_data_tahsin = response.data;
                     this.submitted = true;
                     this.save("add_data_tahsin");
-                    this.getMasterRiwayatTahsin(this.idHeader);
+                    this.getDetailCache(this.idHeader);
                 },
                 err => {
                     err;
@@ -503,7 +800,7 @@ export default {
                             this.delete_data_tahsin = response.data;
                             this.submitted = true;
                             this.data_tahsin.splice(this.deletedIndex, 1);
-                            this.getMasterRiwayatTahsin(this.idHeader)
+                            this.getDetailCache(this.idHeader)
                         },
                         err => {
                             err;
@@ -581,7 +878,7 @@ export default {
                         this.update_data_tahsin = response.data;
                         this.submitted = true;
                         this.save("edit_data_tahsin");
-                        this.getMasterRiwayatTahsin(this.idHeader);
+                        this.getDetailCache(this.idHeader);
                     },
                     err => {
                         err;

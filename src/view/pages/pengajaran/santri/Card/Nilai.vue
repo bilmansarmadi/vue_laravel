@@ -134,15 +134,6 @@ export default {
         }
     },
     methods: {
-        getDataRow(item){
-            if(item){
-                this.idHeader = item.tahun_id
-                this.showDetail = true
-            }else{
-                this.showDetail = false
-            }
-        },
-
         getMasterTahunAjaran(){
             var SantriId = this.Santri_Id;
             this.$store
