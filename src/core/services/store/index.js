@@ -10,7 +10,7 @@ import profile from "./profile.module";
 import mThnAjaran from './m_ThnAjaran.module';
 import mKelas from './mKelas.module';
 import mMapel from './mMapel.module';
-import riwayatNilai from './riwayatNilai.module';
+import rhSantri from './rhSantri.module';
 
 Vue.use(Vuex);
 
@@ -24,7 +24,7 @@ export default new Vuex.Store({
     mThnAjaran,
     mKelas,
     mMapel,
-    riwayatNilai
+    rhSantri
   },
   plugins: [createPersistedState()],
 });

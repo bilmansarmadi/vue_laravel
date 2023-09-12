@@ -153,7 +153,7 @@ import ApiService from "@/core/services/api.service";
 import Swal from 'sweetalert2'
 import localStorage from "@/core/services/store/localStorage";
 import { formatDate } from "@/helpers/helper.js";
-import { Fetch_R_Nasihat } from "@/core/services/store/riwayatNilai.module";
+import { Fetch_R_Nasihat } from "@/core/services/store/rhSantri.module";
 
 export default {
     mounted() {

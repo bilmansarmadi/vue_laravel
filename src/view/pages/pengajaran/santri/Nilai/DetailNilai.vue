@@ -289,7 +289,7 @@ import ApiService from "@/core/services/api.service";
 import Swal from 'sweetalert2'
 import localStorage from "@/core/services/store/localStorage";
 import { formatDate } from "@/helpers/helper.js";
-import { Fetch_R_Nilai_Inti } from "@/core/services/store/riwayatNilai.module";
+import { Fetch_R_Nilai_Inti } from "@/core/services/store/rhSantri.module";
 
 export default {
     mounted() {
@@ -581,7 +581,6 @@ export default {
         },
 
         editItem (item) {
-            console.log(item);
             this.editedIndex = this.data_nilai.indexOf(item)
             this.editedItem = Object.assign({}, item)
             this.dateFormatted = item.tanggal_nilai

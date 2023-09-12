@@ -162,7 +162,7 @@ import Services from "@/core/services/aljazary-api/Services";
 import ApiService from "@/core/services/api.service";
 import Swal from 'sweetalert2'
 import localStorage from "@/core/services/store/localStorage";
-import { Fetch_R_Nilai_Akhlak } from "@/core/services/store/riwayatNilai.module";
+import { Fetch_R_Nilai_Akhlak } from "@/core/services/store/rhSantri.module";
 
 export default {
     mounted() {

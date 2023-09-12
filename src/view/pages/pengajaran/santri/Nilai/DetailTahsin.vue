@@ -2,7 +2,7 @@
     <div>
         <div class="d-flex justify-content-end mt-5 mb-5">
             <v-btn
-            @click="generateReportAll()"
+            @click="openModalExport()"
             rounded
             class="text-white"
             color="#ee8b3d">
@@ -172,6 +172,79 @@
             </v-tooltip>
             </template>
         </v-data-table>
+
+        <v-dialog
+        v-model="dialogCetak"
+        max-width="600px"
+        persistent
+        >
+        <v-card>
+            <v-card-title class="border">
+            <span class="text-h5">Cetak Data</span>
+            <v-spacer></v-spacer>
+            <v-icon
+                class="rounded-circle p-2 shadow-sm"
+                small
+                @click="closeModalExport"
+                color="#000"
+            >
+                mdi-close
+            </v-icon>
+            </v-card-title>
+
+            <v-card-text>
+            <v-container>
+                <v-row>
+                <v-col
+                    cols="12"
+                    md="12"
+                >
+                    <v-textarea
+                    v-model="formExport.judul"
+                    label="Judul"
+                    required
+                    clearable
+                    color="#ee8b3d"
+                    rows="1"
+                    ></v-textarea>
+                </v-col>
+                </v-row>
+                <v-row>
+                <v-col
+                    cols="12"
+                    md="12"
+                >
+                    <v-textarea
+                    v-model="formExport.sub_judul"
+                    label="Sub Judul"
+                    required
+                    clearable
+                    color="#ee8b3d"
+                    rows="2"
+                    ></v-textarea>
+                </v-col>
+                </v-row>
+            </v-container>
+            </v-card-text>
+
+            <v-card-actions>
+            <v-spacer></v-spacer>
+            <button
+                @click="generateReportAll()"
+                class="btn btn-primary btn-sm font-weight-bolder text-md-body-1 rounded-lg py-2 mb-3 mr-3 w-100px"
+            >
+                Cetak
+            </button>
+            <button
+                type="button"
+                @click="closeModalExport"
+                class="btn btn-light-primary btn-sm font-weight-bolder text-md-body-1 rounded-lg py-2 mb-3 w-100px"
+            >
+                Batal
+            </button>
+            </v-card-actions>
+        </v-card>
+        </v-dialog>
 
         <!-- PDF ALL Session -->
         <template>
@@ -400,7 +473,7 @@ import ApiService from "@/core/services/api.service";
 import Swal from 'sweetalert2'
 import localStorage from "@/core/services/store/localStorage";
 import VueHtml2pdf from "vue-html2pdf";
-import { Fetch_R_Nilai_Tahsin } from "@/core/services/store/riwayatNilai.module";
+import { Fetch_R_Nilai_Tahsin } from "@/core/services/store/rhSantri.module";
 
 export default {
     mounted() {
@@ -511,7 +584,11 @@ export default {
             },
             // printingInProgress: false,
             progressData: 0,
-            items: []
+            dialogCetak: false,
+            formExport: {
+                judul: "",
+                sub_judul: ""
+            },
         }
     },
 
@@ -551,8 +628,18 @@ export default {
     },
 
     methods:{
+        openModalExport(){
+            this.dialogCetak = true;
+            this.formExport.judul = "Judul";
+            this.formExport.sub_judul = "Sub Judul";
+        },
+
+        closeModalExport(){
+            this.dialogCetak = false
+        },
+
         generateReportAll() {
-            this.data_tahsin;
+            this.dialogCetak = false;
             this.$refs.html2PdfAll.generatePdf();
         },
 
@@ -721,7 +808,6 @@ export default {
         },
 
         editItem (item) {
-            console.log(item);
             this.editedIndex = this.data_tahsin.indexOf(item)
             this.editedItem = Object.assign({}, item)
             this.dateFormatted = item.tanggal_nilai

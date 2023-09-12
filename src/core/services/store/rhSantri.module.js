@@ -7,11 +7,13 @@ export const Fetch_R_Nilai_Tahsin     = "fetchRNilaiTahsin";
 export const Fetch_R_Nilai_Inti       = "fetchRNilaiInti";
 export const Fetch_R_Nilai_Akhlak     = "fetchRNilaiAkhlak";
 export const Fetch_R_Nasihat          = "fetchRNasihat";
+export const Fetch_R_Santri           = "fetchRSantri";
 
 export const SET_R_NILAI_TAHSIN       = "setRNilaiTahsin";
 export const SET_R_NILAI_INTI         = "setRNilaiInti";
 export const SET_R_NILAI_AKHLAK       = "setRNilaiAkhlak";
 export const SET_R_NASIHAT            = "setRNasihat";
+export const SET_R_SANTRI             = "setRSantri";
 
 export const SET_ERROR                = "setError";
 
@@ -20,6 +22,7 @@ const state = {
   r_nilai_inti: [],
   r_nilai_akhlak: [],
   r_nasihat: [],
+  r_santri: [],
 };
 
 const getters = {
@@ -34,6 +37,9 @@ const getters = {
   },
   rNasihat(state) {
     return state.r_nasihat;
+  },
+  rSantri(state) {
+    return state.r_santri;
   },
 };
 
@@ -101,7 +107,6 @@ const actions = {
         response => {
           resolve(response);
           if (response.status == 1000) {
-            console.log(response.data);
             context.commit(SET_R_NILAI_INTI, response.data);
           } else{
             Swal.fire({
@@ -142,7 +147,6 @@ const actions = {
         response => {
           resolve(response);
           if (response.status == 1000) {
-            console.log(response.data);
             context.commit(SET_R_NILAI_AKHLAK, response.data);
           } else{
             Swal.fire({
@@ -183,8 +187,46 @@ const actions = {
         response => {
           resolve(response);
           if (response.status == 1000) {
-            console.log(response.data);
             context.commit(SET_R_NASIHAT, response.data);
+          } else{
+            Swal.fire({
+              title: response.message,
+              icon: "warning",
+              confirmButtonClass: "btn btn-secondary",
+              heightAuto: true,
+              timer: 3000
+            });
+          }
+        },
+        err => {
+          context.commit(SET_ERROR, err);
+        }
+      );
+    });
+  },
+  [Fetch_R_Santri](context, credentials) {
+    return new Promise(resolve => {
+      var mydata = {
+        UID                 : localStorage.getLocalStorage("uid"),
+        Token               : localStorage.getLocalStorage("token"),
+        Trigger             : "R",
+        Route               : 'DEFAULT',
+        santri_id           : credentials.SantriId
+      };
+
+      let contentType = `application/x-www-form-urlencoded`;
+
+      const qs = require("qs");
+
+      Service.PostData(
+        ApiService,
+        "Master/Santri",
+        qs.stringify(mydata),
+        contentType,
+        response => {
+          resolve(response);
+          if (response.status == 1000) {
+            context.commit(SET_R_SANTRI, response.data);
           } else{
             Swal.fire({
               title: response.message,
@@ -218,6 +260,9 @@ const mutations = {
   },
   [SET_R_NASIHAT](state, data) {
     state.r_nasihat = data;
+  },
+  [SET_R_SANTRI](state, data) {
+    state.r_santri = data;
   },
 };
 

@@ -406,6 +406,7 @@ import KTNilai from "@/view/pages/pengajaran/santri/Card/Nilai";
 // import KTHSK from "@/view/pages/pengajaran/santri/Card/HSK_Header";
 import KTRiwayat_Sekolah from "@/view/pages/pengajaran/santri/Card/Riwayat_Sekolah";
 import Swal from 'sweetalert2'
+import { Fetch_R_Santri } from "@/core/services/store/rhSantri.module";
 
 export default {
     data(){
@@ -523,33 +524,13 @@ export default {
         },
 
         getMasterDataSantri(){
-            return new Promise(resolve => {
-                var mydata = {
-                    UID: localStorage.getLocalStorage("uid"),
-                    Token: localStorage.getLocalStorage("token"),
-                    Trigger: "R",
-                    Route: "Read_Santri",
-                    santri_id: this.Santri_Id
-                };
-
-                let contentType = `application/x-www-form-urlencoded`;
-
-                const qs = require("qs");
-
-                Services.PostData(
-                    ApiService,
-                    "Master/Santri",
-                    qs.stringify(mydata),
-                    contentType,
-                    response => {
-                        resolve(response.data);
-                        this.data_header = response.data[0];
-                    },
-                    err => {
-                        err;
-                    }
-                );
-            });
+            var SantriId = this.Santri_Id;
+            this.$store
+                .dispatch(Fetch_R_Santri, { SantriId })
+                .then((res) => {
+                    this.data_header = res.data[0]
+                })
+                .catch((err) => err);
         },
 
         formSubmit() {
