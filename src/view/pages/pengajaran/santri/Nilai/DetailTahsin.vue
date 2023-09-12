@@ -400,6 +400,7 @@ import ApiService from "@/core/services/api.service";
 import Swal from 'sweetalert2'
 import localStorage from "@/core/services/store/localStorage";
 import VueHtml2pdf from "vue-html2pdf";
+import { Fetch_R_Nilai_Tahsin } from "@/core/services/store/riwayatNilai.module";
 
 export default {
     mounted() {
@@ -633,35 +634,15 @@ export default {
         },
 
         getMasterRiwayatTahsin(idHeader){
-            return new Promise(resolve => {
-                var mydata = {
-                    UID: localStorage.getLocalStorage("uid"),
-                    Token: localStorage.getLocalStorage("token"),
-                    Trigger: "R",
-                    Route: "READ_NILAI_TAHSIN",
-                    santri_id: this.Santri_Id,
-                    tahun_id: idHeader
-                };
-
-                let contentType = `application/x-www-form-urlencoded`;
-
-                const qs = require("qs");
-
-                Services.PostData(
-                    ApiService,
-                    "Riwayat/Riwayat_Nilai",
-                    qs.stringify(mydata),
-                    contentType,
-                    response => {
-                        resolve(response.data);
-                        this.CustomMessage = response.message_opt
-                        this.data_tahsin = response.data;
-                    },
-                    err => {
-                        err;
-                    }
-                );
-            });
+            var SantriId = this.Santri_Id;
+            var TahunId  = idHeader;
+            this.$store
+                .dispatch(Fetch_R_Nilai_Tahsin, { SantriId, TahunId })
+                .then((res) => {
+                    this.CustomMessage = res.message_opt
+                    this.data_tahsin = res.data
+                })
+                .catch((err) => err);
         },
 
         getMasterMapel(){

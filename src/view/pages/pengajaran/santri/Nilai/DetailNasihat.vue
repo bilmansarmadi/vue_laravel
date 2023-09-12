@@ -153,6 +153,7 @@ import ApiService from "@/core/services/api.service";
 import Swal from 'sweetalert2'
 import localStorage from "@/core/services/store/localStorage";
 import { formatDate } from "@/helpers/helper.js";
+import { Fetch_R_Nasihat } from "@/core/services/store/riwayatNilai.module";
 
 export default {
     mounted() {
@@ -258,35 +259,15 @@ export default {
         },
 
         getMasterRiwayatNilai(idHeader){
-            return new Promise(resolve => {
-                var mydata = {
-                    UID: localStorage.getLocalStorage("uid"),
-                    Token: localStorage.getLocalStorage("token"),
-                    Trigger: "R",
-                    Route: "DEFAULT",
-                    santri_id: this.Santri_Id,
-                    tahun_id: idHeader
-                };
-
-                let contentType = `application/x-www-form-urlencoded`;
-
-                const qs = require("qs");
-
-                Services.PostData(
-                    ApiService,
-                    "Riwayat/Riwayat_Nasihat",
-                    qs.stringify(mydata),
-                    contentType,
-                    response => {
-                        resolve(response.data);
-                        this.CustomMessage = response.message_opt
-                        this.data_nasihat = response.data;
-                    },
-                    err => {
-                        err;
-                    }
-                );
-            });
+            var SantriId = this.Santri_Id;
+            var TahunId  = idHeader;
+            this.$store
+                .dispatch(Fetch_R_Nasihat, { SantriId, TahunId })
+                .then((res) => {
+                    this.CustomMessage = res.message_opt
+                    this.data_nasihat = res.data
+                })
+                .catch((err) => err);
         },
 
         async getDetailCache(idHeader) {
