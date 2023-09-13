@@ -8,12 +8,14 @@ export const Fetch_R_Nilai_Inti       = "fetchRNilaiInti";
 export const Fetch_R_Nilai_Akhlak     = "fetchRNilaiAkhlak";
 export const Fetch_R_Nasihat          = "fetchRNasihat";
 export const Fetch_R_Santri           = "fetchRSantri";
+export const Fetch_R_Semester         = "fetchRSemester";
 
 export const SET_R_NILAI_TAHSIN       = "setRNilaiTahsin";
 export const SET_R_NILAI_INTI         = "setRNilaiInti";
 export const SET_R_NILAI_AKHLAK       = "setRNilaiAkhlak";
 export const SET_R_NASIHAT            = "setRNasihat";
 export const SET_R_SANTRI             = "setRSantri";
+export const SET_R_SEMESTER           = "setRSemester";
 
 export const SET_ERROR                = "setError";
 
@@ -23,6 +25,7 @@ const state = {
   r_nilai_akhlak: [],
   r_nasihat: [],
   r_santri: [],
+  r_semester: [],
 };
 
 const getters = {
@@ -40,6 +43,9 @@ const getters = {
   },
   rSantri(state) {
     return state.r_santri;
+  },
+  rSemester(state) {
+    return state.r_semester;
   },
 };
 
@@ -242,6 +248,45 @@ const actions = {
         }
       );
     });
+  },
+  [Fetch_R_Semester](context, credentials) {
+    return new Promise(resolve => {
+      var mydata = {
+        UID                 : localStorage.getLocalStorage("uid"),
+        Token               : localStorage.getLocalStorage("token"),
+        Trigger             : "R",
+        Route               : 'select_bysemester',
+        santri_id           : credentials.SantriId
+      };
+
+      let contentType = `application/x-www-form-urlencoded`;
+
+      const qs = require("qs");
+
+      Service.PostData(
+        ApiService,
+        "Master/Santri",
+        qs.stringify(mydata),
+        contentType,
+        response => {
+          resolve(response);
+          if (response.status == 1000) {
+            context.commit(SET_R_SEMESTER, response.data[0]);
+          } else{
+            Swal.fire({
+              title: response.message,
+              icon: "warning",
+              confirmButtonClass: "btn btn-secondary",
+              heightAuto: true,
+              timer: 3000
+            });
+          }
+        },
+        err => {
+          context.commit(SET_ERROR, err);
+        }
+      );
+    });
   }
 };
 
@@ -263,6 +308,9 @@ const mutations = {
   },
   [SET_R_SANTRI](state, data) {
     state.r_santri = data;
+  },
+  [SET_R_SEMESTER](state, data) {
+    state.r_semester = data;
   },
 };
 

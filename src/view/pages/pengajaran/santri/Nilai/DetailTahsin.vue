@@ -1,5 +1,15 @@
 <template>
     <div>
+        <div align="center" v-if="printingInProgress">
+            <v-progress-circular
+                color="primary"
+                indeterminate
+                :siize="40"
+                :wdth="5"
+            ></v-progress-circular>
+            <p>{{ progressData }}%</p>
+        </div>
+
         <div class="d-flex justify-content-end mt-5 mb-5">
             <v-btn
             @click="openModalExport()"
@@ -175,7 +185,7 @@
 
         <v-dialog
         v-model="dialogCetak"
-        max-width="600px"
+        max-width="800px"
         persistent
         >
         <v-card>
@@ -195,34 +205,125 @@
             <v-card-text>
             <v-container>
                 <v-row>
-                <v-col
-                    cols="12"
-                    md="12"
-                >
-                    <v-textarea
-                    v-model="formExport.judul"
-                    label="Judul"
-                    required
-                    clearable
-                    color="#ee8b3d"
-                    rows="1"
-                    ></v-textarea>
-                </v-col>
+                    <v-col
+                        cols="12"
+                        md="6"
+                    >
+                        <v-text-field
+                        v-model="formExport.tempat"
+                        label="Tempat dan Tanggal"
+                        required
+                        clearable
+                        color="#ee8b3d"
+                        rows="1"
+                        ></v-text-field>
+                    </v-col>
                 </v-row>
                 <v-row>
-                <v-col
-                    cols="12"
-                    md="12"
-                >
-                    <v-textarea
-                    v-model="formExport.sub_judul"
-                    label="Sub Judul"
-                    required
-                    clearable
-                    color="#ee8b3d"
-                    rows="2"
-                    ></v-textarea>
-                </v-col>
+                    <v-col
+                        cols="12"
+                        md="6"
+                    >
+                        <v-text-field
+                        v-model="formExport.ttd1"
+                        label="Jabatan 1"
+                        required
+                        clearable
+                        color="#ee8b3d"
+                        rows="2"
+                        ></v-text-field>
+                    </v-col>
+                    <v-col
+                        cols="12"
+                        md="6"
+                    >
+                        <v-text-field
+                        v-model="formExport.subttd1"
+                        label="Penandatangan 1"
+                        required
+                        clearable
+                        color="#ee8b3d"
+                        rows="2"
+                        ></v-text-field>
+                    </v-col>
+                    <v-col
+                        cols="12"
+                        md="6"
+                    >
+                        <v-text-field
+                        v-model="formExport.ttd2"
+                        label="Jabatan 2"
+                        required
+                        clearable
+                        color="#ee8b3d"
+                        rows="2"
+                        ></v-text-field>
+                    </v-col>
+                    <v-col
+                        cols="12"
+                        md="6"
+                    >
+                        <v-text-field
+                        v-model="formExport.subttd2"
+                        label="Penandatangan 2"
+                        required
+                        clearable
+                        color="#ee8b3d"
+                        rows="2"
+                        ></v-text-field>
+                    </v-col>
+                    <v-col
+                        cols="12"
+                        md="6"
+                    >
+                        <v-text-field
+                        v-model="formExport.ttd3"
+                        label="Jabatan 3"
+                        required
+                        clearable
+                        color="#ee8b3d"
+                        rows="2"
+                        ></v-text-field>
+                    </v-col>
+                    <v-col
+                        cols="12"
+                        md="6"
+                    >
+                        <v-text-field
+                        v-model="formExport.subttd3"
+                        label="Penandatangan 3"
+                        required
+                        clearable
+                        color="#ee8b3d"
+                        rows="2"
+                        ></v-text-field>
+                    </v-col>
+                    <v-col
+                        cols="12"
+                        md="6"
+                    >
+                        <v-text-field
+                        v-model="formExport.ttd4"
+                        label="Jabatan 4"
+                        required
+                        clearable
+                        color="#ee8b3d"
+                        rows="2"
+                        ></v-text-field>
+                    </v-col>
+                    <v-col
+                        cols="12"
+                        md="6"
+                    >
+                        <v-text-field
+                        v-model="formExport.subttd4"
+                        label="Penandatangan 4"
+                        required
+                        clearable
+                        color="#ee8b3d"
+                        rows="2"
+                        ></v-text-field>
+                    </v-col>
                 </v-row>
             </v-container>
             </v-card-text>
@@ -255,7 +356,7 @@
                 :preview-modal="false"
                 :paginate-elements-by-height="1400"
                 :pdf-quality="3"
-                filename="KHS"
+                :filename="`KHS${stateSemester.nama_lengkap_santri}`"
                 :manual-pagination="true"
                 :html-to-pdf-options="htmlToPdfAllOptions"
                 pdf-content-width="100%"
@@ -268,8 +369,8 @@
             >
             <pdf-content slot="pdf-content">
                 <section class="pdf-item">
-                    <div style="font-family: 'Times New Roman', Times, serif;color: black;" class="mt-39 mr-15 ml-15 mb-15">
-                        <p style="font-size: 12pt;font-weight: bold;text-align: center;margin-top: 20px;">LAPORAN HASIL BELAJAR SEMESTER GENAP</p>
+                    <div style="font-family: 'Times New Roman', Times, serif;color: black;">
+                        <p style="font-size: 12pt;font-weight: bold;text-align: center;margin-top: 20px;text-transform: uppercase;">LAPORAN HASIL BELAJAR SEMESTER {{ stateSemester.ajaran }}</p>
                         <table width="100%" style="font-size: 11pt;">
                             <tr>
                                 <td width="65%">
@@ -277,12 +378,12 @@
                                         <tr>
                                             <td width="25%">Nama Santri</td>
                                             <td width="5%">:</td>
-                                            <td width="70">RAVANNO KHALIFAH AKBAR ALFARIZI</td>
+                                            <td width="70">{{ stateSemester.nama_lengkap_santri }}</td>
                                         </tr>
                                         <tr>
                                             <td>Nomor Induk</td>
                                             <td>:</td>
-                                            <td>AZ1020</td>
+                                            <td>{{ stateSemester.no_induk }}</td>
                                         </tr>                                
                                     </table>
                                 </td>
@@ -291,12 +392,12 @@
                                         <tr>
                                             <td width="50%">Semester</td>
                                             <td width="5%">:</td>
-                                            <td width="45">1 (SATU)</td>
+                                            <td width="45">{{ stateSemester.semester }}</td>
                                         </tr>
                                         <tr>
                                             <td>Tahun Ajaran</td>
                                             <td>:</td>
-                                            <td>2021/2022</td>
+                                            <td>{{ stateSemester.tahun_ajaran }}</td>
                                         </tr>                                
                                     </table>
                                 </td>
@@ -307,29 +408,22 @@
                         <div style="font-weight: bold;font-size: 12pt;">I.&emsp;&emsp;KURIKULUM AL-QUR'AN</div>
                         <div style="font-weight: bold;font-size: 12pt;">&emsp;&emsp;&emsp;&emsp;A.&emsp;&emsp;TAHFIDZ</div>
                         <table class="forPdf" width="100%" style="font-size: 11pt;margin-top: 10px;border-color: black;" border="1" >
-                            <tr align="center">
-                                <th width="5%">No.</th>
-                                <th width="35%">Aspek</th>
-                                <th width="30%">Nilai</th>
-                                <th width="30%">Predikat</th>
-                            </tr>
-                            <tr align="center">
-                            <td>1.</td> 
-                            <td align="left">Kuantitas Hafalan</td> 
-                            <td>60</td> 
-                            <td>RASIB</td> 
-                            </tr>
-                            <tr align="center">
-                            <td>2.</td> 
-                            <td align="left">Kualitas Hafalan</td> 
-                            <td>55</td> 
-                            <td>RASIB</td> 
-                            </tr>
-                            <tr align="center">
-                                <td>3.</td>
-                                <td align="left">Total Hafalan Mutqin</td>
-                                <td colspan="3" style="font-weight: bold;">1/2 Juz (Juz 30)</td>
-                            </tr>
+                            <thead>
+                                <tr align="center">
+                                    <th width="5%">No.</th>
+                                    <th width="35%">Aspek</th>
+                                    <th width="30%">Nilai</th>
+                                    <th width="30%">Predikat</th>
+                                </tr>
+                            </thead>
+                            <tbody v-for="(datas, i) in data_tahsin_I">
+                                <tr align="center">
+                                    <td>{{ i+1 }}</td> 
+                                    <td align="left">{{ datas.mapel_nama }}</td> 
+                                    <td :style="datas.predikat === '-' ? 'font-weight:bold;' : ''">{{ datas.praktek }}</td> 
+                                    <td>{{ datas.predikat !== '-' ? datas.predikat : '' }}</td> 
+                                </tr>
+                            </tbody>
                         </table>
                         <br>
                         <div style="font-weight: bold;font-size: 12pt;">&emsp;&emsp;&emsp;&emsp;B.&emsp;&emsp;QIRO'AH</div>
@@ -340,23 +434,11 @@
                                 <th width="30%">Nilai</th>
                                 <th width="30%">Predikat</th>
                             </tr>
-                            <tr align="center">
-                            <td>1.</td> 
-                            <td align="left">Fashohah</td> 
-                            <td>65</td> 
-                            <td>JAYYID</td> 
-                            </tr>
-                            <tr align="center">
-                            <td>2.</td> 
-                            <td align="left">Maqomat</td> 
-                            <td>75</td> 
-                            <td>JAYYID</td> 
-                            </tr>
-                            <tr align="center">
-                            <td>3.</td> 
-                            <td align="left">Teori</td> 
-                            <td>60</td> 
-                            <td>RASIB</td> 
+                            <tr align="center" v-for="(data, i) in data_tahsin_II">
+                                <td>{{ i+1 }}</td> 
+                                <td align="left">{{ data.mapel_nama }}</td> 
+                                <td>{{ data.praktek }}</td> 
+                                <td>{{ data.predikat }}</td> 
                             </tr>
                         </table>
                         <br>
@@ -370,25 +452,18 @@
                                 <th width="20%">Predikat</th>
                                 <th width="20%">Deskripsi</th>
                             </tr>
-                            <tr align="center">
-                                <td>1</td>
-                                <td align="left">Akhlaq kepada Ustadz/Ustadzah</td>
-                                <td>75</td>
-                                <td>JAYYID</td>
-                                <td>TUNTAS</td>
-                            </tr>
-                            <tr align="center">
-                                <td>2</td>
-                                <td align="left">MPAK1/3/l</td>
-                                <td>48</td>
-                                <td>JAYYID JIDDAN</td>
-                                <td>TIDAK TUNTAS</td>
+                            <tr align="center" v-for="(item, i) in stateNilaiInti">
+                                <td>{{ i+1 }}</td>
+                                <td align="left">{{ item.mapel_nama }}</td>
+                                <td>{{ item.hasil_akhir }}</td>
+                                <td>{{ item.predikat }}</td>
+                                <td>{{ item.keterangan_nilai }}</td>
                             </tr>
                         </table>
 
                         <div class="html2pdf__page-break"/>
 
-                        <div style="font-weight: bold;font-size: 12pt;" class="mt-39">III.&emsp;&emsp;AKHLAK</div>
+                        <div style="font-weight: bold;font-size: 12pt;">III.&emsp;&emsp;AKHLAK</div>
                         <table class="forPdf" width="100%" style="font-size: 11pt;margin-top: 10px;border-color: black;" border="1" >
                             <tr align="center">
                                 <th width="5%">No.</th>
@@ -397,50 +472,57 @@
                                 <th width="20%">Pedikat</th>
                                 <th width="20%">Deskripsi</th>
                             </tr>
-                            <tr align="center">
-                                <td>1.</td> 
-                                <td align="left">Akhlaq kepada Ustadz/Ustadzah</td> 
-                                <td>86</td> 
-                                <td>JAYYID JIDDAN</td> 
-                                <td>TUNTAS</td> 
-                            </tr>
-                            <tr align="center">
-                                <td>2.</td> 
-                                <td align="left">Akhlaq kepada Pegawai/Tamu</td> 
-                                <td>85</td> 
-                                <td>JAYYID JIDDAN</td> 
-                                <td>TUNTAS</td> 
+                            <tr align="center" v-for="(items, index) in stateNilaiAkhlak">
+                                <td>{{ index+1 }}</td> 
+                                <td align="left">{{ items.mapel_nama }}</td> 
+                                <td>{{ items.praktek }}</td> 
+                                <td>{{ items.predikat }}</td> 
+                                <td>{{ items.STATUS }}</td> 
                             </tr>
                         </table>
                         <br>
                         <div style="font-weight: bold;font-size: 12pt;">III.&emsp;&emsp;NASIHAT</div>
                         <table class="forPdfNasihat" width="100%" style="font-size: 11pt;margin-top: 10px;border-color: black;" border="1" >
                             <tr>
-                                <td class="text-justify p-7">
-                                    Ananda sudah mengikuti program dengan baik, namun masih perlu perbaikan untuk Kelancaran dan 
-                                    kefasihan baca’annya, untuk materi Syari’ahnya masih ada yang belum tuntas, harus lebih giat lagi 
-                                    belajarnya agar nilainya lebih maksimal. Lebih semangat lagi belajar dan menghafal Al-Qur’annya.
+                                <td class="text-justify p-5">
+                                    {{ stateNasihat.nasihat }}
                                 </td>
                             </tr>
                         </table>
-                        <table width="100%" style="font-size: 11pt;margin-top: 40px;text-align: center;">
+                        <table width="100%" style="font-size: 11pt;margin-top: 40px;text-align: center;page-break-inside:avoid">
                             <tr>
-                                <td>Mengetahui</td>
-                                <td>Mudir</td>
-                                <td>Bogor</td>
+                                <td></td>
+                                <td></td>
+                                <td>{{ formExport.tempat }}</td>
                             </tr>
                             <tr>
-                                <td>Orang Tua/Wali</td>
-                                <td>Pondok Pesantren Al-Jazary</td>
-                                <td>Murobbi</td>
+                                <td>Mengetahui</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>{{ formExport.ttd1 }}</td>
+                                <td>{{ formExport.ttd2 }}</td>
+                                <td>{{ formExport.ttd3 }}</td>
                             </tr>
                             <tr>
                                 <td colspan="3" height="80px"></td>
                             </tr>
                             <tr>
-                                <td>(.................................)</td>
-                                <td>Ustadz Muhammad Agung Alhaz, S.Kom </td>
-                                <td>Ustadz Khaerul Anam, S.Kom</td>
+                                <td>{{ formExport.subttd1 }}</td>
+                                <td>{{ formExport.subttd2 }}</td>
+                                <td>{{ formExport.subttd3 }}</td>
+                            </tr>
+                        </table>
+                        <table width="100%" style="font-size: 11pt;margin-top: 25px;text-align: center;page-break-inside:avoid">
+                            <tr>
+                                <td>{{ formExport.ttd4 }}</td>
+                            </tr>
+                            <tr>
+                                <td height="80px"></td>
+                            </tr>
+                            <tr>
+                                <td>{{ formExport.subttd4 }}</td>
                             </tr>
                         </table>
                     </div>
@@ -473,7 +555,7 @@ import ApiService from "@/core/services/api.service";
 import Swal from 'sweetalert2'
 import localStorage from "@/core/services/store/localStorage";
 import VueHtml2pdf from "vue-html2pdf";
-import { Fetch_R_Nilai_Tahsin } from "@/core/services/store/rhSantri.module";
+import { Fetch_R_Nilai_Tahsin, Fetch_R_Semester } from "@/core/services/store/rhSantri.module";
 
 export default {
     mounted() {
@@ -501,6 +583,8 @@ export default {
         return {
             Santri_Id: "",
             data_tahsin: [],
+            data_tahsin_I: [],
+            data_tahsin_II: [],
             search: '',
             progressBar: true,
             dialog: false,
@@ -560,16 +644,12 @@ export default {
             dialogSeenBill: false,
             CustomMessage: "",
             htmlToPdfAllOptions: {
-                margin: {
-                    top: 15,    // Margin atas
-                    right: 15,  // Margin kanan
-                    bottom: 15, // Margin bawah
-                    left: 15    // Margin kiri
-                },
+                margin: [1.4, 0.7, 1.4, 0.7],
                 image: {
                     type: 'jpeg', 
                     quality: 1
                 },
+                filename: "KHS",
                 html2canvas: {
                     dpi: 192,
                     scale:4,
@@ -582,13 +662,25 @@ export default {
                     orientation: "portrait"
                 }
             },
-            // printingInProgress: false,
+            printingInProgress: false,
             progressData: 0,
             dialogCetak: false,
             formExport: {
-                judul: "",
-                sub_judul: ""
+                tempat: "",
+                ttd1: "",
+                subttd1: "",
+                ttd2: "",
+                subttd2: "",
+                ttd3: "",
+                subttd3: "",
+                ttd4: "",
+                subttd4: ""
             },
+            stateSantri: [],
+            stateNilaiInti: [],
+            stateNilaiAkhlak: [],
+            stateNasihat: [],
+            stateSemester: []
         }
     },
 
@@ -629,9 +721,37 @@ export default {
 
     methods:{
         openModalExport(){
+            var SantriId = this.Santri_Id;
+            this.$store
+                .dispatch(Fetch_R_Semester, { SantriId })
+                .then((res) => {
+                    this.stateSemester = res.data[0]
+                })
+                .catch((err) => err);
+
+            this.stateSantri = this.$store.state.rhSantri.r_santri[0];
+            this.stateNilaiInti = this.$store.state.rhSantri.r_nilai_inti;
+            this.stateNilaiAkhlak = this.$store.state.rhSantri.r_nilai_akhlak;
+            this.stateNasihat = this.$store.state.rhSantri.r_nasihat[0];
             this.dialogCetak = true;
-            this.formExport.judul = "Judul";
-            this.formExport.sub_judul = "Sub Judul";
+
+            const currentDate = new Date();
+            const day = currentDate.getDate().toString().padStart(2, '0');
+            const monthIndex = currentDate.getMonth();
+            const months = [
+            'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+            'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+            ];
+            const year = currentDate.getFullYear().toString();
+            const monthName = months[monthIndex];
+
+            const formattedDate = `${day} ${monthName} ${year}`;
+
+            this.formExport.tempat = "Bogor, " + formattedDate;
+            this.formExport.ttd1 = "Orang Tua/Wali";
+            this.formExport.ttd2 = "Mudir Pondok Pesantren Al-Jazary";
+            this.formExport.ttd3 = "Pembimbing Halaqoh";
+            this.formExport.ttd4 = "Guru Besar Pondok Pesantren Al-jazary";
         },
 
         closeModalExport(){
@@ -644,10 +764,11 @@ export default {
         },
 
         onProgress(data) {
-            this.progressData = data;
+            this.progressData = data-30;
         },
 
         async beforeDownload ({ html2pdf, options, pdfContent }) {
+            this.printingInProgress = true
             await html2pdf().set(options).from(pdfContent).toPdf().get('pdf').then((pdf) => {
                 const totalPages = pdf.internal.getNumberOfPages()
                 
@@ -679,15 +800,6 @@ export default {
                     const imageX3 = 2.3;
                     const imageY3 = 0.6;
                     pdf.addImage('./KopIndo.png', 'PNG', imageX3, imageY3, imageWidth3, imageHeight3);
-                    // pdf.setFontSize(10)
-                    // pdf.setTextColor(150)
-                    // pdf.text(i + ' ' + totalPages, (pdf.internal.pageSize.getWidth() * 0.88), (pdf.internal.pageSize.getHeight() - 0.3))
-                    
-                    // pdf.setPage(i);
-                    // pdf.setFontSize(17);
-                    // pdf.setTextColor('#be6f30');
-                    // pdf.text('معهد اجلزري', (pdf.internal.pageSize.getWidth() / 2), (pdf.internal.pageSize.getHeight() * 0.04), { align: 'center' });
-                    // pdf.text('PONDOK PESANTREN AL-JAZARY', (pdf.internal.pageSize.getWidth() / 2), (pdf.internal.pageSize.getHeight() * 0.07), { align: 'center' });
 
                     pdf.setFontSize(7);
                     pdf.setTextColor('#000');
@@ -699,10 +811,14 @@ export default {
                     pdf.line(9, (pdf.internal.pageSize.getHeight() * 0.105), pdf.internal.pageSize.getWidth() - 10, (pdf.internal.pageSize.getHeight() * 0.105));
                 } 
             }).save()
+            this.progressData = 100
+            setTimeout(() => {
+                this.printingInProgress = false;
+            }, 500);
         },
 
         hasDownloaded(){
-            // this.printingInProgress = false;
+            this.printingInProgress = false;
             this.progressData = 0;
         },
 
@@ -720,6 +836,12 @@ export default {
             return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
         },
 
+        filterDataByCategory(categoryName) {
+            const filteredData = this.data_tahsin.filter(item => item.kategori_nama === categoryName);
+            
+            return filteredData;
+        },
+
         getMasterRiwayatTahsin(idHeader){
             var SantriId = this.Santri_Id;
             var TahunId  = idHeader;
@@ -728,6 +850,8 @@ export default {
                 .then((res) => {
                     this.CustomMessage = res.message_opt
                     this.data_tahsin = res.data
+                    this.data_tahsin_I = this.filterDataByCategory("TAHFIDZ")
+                    this.data_tahsin_II = this.filterDataByCategory("QIRO’AH")
                 })
                 .catch((err) => err);
         },
