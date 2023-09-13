@@ -802,6 +802,12 @@ export default {
     htmlToPdfAllOptions: {
       margin: 0.4,
       filename: `Data Nilai Santri.pdf`,
+      html2canvas: {
+        dpi: 192,
+        scale:4,
+        letterRendering: true,
+        useCORS: true
+      },
       jsPDF: {
         unit: "in",
         format: "a4",

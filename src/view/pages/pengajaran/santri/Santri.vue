@@ -715,7 +715,12 @@ export default {
                     type: 'jpeg', 
                     quality: 0.98
                 },
-                html2canvas: {useCORS: true}, 
+                html2canvas: {
+                    dpi: 192,
+                    scale:4,
+                    letterRendering: true,
+                    useCORS: true
+                },
                 jsPDF: {
                     unit: "in",
                     format: "a4",

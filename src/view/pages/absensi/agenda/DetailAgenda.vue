@@ -514,6 +514,12 @@ export default {
         field: "deskripsi"
       }
     ],
+    html2canvas: {
+      dpi: 192,
+      scale:4,
+      letterRendering: true,
+      useCORS: true
+    },
     htmlToPdfAllOptions: {
       margin: 0.4,
       filename: `Data Agenda.pdf`,
