@@ -457,7 +457,6 @@ export default {
         },
 
         editItem (item) {
-            console.log(item);
             this.editedIndex = this.web_akses.indexOf(item)
             this.editedItem = Object.assign({}, item)
             this.data_item = item

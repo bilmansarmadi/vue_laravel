@@ -345,7 +345,6 @@ export default {
         },
 
         editItem (item) {
-            console.log(item);
             this.editedIndex = this.data_role.indexOf(item)
             this.editedItem = Object.assign({}, item)
             this.data_item = item

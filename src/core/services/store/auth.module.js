@@ -102,7 +102,6 @@ const actions = {
           }
         },
         err => {
-          console.log(err);
           Swal.fire({
             title: "Gagal Login",
             icon: "error",
