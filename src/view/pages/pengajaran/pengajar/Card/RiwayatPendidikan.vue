@@ -381,8 +381,8 @@ export default {
             menu: '',
             menu2: '',
             dropdown_status: [
-                { value: 1, text: "Negeri" },
-                { value: 0, text: "Swasta" },
+                { value: 1, text: "Formal" },
+                { value: 0, text: "Pesantren" },
             ],
         }
     },
