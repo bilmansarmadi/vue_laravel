@@ -150,7 +150,7 @@ export default {
         clearFilter(){
             this.formFilter.tahun_id = ""
             this.showDetail = false
-            this.idHeader = ""
+            // this.idHeader = ""
         },
 
         filterData(){

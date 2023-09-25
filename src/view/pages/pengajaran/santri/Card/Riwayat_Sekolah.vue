@@ -1,5 +1,44 @@
 <template>
     <div>
+        <!-- <div class="d-flex justify-content-end">
+            <v-btn
+                class="m-5"
+                dark
+                color="#73a4ef"
+                @click="convertToDocx"
+                >
+                Export
+            </v-btn>
+        </div>
+
+        <div ref="content" class="d-none">
+            <html lang="en">
+                <head>
+                    <meta charset="UTF-8" />
+                </head>
+                <body>
+                    <div>
+            <p>Taken from wikipedia</p>
+            <img src="/LogoAlJazary.png" alt="">
+        </div>
+                    <div>
+                        <h1>This is heading 1</h1>
+                        <p>Content</p>
+                        <h2>This is heading 2</h2>
+                        <p>Content</p>
+                        <h3>This is heading 3</h3>
+                        <p>Content</p>
+                        <h4>This is heading 4</h4>
+                        <p>Content</p>
+                        <h5>This is heading 5</h5>
+                        <p>Content</p>
+                        <h6>This is heading 6</h6>
+                        <p>Content</p>
+                    </div>
+                </body>
+            </html>
+        </div> -->
+
         <v-data-table responsive show-empty
             :headers="headers"
             :items="riwayat_sekolah"
@@ -289,6 +328,7 @@ import Services from "@/core/services/aljazary-api/Services";
 import ApiService from "@/core/services/api.service";
 import Swal from 'sweetalert2'
 import localStorage from "@/core/services/store/localStorage";
+// import htmlToDocx from 'html-to-docx';
 
 export default {
     mounted() {
@@ -393,6 +433,17 @@ export default {
                 { value: 1, text: "Formal" },
                 { value: 0, text: "Pesantren" },
             ],
+            headerHTMLStrings: "<p>Ini Adalah Header</p>",
+            headerHTMLString: `
+            <div>
+                <h1>Makan</h1>
+                <img
+                    src="https://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png"
+                    alt="Red dot"
+                >
+            </div>
+            `,
+            fileName: ""
         }
     },
 
@@ -440,6 +491,31 @@ export default {
     },
 
     methods:{
+        // async convertToDocx() {
+        //     this.fileName = "BTS";
+        //     const contentElement = this.$refs["content"];
+        //     const htmlContent = contentElement.innerHTML;
+
+        //     const docxBuffer = await htmlToDocx(
+        //         htmlContent, 
+        //         { headerHTMLString: this.headerHTMLString }, 
+        //         {
+        //             table: { row: { cantSplit: true } },
+        //             header: true,
+        //             footer: true,
+        //             pageNumber: true,
+        //         }
+        //     );
+
+        //     const blob = new Blob([docxBuffer], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
+        //     const url = window.URL.createObjectURL(blob);
+        //     const a = document.createElement('a');
+        //     a.href = url;
+        //     a.download = this.fileName+'.docx';
+        //     a.click();
+        //     window.URL.revokeObjectURL(url);
+        // },
+
         getMasterRiwayat(){
             return new Promise(resolve => {
                 var mydata = {

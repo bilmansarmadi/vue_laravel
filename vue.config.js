@@ -34,5 +34,8 @@ module.exports = {
       }
     }
   },
-  transpileDependencies: ["vuetify"]
+  transpileDependencies: ["vuetify"],
+  devServer: {
+    port: 1907, // Ganti dengan port yang Anda inginkan
+  },
 };
