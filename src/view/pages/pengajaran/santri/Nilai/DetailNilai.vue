@@ -222,7 +222,7 @@
             </v-dialog>
         </v-toolbar>
         </template>
-
+        
         <template v-slot:[`item.actions`]="{ item }">
         <v-tooltip top>
             <template v-slot:activator="{ on, attrs }">
@@ -235,12 +235,12 @@
                     v-bind="attrs"
                     v-on="on"
                     @click="editItem(item)"
-                    v-show="accessList.U"
-                    >
+                    v-show="accessList.U && item.tugas !== null && item.tugas !== ''"
+                >
                     <i class="flaticon2-pen text-white"></i>
                 </v-btn>
             </template>
-        <span>Ubah Data</span>
+            <span>Ubah Data</span>
         </v-tooltip>
         <v-tooltip top>
             <template v-slot:activator="{ on, attrs }">
@@ -252,16 +252,17 @@
                     v-bind="attrs"
                     v-on="on"
                     @click="deleteItem(item)"
-                    v-show="accessList.D"
-                    >
+                    v-show="accessList.D && item.tugas !== null && item.tugas !== ''"
+                >
                     <v-icon dark>
-                    mdi-delete
+                        mdi-delete
                     </v-icon>
                 </v-btn>
             </template>
-        <span>Hapus Data</span>
+            <span>Hapus Data</span>
         </v-tooltip>
-        </template>
+    </template>
+
 
         <template v-slot:[`item.keterangan_nilai`]="{ item }">
           <v-btn
@@ -271,6 +272,7 @@
               fab
               class="ml-3"
               @click="seenFileBill(item)"
+              v-show="item.tugas !== null && item.tugas !== ''"
               data-toggle="tooltip"
               title="Lihat Catatan"
               style="text-transform: capitalize !important; min-width: 0px; padding: 0 6px;"
@@ -378,7 +380,7 @@ export default {
                 { 
                     text: 'Total Pertemuan', 
                     value: 'total_pertemuan',
-                    width: "120px",
+                    width: "150px",
                     align: 'start',
                     sortable: false 
                 },
@@ -403,12 +405,7 @@ export default {
                 { 
                     text: 'Predikat', 
                     value: 'predikat',
-                    align: 'start',
-                    sortable: false 
-                },
-                { 
-                    text: 'Nilai Akhir', 
-                    value: 'hasil_akhir',
+                    width: "130px",
                     align: 'start',
                     sortable: false 
                 },

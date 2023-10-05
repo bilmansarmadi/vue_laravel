@@ -330,6 +330,7 @@ import Swal from 'sweetalert2'
 import localStorage from "@/core/services/store/localStorage";
 // import htmlToDocx from 'html-to-docx';
 
+
 export default {
     mounted() {
         this.Santri_Id  = this.$route.query.id;

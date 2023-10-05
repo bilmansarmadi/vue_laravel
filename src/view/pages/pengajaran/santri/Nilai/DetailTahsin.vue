@@ -370,8 +370,8 @@
             <pdf-content slot="pdf-content">
                 <section class="pdf-item">
                     <div style="font-family: 'Times New Roman', Times, serif;color: black;">
-                        <p style="font-size: 12pt;font-weight: bold;text-align: center;margin-top: 20px;text-transform: uppercase;">LAPORAN HASIL BELAJAR SEMESTER {{ stateSemester.ajaran }}</p>
-                        <table width="100%" style="font-size: 11pt;">
+                        <p style="font-size: 10pt;font-weight: bold;text-align: center;margin-top: 20px;text-transform: uppercase;">LAPORAN HASIL BELAJAR SEMESTER {{ stateSemester.ajaran }}</p>
+                        <table width="100%" style="font-size: 9;">
                             <tr>
                                 <td width="65%">
                                     <table width="100%">
@@ -405,9 +405,9 @@
                         </table>
                         <br>
 
-                        <div style="font-weight: bold;font-size: 12pt;">I.&emsp;&emsp;KURIKULUM AL-QUR'AN</div>
-                        <div style="font-weight: bold;font-size: 12pt;">&emsp;&emsp;&emsp;&emsp;A.&emsp;&emsp;TAHFIDZ</div>
-                        <table class="forPdf" width="100%" style="font-size: 11pt;margin-top: 10px;border-color: black;" border="1" >
+                        <div style="font-weight: bold;font-size: 10pt;">I.&emsp;&emsp;KURIKULUM AL-QUR'AN</div>
+                        <div style="font-weight: bold;font-size: 10pt;">&emsp;&emsp;&emsp;&emsp;A.&emsp;&emsp;TAHFIDZ</div>
+                        <table class="forPdf" width="100%" style="font-size: 9;margin-top: 10px;border-color: black;" border="1" >
                             <thead>
                                 <tr align="center">
                                     <th width="5%">No.</th>
@@ -417,17 +417,25 @@
                                 </tr>
                             </thead>
                             <tbody v-for="(datas, i) in data_tahsin_I">
-                                <tr align="center">
+                                <tr v-if="datas.predikat !== '-'" align="center">
                                     <td>{{ i+1 }}</td> 
                                     <td align="left">{{ datas.mapel_nama }}</td> 
                                     <td :style="datas.predikat === '-' ? 'font-weight:bold;' : ''">{{ datas.praktek }}</td> 
                                     <td>{{ datas.predikat !== '-' ? datas.predikat : '' }}</td> 
                                 </tr>
+                                <tr v-else align="center">
+                                    <td>{{ i+1 }}</td> 
+                                    <td align="left">{{ datas.mapel_nama }}</td> 
+                                    <td :colspan="datas.predikat === '-' ? 2 : 1"
+                                    :style="datas.predikat === '-' ? 'font-weight:bold;' : ''">
+                                    {{ datas.praktek }}
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                         <br>
-                        <div style="font-weight: bold;font-size: 12pt;">&emsp;&emsp;&emsp;&emsp;B.&emsp;&emsp;QIRO'AH</div>
-                        <table class="forPdf" width="100%" style="font-size: 11pt;margin-top: 10px;border-color: black;" border="1" >
+                        <div style="font-weight: bold;font-size: 10pt;">&emsp;&emsp;&emsp;&emsp;B.&emsp;&emsp;QIRO'AH</div>
+                        <table class="forPdf" width="100%" style="font-size: 9;margin-top: 10px;border-color: black;" border="1" >
                             <tr align="center">
                                 <th width="5%">No.</th>
                                 <th width="35%">Aspek</th>
@@ -443,8 +451,9 @@
                         </table>
                         <br>
 
-                        <div style="font-weight: bold;font-size: 12pt;">II.&emsp;&emsp;SYARIAH</div>
-                        <table class="forPdf" width="100%" style="font-size: 11pt;margin-top: 10px;border-color: black;" border="1" >
+                        <div style="font-weight: bold;font-size: 10pt;">II.&emsp;&emsp;SYARIAH</div>
+                        <table class="forPdf" width="100%" style="font-size: 9;margin-top: 10px;border-color: black;" border="1" >
+                            <thead>
                             <tr align="center">
                                 <th width="5%">No</th>
                                 <th width="40%">Aspek</th>
@@ -452,19 +461,28 @@
                                 <th width="20%">Predikat</th>
                                 <th width="20%">Deskripsi</th>
                             </tr>
-                            <tr align="center" v-for="(item, i) in stateNilaiInti">
+                            </thead>
+                            <tbody v-for="(item, i) in stateNilaiInti">
+                            <tr v-if="item.STATUS !== '' && item.STATUS !== null" align="center">
                                 <td>{{ i+1 }}</td>
                                 <td align="left">{{ item.mapel_nama }}</td>
                                 <td>{{ item.hasil_akhir }}</td>
                                 <td>{{ item.predikat }}</td>
-                                <td>{{ item.keterangan_nilai }}</td>
-                            </tr>
+                                <td>{{ item.STATUS }}</td>
+                                </tr>
+                                <tr style="font-weight: bold;" v-else align="center">
+                                    <td :colspan="2">{{ item.mapel_nama }}</td> 
+                                    <td :colspan="2">{{ item.hasil_akhir }}</td> 
+                                    <td>{{ item.predikat }}</td>
+                                </tr>
+                            </tbody>
+
                         </table>
 
                         <div class="html2pdf__page-break"/>
 
-                        <div style="font-weight: bold;font-size: 12pt;">III.&emsp;&emsp;AKHLAK</div>
-                        <table class="forPdf" width="100%" style="font-size: 11pt;margin-top: 10px;border-color: black;" border="1" >
+                        <div style="font-weight: bold;font-size: 10pt;">III.&emsp;&emsp;AKHLAK</div>
+                        <table class="forPdf" width="100%" style="font-size: 9;margin-top: 10px;border-color: black;" border="1" >
                             <tr align="center">
                                 <th width="5%">No.</th>
                                 <th width="40%">Aspek</th>
@@ -481,15 +499,15 @@
                             </tr>
                         </table>
                         <br>
-                        <div style="font-weight: bold;font-size: 12pt;">III.&emsp;&emsp;NASIHAT</div>
-                        <table class="forPdfNasihat" width="100%" style="font-size: 11pt;margin-top: 10px;border-color: black;" border="1" >
+                        <div style="font-weight: bold;font-size: 10pt;">III.&emsp;&emsp;NASIHAT</div>
+                        <table class="forPdfNasihat" width="100%" style="font-size: 9;margin-top: 10px;border-color: black;" border="1" >
                             <tr>
                                 <td class="text-justify p-5">
                                     {{ stateNasihat.nasihat }}
                                 </td>
                             </tr>
                         </table>
-                        <table width="100%" style="font-size: 11pt;margin-top: 40px;text-align: center;page-break-inside:avoid">
+                        <table width="100%" style="font-size: 9;margin-top: 40px;text-align: center;page-break-inside:avoid">
                             <tr>
                                 <td></td>
                                 <td></td>
@@ -514,7 +532,7 @@
                                 <td>{{ formExport.subttd3 }}</td>
                             </tr>
                         </table>
-                        <table width="100%" style="font-size: 11pt;margin-top: 25px;text-align: center;page-break-inside:avoid">
+                        <table width="100%" style="font-size: 9;margin-top: 25px;text-align: center;page-break-inside:avoid">
                             <tr>
                                 <td>{{ formExport.ttd4 }}</td>
                             </tr>

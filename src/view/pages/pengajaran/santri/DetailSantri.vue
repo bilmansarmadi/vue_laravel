@@ -126,12 +126,26 @@
             </div>
         </div>
         
-        <!--begin::Content-->
+        
         <div class="flex-row-fluid mt-5">
             <b-tabs class="hide-tabs" v-model="tabIndex">
                 <b-tab active>
                     <div class="card card-custom card-stretch border border-primary" v-show="accessList.R">
                         <div class="card-header border-0 pt-4">
+                        <!--begin::Content-->
+                            <div class="d-flex justify-content-end mt-5 mb-5">
+                                <v-btn
+                                @click="exportToFile()"
+                                rounded
+                                class="text-white"
+                                color="#ee8b3d">
+                                    <v-icon
+                                    color="white">
+                                        mdi-file-pdf-box
+                                    </v-icon>
+                                    Export
+                                </v-btn>  
+                            </div>
                             <v-container>
                                 <v-row>
                                     <v-col
@@ -394,8 +408,204 @@
             </b-tabs>
         </div>
         <!--end::Content-->
+                <!-- PDF ALL Session -->
+                <template>
+                    <vue-html2pdf
+                        :show-layout="false"
+                        :float-layout="true"
+                        :enable-download="false"
+                        :preview-modal="false"
+                        :paginate-elements-by-height="1400"
+                        :pdf-quality="3"
+                        :filename="`Biodata Santri ${data_header.nama_lengkap_santri}`"
+                        :manual-pagination="true"
+                        :html-to-pdf-options="htmlToPdfAllOptions"
+                        pdf-content-width="100%"
+                        @progress="onProgress($event)"
+                        @hasStartedGeneration="hasStartedGeneration()"
+                        @hasGenerated="hasGenerated($event)"
+                        @beforeDownload="beforeDownload($event)"
+                        @hasDownloaded="hasDownloaded($event)"
+                        ref="html2PdfAll"
+                    >
+                    <pdf-content slot="pdf-content">
+                        <section class="pdf-item">
+                            <div style="font-family: 'Times New Roman', Times, serif;color: black;">
+                                <p style="font-size: 12pt;font-weight: bold;text-align: center;margin-top: 150px;text-transform: uppercase;">FORMULIR BIODATA SANTRI</p>
+                                <table width="100%" style="font-size: 9;">
+                                    <tr>
+                                        <td width="100%" align="center">
+                                            <table width="80%" style="text-align: center;">
+                                                <tr>
+                                                    <td width="10%" style="font-size: 11pt;font-weight: bold;text-align: left;">A.	DATA PRIBADI</td>
+                                                    <td width="14%"></td>
+                                                    <td width="4%" :rowspan="9" style="vertical-align: top;"><img :src="data_header.foto" alt="Foto" class="smallImage"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="10%" style="text-align: left;font-size: 11pt;">1. Nama Santri</td>
+                                                    <td width="14%" style="text-align: left;font-size: 11pt;">: {{ data_header.nama_lengkap_santri }}</td>
+                                                </tr>                    
+                                                <tr>
+                                                    <td width="10%" style="text-align: left;font-size: 11pt;">2. Nama Panggilan</td>
+                                                    <td width="14%" style="text-align: left;font-size: 11pt;">: {{ data_header.panggilan }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="10%" style="text-align: left;font-size: 11pt;">3. Tempat dan Tanggal Lahir</td>
+                                                    <td width="14%" style="text-align: left;font-size: 11pt;">: {{ data_header.tempat_lahir }}, {{ data_header.tanggal_lahir     }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="10%" style="text-align: left;font-size: 11pt;">4. Anak Ke -...... dari... </td>
+                                                    <td width="14%" style="text-align: left;font-size: 11pt;">: {{ data_header.anak_ke }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="10%" style="text-align: left;font-size: 11pt;">5. Alamat Asal (Lengkap) </td>
+                                                    <td width="14%" style="text-align: left;font-size: 11pt;">: {{ data_header.alamat }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="10%" style="text-align: left;font-size: 11pt;">6.	Berat Badan & Tinggi Badan  </td>
+                                                    <td width="14%" style="text-align: left;font-size: 11pt;">: {{ data_header.berat_badan }} KG, {{ data_header.tinggi_badan }} CM</td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="10%" style="text-align: left;font-size: 11pt;">7.	No. HP Orang Tua  </td>
+                                                    <td width="14%" style="text-align: left;font-size: 11pt;">: {{ data_header.hp_ortu }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="10%" style="text-align: left;font-size: 11pt;">8.	Nama Ayah Kandung  </td>
+                                                    <td width="14%" style="text-align: left;font-size: 11pt;">: {{ data_header.nama_ayah }}</td>
+                                                </tr>                    
+                                                <tr>
+                                                    <td width="10%" style="text-align: left;font-size: 11pt;">9.	Nama Ibu Kandung  </td>
+                                                    <td width="14%" style="text-align: left;font-size: 11pt;">: {{ data_header.nama_ibu }}</td>
+                                                </tr>                   
+                                            </table>
+                                            <br>
+                                            <table width="80%" style="text-align: center;">
+                                                <tr>
+                                                    <td width="10%" style="font-size: 11pt;font-weight: bold;text-align: left;">B. Data Riwayat</td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="10%" style="font-size: 11pt;text-align: left;">1. Pendidikan Formal</td>
+                                                </tr>                   
+                                            </table>
+                                            <table width="80%" style="text-align: center;" border="1px">
+                                                <thead>
+                                                    <tr>
+                                                        <td width="10%" :rowspan="2" style="font-size: 11pt;font-weight: bold;text-align: center;">Tingkat</td>
+                                                        <td width="15%" :rowspan="2" style="font-size: 11pt;font-weight: bold;text-align: center;">Nama Sekolah</td>
+                                                        <td width="10%" :colspan="2" style="font-size: 11pt;font-weight: bold;text-align: center;">Tahun</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td width="10%" style="font-size: 11pt;font-weight: bold;text-align: center;">Masuk</td>
+                                                        <td width="10%" style="font-size: 11pt;font-weight: bold;text-align: center;">Lulus</td>
+                                                    </tr>                   
+                                                </thead>
+                                                <tbody v-for="(item, i) in data_pendidikan">
+                                                    <tr v-if="item.status_sekolah !== 0">
+                                                        <td style="font-size: 11pt;text-align: center;">{{ item.tingkat }}</td>
+                                                        <td style="font-size: 11pt;text-align: left;">{{ item.nama_sekolah }}</td>
+                                                        <td style="font-size: 11pt;text-align: center;">{{ item.tahun_masuk }}</td>
+                                                        <td style="font-size: 11pt;text-align: center;">{{ item.tahun_lulus }}</td>
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
+                                            <br>
+                                            <table width="80%" style="text-align: center;">
+                                                <tr>
+                                                    <td width="10%" style="font-size: 11pt;text-align: left;">2. Pendidikan Pesantren</td>
+                                                </tr>                   
+                                            </table>
+                                            <table width="80%" style="text-align: center;" border="1px">
+                                                <thead>
+                                                    <tr>
+                                                        <td width="10%" :rowspan="2" style="font-size: 11pt;font-weight: bold;text-align: center;">Tingkat</td>
+                                                        <td width="15%" :rowspan="2" style="font-size: 11pt;font-weight: bold;text-align: center;">Nama Sekolah</td>
+                                                        <td width="10%" :colspan="2" style="font-size: 11pt;font-weight: bold;text-align: center;">Tahun</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td width="10%" style="font-size: 11pt;font-weight: bold;text-align: center;">Masuk</td>
+                                                        <td width="10%" style="font-size: 11pt;font-weight: bold;text-align: center;">Lulus</td>
+                                                    </tr>                   
+                                                </thead>
+                                                <tbody v-for="(item, i) in data_pendidikan">
+                                                    <tr v-if="item.status_sekolah === 0">
+                                                        <td style="font-size: 11pt;text-align: center;">{{ item.tingkat }}</td>
+                                                        <td style="font-size: 11pt;text-align: left;">{{ item.nama_sekolah }}</td>
+                                                        <td style="font-size: 11pt;text-align: center;">{{ item.tahun_masuk }}</td>
+                                                        <td style="font-size: 11pt;text-align: center;">{{ item.tahun_lulus }}</td>
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
+                                            <br>
+                                            <table width="80%" style="text-align: center;">
+                                                <tr>
+                                                    <td width="10%" style="font-size: 11pt;font-weight: bold;text-align: left;">C.PROGRAM TAHFIDZ</td>
+                                                    <td width="14%"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="10%" style="text-align: left;font-size: 11pt;">1. Kode Santri</td>
+                                                    <td width="14%" style="text-align: left;font-size: 11pt;">: {{ data_header.kode_santri }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="10%" style="text-align: left;font-size: 11pt;">2. Program Pondok</td>
+                                                    <td width="14%" style="text-align: left;font-size: 11pt;">: {{ data_header.program_pondok_Nama }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="10%" style="text-align: left;font-size: 11pt;">3. Masuk Pondok</td>
+                                                    <td width="14%" style="text-align: left;font-size: 11pt;">: {{ data_header.masuk_pondok }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="10%" style="text-align: left;font-size: 11pt;">4. Hafalan Ziyadah</td>
+                                                    <td width="14%" style="text-align: left;font-size: 11pt;">: {{ data_header.hafalan_ziyadah }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="10%" style="text-align: left;font-size: 11pt;">5. Hafalan Mutqin</td>
+                                                    <td width="14%" style="text-align: left;font-size: 11pt;">: {{ data_header.hafalan_mutqin }}</td>
+                                                </tr>                  
+                                            </table>
+                                        </td>
+                                        
+                                    </tr>
+                                </table>
+                                <br>
+                            </div>
+                        </section>
+                    </pdf-content>
+                    </vue-html2pdf>
+        </template>
+        <!-- END PDF ALL Session -->
     </div>
 </template>
+<style>
+.forPdf table {
+    border-collapse: collapse;
+    border-color: black;
+}
+
+.smallImage {
+    max-width: 100px;
+    height: auto;  /* mempertahankan aspek rasio */
+}
+
+.center-table {
+            margin: 0 auto; 
+        }
+
+.forPdf th, td {
+    padding: 4px;
+}
+
+.forNoBorder td{
+    padding: 1px;
+}
+
+.pageBreak {
+  page-break-before: always;
+  padding-top: 250px;
+}
+
+</style>
 
 <script>
 import localStorage from "@/core/services/store/localStorage";
@@ -406,7 +616,8 @@ import KTNilai from "@/view/pages/pengajaran/santri/Card/Nilai";
 // import KTHSK from "@/view/pages/pengajaran/santri/Card/HSK_Header";
 import KTRiwayat_Sekolah from "@/view/pages/pengajaran/santri/Card/Riwayat_Sekolah";
 import Swal from 'sweetalert2'
-import { Fetch_R_Santri } from "@/core/services/store/rhSantri.module";
+import VueHtml2pdf from "vue-html2pdf";
+import { Fetch_R_Santri, Fetch_R_Pendidikan } from "@/core/services/store/rhSantri.module";
 
 export default {
     data(){
@@ -414,6 +625,7 @@ export default {
             Santri_Id: "",
             tabIndex: 0,
             data_header: [],
+            data_pendidikan: [],
             progressBar: true,
             dropdown_jenkel: [
                 { value: 'L', text: "Ikhwan" },
@@ -447,10 +659,77 @@ export default {
     components:{
         KTNilai,
         KTRiwayat_Sekolah,
+        VueHtml2pdf
         // KTKHS,
         // KTHSK
     },
     methods:{
+
+        exportToFile() {
+            this.data_header;
+            this.data_pendidikan;
+            this.$refs.html2PdfAll.generatePdf();
+        },
+
+        onProgress(data) {
+            this.progressData = data-30;
+        },
+
+        async beforeDownload ({ html2pdf, options, pdfContent }) {
+            this.printingInProgress = true
+            await html2pdf().set(options).from(pdfContent).toPdf().get('pdf').then((pdf) => {
+                const totalPages = pdf.internal.getNumberOfPages()
+                
+                for (let i = 1; i <= totalPages; i++) {
+                    pdf.setPage(i)
+                    
+                    const imageWidth = 0.87;
+                    const imageHeight = 1;
+                    const imageX = 0.4;
+                    const imageY = 0.08;
+                    pdf.addImage('./LogoAlJazary.png', 'PNG', imageX, imageY, imageWidth, imageHeight);
+
+                    const pageWidth = pdf.internal.pageSize.getWidth();
+                    const pageHeight = pdf.internal.pageSize.getHeight();
+                    const imageWidth1 = 6;
+                    const imageHeight1 = 7;
+                    const imageX1 = (pageWidth - imageWidth1) / 2;
+                    const imageY1 = (pageHeight - imageHeight1) / 2;
+                    pdf.addImage('./Trans.png', 'PNG', imageX1, imageY1, imageWidth1, imageHeight1);
+
+                    const imageWidth2 = 2.4;
+                    const imageHeight2 = 0.52;
+                    const imageX2 = 3;
+                    const imageY2 = 0.15;
+                    pdf.addImage('./KopArab.png', 'PNG', imageX2, imageY2, imageWidth2, imageHeight2);
+
+                    const imageWidth3 = 3.6;
+                    const imageHeight3 = 0.37;
+                    const imageX3 = 2.3;
+                    const imageY3 = 0.6;
+                    pdf.addImage('./KopIndo.png', 'PNG', imageX3, imageY3, imageWidth3, imageHeight3);
+
+                    pdf.setFontSize(7);
+                    pdf.setTextColor('#000');
+                    pdf.text('Jl. Raya Cipari Batulayang RT 01/RW 04, Kec. Cisarua, Kabupaten Bogor, Jawa Barat 16750', (pdf.internal.pageSize.getWidth() / 2), (pdf.internal.pageSize.getHeight() * 0.09), { align: 'center' });
+                    
+                    pdf.setLineWidth(0.03);
+                    pdf.line(9, (pdf.internal.pageSize.getHeight() * 0.10), pdf.internal.pageSize.getWidth() - 10, (pdf.internal.pageSize.getHeight() * 0.10));
+                    pdf.setLineWidth(0.01);
+                    pdf.line(9, (pdf.internal.pageSize.getHeight() * 0.105), pdf.internal.pageSize.getWidth() - 10, (pdf.internal.pageSize.getHeight() * 0.105));
+                } 
+            }).save()
+            this.progressData = 100
+            setTimeout(() => {
+                this.printingInProgress = false;
+            }, 500);
+        },
+
+        hasDownloaded(){
+            this.printingInProgress = false;
+            this.progressData = 0;
+        },
+        
         asyncAccess(){
             var menuUrl = ""
             if (this.getPath == 'carisantri') {
@@ -533,6 +812,17 @@ export default {
                 .catch((err) => err);
         },
 
+        getRiwayatPendidikan(){
+            var SantriId = this.Santri_Id;
+            this.$store
+                .dispatch(Fetch_R_Pendidikan, { SantriId })
+                .then((res) => {
+                    this.data_pendidikan = res.data
+                })
+                .catch((err) => err);
+
+        },
+
         formSubmit() {
             return new Promise(resolve => {
                 const formData = new FormData()
@@ -603,6 +893,7 @@ export default {
         async load() {
             Promise.all([
                 await this.getMasterDataSantri(),
+                await this.getRiwayatPendidikan(),
                 await this.asyncAccess()
             ]).then(function(results) {
                 results;
