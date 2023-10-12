@@ -133,20 +133,17 @@
                     <div class="card card-custom card-stretch border border-primary" v-show="accessList.R">
                         <div class="card-header border-0 pt-4">
                         <!--begin::Content-->
-                            <div class="d-flex justify-content-end mt-5 mb-5">
-                                <v-btn
-                                @click="exportToFile()"
-                                rounded
-                                class="text-white"
-                                color="#ee8b3d">
-                                    <v-icon
-                                    color="white">
-                                        mdi-file-pdf-box
-                                    </v-icon>
-                                    Export
-                                </v-btn>  
-                            </div>
                             <v-container>
+                                <div class="d-flex justify-content-end mt-5 mb-5">
+                                    <b-dropdown
+                                        block
+                                        variant="primary"
+                                        class="m-2 font-weight-bold rounded-lg"
+                                        text="Export">
+                                        <b-dropdown-item @click="exportToFile()">PDF</b-dropdown-item>
+                                        <b-dropdown-item @click="exportToWord()">Word</b-dropdown-item>
+                                    </b-dropdown>
+                                </div>
                                 <v-row>
                                     <v-col
                                         cols="12"
@@ -431,11 +428,11 @@
                     <pdf-content slot="pdf-content">
                         <section class="pdf-item">
                             <div style="font-family: 'Times New Roman', Times, serif;color: black;">
-                                <p style="font-size: 12pt;font-weight: bold;text-align: center;margin-top: 150px;text-transform: uppercase;">FORMULIR BIODATA SANTRI</p>
+                                <p style="font-size: 12pt;font-weight: bold;margin-top: 150px;text-transform: uppercase;text-align: center;">FORMULIR BIODATA SANTRI</p>
                                 <table width="100%" style="font-size: 9;">
                                     <tr>
                                         <td width="100%" align="center">
-                                            <table width="80%" style="text-align: center;">
+                                            <table width="80%" style="">
                                                 <tr>
                                                     <td width="10%" style="font-size: 11pt;font-weight: bold;text-align: left;">A.	DATA PRIBADI</td>
                                                     <td width="14%"></td>
@@ -479,7 +476,7 @@
                                                 </tr>                   
                                             </table>
                                             <br>
-                                            <table width="80%" style="text-align: center;">
+                                            <table width="80%" style="">
                                                 <tr>
                                                     <td width="10%" style="font-size: 11pt;font-weight: bold;text-align: left;">B. Data Riwayat</td>
                                                 </tr>
@@ -487,58 +484,58 @@
                                                     <td width="10%" style="font-size: 11pt;text-align: left;">1. Pendidikan Formal</td>
                                                 </tr>                   
                                             </table>
-                                            <table width="80%" style="text-align: center;" border="1px">
+                                            <table width="80%" style="" border="1px">
                                                 <thead>
                                                     <tr>
-                                                        <td width="10%" :rowspan="2" style="font-size: 11pt;font-weight: bold;text-align: center;">Tingkat</td>
-                                                        <td width="15%" :rowspan="2" style="font-size: 11pt;font-weight: bold;text-align: center;">Nama Sekolah</td>
-                                                        <td width="10%" :colspan="2" style="font-size: 11pt;font-weight: bold;text-align: center;">Tahun</td>
+                                                        <td width="10%" :rowspan="2" style="font-size: 11pt;font-weight: bold;">Tingkat</td>
+                                                        <td width="15%" :rowspan="2" style="font-size: 11pt;font-weight: bold;">Nama Sekolah</td>
+                                                        <td width="10%" :colspan="2" style="font-size: 11pt;font-weight: bold;">Tahun</td>
                                                     </tr>
                                                     <tr>
-                                                        <td width="10%" style="font-size: 11pt;font-weight: bold;text-align: center;">Masuk</td>
-                                                        <td width="10%" style="font-size: 11pt;font-weight: bold;text-align: center;">Lulus</td>
+                                                        <td width="10%" style="font-size: 11pt;font-weight: bold;">Masuk</td>
+                                                        <td width="10%" style="font-size: 11pt;font-weight: bold;">Lulus</td>
                                                     </tr>                   
                                                 </thead>
                                                 <tbody v-for="(item, i) in data_pendidikan">
                                                     <tr v-if="item.status_sekolah !== 0">
-                                                        <td style="font-size: 11pt;text-align: center;">{{ item.tingkat }}</td>
+                                                        <td style="font-size: 11pt;">{{ item.tingkat }}</td>
                                                         <td style="font-size: 11pt;text-align: left;">{{ item.nama_sekolah }}</td>
-                                                        <td style="font-size: 11pt;text-align: center;">{{ item.tahun_masuk }}</td>
-                                                        <td style="font-size: 11pt;text-align: center;">{{ item.tahun_lulus }}</td>
+                                                        <td style="font-size: 11pt;">{{ item.tahun_masuk }}</td>
+                                                        <td style="font-size: 11pt;">{{ item.tahun_lulus }}</td>
                                                     </tr>
 
                                                 </tbody>
                                             </table>
                                             <br>
-                                            <table width="80%" style="text-align: center;">
+                                            <table width="80%" style="">
                                                 <tr>
                                                     <td width="10%" style="font-size: 11pt;text-align: left;">2. Pendidikan Pesantren</td>
                                                 </tr>                   
                                             </table>
-                                            <table width="80%" style="text-align: center;" border="1px">
+                                            <table width="80%" style="" border="1px">
                                                 <thead>
                                                     <tr>
-                                                        <td width="10%" :rowspan="2" style="font-size: 11pt;font-weight: bold;text-align: center;">Tingkat</td>
-                                                        <td width="15%" :rowspan="2" style="font-size: 11pt;font-weight: bold;text-align: center;">Nama Sekolah</td>
-                                                        <td width="10%" :colspan="2" style="font-size: 11pt;font-weight: bold;text-align: center;">Tahun</td>
+                                                        <td width="10%" :rowspan="2" style="font-size: 11pt;font-weight: bold;">Tingkat</td>
+                                                        <td width="15%" :rowspan="2" style="font-size: 11pt;font-weight: bold;">Nama Sekolah</td>
+                                                        <td width="10%" :colspan="2" style="font-size: 11pt;font-weight: bold;">Tahun</td>
                                                     </tr>
                                                     <tr>
-                                                        <td width="10%" style="font-size: 11pt;font-weight: bold;text-align: center;">Masuk</td>
-                                                        <td width="10%" style="font-size: 11pt;font-weight: bold;text-align: center;">Lulus</td>
+                                                        <td width="10%" style="font-size: 11pt;font-weight: bold;">Masuk</td>
+                                                        <td width="10%" style="font-size: 11pt;font-weight: bold;">Lulus</td>
                                                     </tr>                   
                                                 </thead>
                                                 <tbody v-for="(item, i) in data_pendidikan">
                                                     <tr v-if="item.status_sekolah === 0">
-                                                        <td style="font-size: 11pt;text-align: center;">{{ item.tingkat }}</td>
+                                                        <td style="font-size: 11pt;">{{ item.tingkat }}</td>
                                                         <td style="font-size: 11pt;text-align: left;">{{ item.nama_sekolah }}</td>
-                                                        <td style="font-size: 11pt;text-align: center;">{{ item.tahun_masuk }}</td>
-                                                        <td style="font-size: 11pt;text-align: center;">{{ item.tahun_lulus }}</td>
+                                                        <td style="font-size: 11pt;">{{ item.tahun_masuk }}</td>
+                                                        <td style="font-size: 11pt;">{{ item.tahun_lulus }}</td>
                                                     </tr>
 
                                                 </tbody>
                                             </table>
                                             <br>
-                                            <table width="80%" style="text-align: center;">
+                                            <table width="80%" style="">
                                                 <tr>
                                                     <td width="10%" style="font-size: 11pt;font-weight: bold;text-align: left;">C.PROGRAM TAHFIDZ</td>
                                                     <td width="14%"></td>
@@ -624,6 +621,7 @@ export default {
         return{
             Santri_Id: "",
             tabIndex: 0,
+            logoPath: 'http://localhost:1907/media/logos/LogoAlJazary.png',
             data_header: [],
             data_pendidikan: [],
             progressBar: true,
@@ -671,6 +669,249 @@ export default {
             this.$refs.html2PdfAll.generatePdf();
         },
 
+        exportToWord() {
+            const filteredData = this.data_pendidikan.filter((item) => item.status_sekolah !== 0);
+            const filteredData1 = this.data_pendidikan.filter((item) => item.status_sekolah === 0);
+            const tbodyContent = filteredData.map((item) => `
+                <tr>
+                    <td style="font-size: 11pt;font-family: 'Times New Roman';">${item.tingkat}</td>
+                    <td style="font-size: 11pt;text-align: left;font-family: 'Times New Roman';">${item.nama_sekolah}</td>
+                    <td style="font-size: 11pt;text-align: center;font-family: 'Times New Roman';">${item.tahun_masuk}</td>
+                    <td style="font-size: 11pt;text-align: center;font-family: 'Times New Roman';">${item.tahun_lulus}</td>
+                </tr>
+                `).join('');
+
+            const tbodyContent1 = filteredData1.map((item) => `
+                <tr >
+                    <td style="font-size: 11px;">${item.tingkat}</td>
+                    <td style="font-size: 11px;text-align: left;font-family: 'Times New Roman';">${item.nama_sekolah}</td>
+                    <td style="font-size: 11px;text-align: center;font-family: 'Times New Roman';">${item.tahun_masuk}</td>
+                    <td style="font-size: 11px;text-align: center;font-family: 'Times New Roman';">${item.tahun_lulus}</td>
+                </tr>
+                `).join('');
+
+            const letterContent = `
+            <html>
+            <head>
+            <style>
+            body {
+                    page: A4;
+                    size: 21cm 29.7cm; /* Ukuran A4 dalam centimeter */
+                    margin: 2cm;
+                    font-family: Times New Roman, sans-serif;
+                }
+
+            .line {
+                text-align: center; /* Meletakkan garis bawah di tengah */
+            }
+
+            .hr {
+                border: 1px solid black;
+                width: 80%; 
+                color: black; 
+                margin: 0; /* Menghilangkan margin atas dan bawah */
+                margin-bottom: -4px;
+            }
+            
+            .hr_01 {
+                border: 0px solid black;
+                width: 80%; 
+                margin-top: -4px;
+            }
+
+            .table {
+                width: 100%;
+            }
+
+            .logo {
+                max-width: 10px;
+                max-height: 10px;
+            }
+
+            .bordered-table {
+                border-collapse: collapse;
+                border-right: 1px solid black; /* Border kanan untuk tabel */
+                border-bottom: 1px solid black; /* Border bawah untuk tabel */
+            }
+
+            .bordered-table td, .bordered-table th {
+                border-top: 1px solid black;
+                border-left: 1px solid black;
+                padding: 5px; /* Penambahan padding untuk estetika */
+            }
+
+            .bordered-table tr:last-child td, .bordered-table tr:last-child th {
+                border-bottom: none; /* Menghapus border bawah untuk sel di baris terakhir, karena sudah ada pada tabel */
+            }
+
+            .bordered-table td:last-child, .bordered-table th:last-child {
+                border-right: none; /* Menghapus border kanan untuk sel di kolom terakhir, karena sudah ada pada tabel */
+            }
+
+            </style>
+            </head>
+            <body>
+            <div>
+                <table class="table">
+                    <tr>
+                        <td rowspan="4" width="25%" style="text-align: right;"><img src="${this.logoPath}" alt="Logo" class="logo" width="110" height="120"></td>
+                        <td style="font-family: 'Traditional Arabic', 'Scheherazade', 'Amiri', sans-serif; font-size: 30px; font-weight: bold; padding-left: 30px;"> معهد تحفيظ القرآن الجزري</td>
+                    </tr>
+                    <tr>
+                        <td style="font-family: 'Times New Roman'; font-size: 16px; font-weight: bold; padding-left: 25px;">PONDOK PESANTREN QUR’AN AL-JAZARY</td>
+                    </tr>
+                    <tr>
+                        <td style="font-family: 'Times New Roman'; font-size: 8px; font-weight: bold;">Jl. Al Hikmah, Gang Warung Nangka Kec. Bojongkerta, Bogor Selatan, Kota Bogor, Jawa Barat Kode Pos 16139 </td>
+                    </tr>
+                    <tr>
+                        <td style="font-family: 'Times New Roman'; font-size: 8px; font-weight: bold;"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><hr class="hr"></td>
+                    </tr>
+                </table>
+                <p style="font-family: 'Times New Roman'; font-size: 16px; font-weight: bold; text-align: center;">FORMULIR BIODATA SANTRI</p>
+
+                <table width="100%" style="font-size: 9;">
+                    <tr>
+                        <td width="100%" align="center">
+                            <table width="80%" style="font-family: 'Times New Roman';">
+                                <tr>
+                                    <td width="12%" style="font-size: 11pt;font-weight: bold;text-align: left;">A.	DATA PRIBADI</td>
+                                    <td width="14%"></td>
+                                    <td width="4%" rowspan="9" style="vertical-align: top;"><img src="${this.data_header.foto}" alt="Logo" class="logo" width="110" height="140"></td>
+                                </tr>
+                                <tr>
+                                    <td width="12%" style="font-family: 'Times New Roman';text-align: left;font-size: 11pt;">1. Nama Santri</td>
+                                    <td width="14%" style="font-family: 'Times New Roman';text-align: left;font-size: 11pt;">: ${this.data_header.nama_lengkap_santri }</td>
+                                </tr>                    
+                                <tr>
+                                    <td width="12%" style="text-align: left;font-size: 11pt;font-family: 'Times New Roman';">2.Nama Panggilan</td>
+                                    <td width="14%" style="text-align: left;font-size: 11pt;font-family: 'Times New Roman';">: ${this.data_header.panggilan }</td>
+                                </tr>
+                                <tr>
+                                    <td width="12%" style="text-align: left;font-size: 11pt;font-family: 'Times New Roman';">3.Tempat dan Tanggal Lahir</td>
+                                    <td width="14%" style="text-align: left;font-size: 11pt;font-family: 'Times New Roman';">: ${this.data_header.tempat_lahir }, ${this.data_header.tanggal_lahir     }</td>
+                                </tr>
+                                <tr>
+                                    <td width="12%" style="text-align: left;font-size: 11pt;font-family: 'Times New Roman';">4.Anak Ke -...... dari... </td>
+                                    <td width="14%" style="text-align: left;font-size: 11pt;font-family: 'Times New Roman';">: ${this.data_header.anak_ke }</td>
+                                </tr>
+                                <tr>
+                                    <td width="12%" style="text-align: left;font-size: 11pt;font-family: 'Times New Roman';">5.Alamat Asal (Lengkap)</td>
+                                    <td width="14%" style="text-align: left;font-size: 11pt;font-family: 'Times New Roman';">: ${this.data_header.alamat }</td>
+                                </tr>
+                                <tr>
+                                    <td width="12%" style="text-align: left;font-size: 11pt;font-family: 'Times New Roman';">6.Berat Badan & Tinggi Badan</td>
+                                    <td width="14%" style="text-align: left;font-size: 11pt;font-family: 'Times New Roman';">: ${this.data_header.berat_badan } KG, ${ this.data_header.tinggi_badan } CM</td>
+                                </tr>
+                                <tr>
+                                    <td width="12%" style="text-align: left;font-size: 11pt;font-family: 'Times New Roman';">7.No HP Orang Tua  </td>
+                                    <td width="14%" style="text-align: left;font-size: 11pt;font-family: 'Times New Roman';">: ${this.data_header.hp_ortu }</td>
+                                </tr>
+                                <tr>
+                                    <td width="12%" style="text-align: left;font-size: 11pt;font-family: 'Times New Roman';">8.Nama Ayah Kandung  </td>
+                                    <td width="14%" style="text-align: left;font-size: 11pt;font-family: 'Times New Roman';">: ${this.data_header.nama_ayah }</td>
+                                </tr>                    
+                                <tr>
+                                    <td width="12%" style="text-align: left;font-size: 11pt;font-family: 'Times New Roman';">9.Nama Ibu Kandung  </td>
+                                    <td width="14%" style="text-align: left;font-size: 11pt;font-family: 'Times New Roman';">: ${this.data_header.nama_ibu }</td>
+                                </tr>                   
+                            </table>
+                            <br>
+                            <table width="80%">
+                                <tr>
+                                    <td width="10%" style="font-size: 11pt;font-weight: bold;text-align: left;">B. Data Riwayat</td>
+                                </tr>
+                                <tr>
+                                    <td width="10%" style="font-size: 11pt;text-align: left;font-family: 'Times New Roman';">1. Pendidikan Formal</td>
+                                </tr>                   
+                            </table>
+                            <table width="80%" class="bordered-table">
+                                <thead>
+                                    <tr>
+                                        <td width="10%" rowspan="2" style="font-size: 11pt;font-weight: bold;text-align: center;font-family: 'Times New Roman';">Tingkat</td>
+                                        <td width="15%" rowspan="2" style="font-size: 11pt;font-weight: bold; text-align: center;font-family: 'Times New Roman';">Nama Sekolah</td>
+                                        <td width="10%" colspan="2" style="font-size: 11pt;font-weight: bold; text-align: center;font-family: 'Times New Roman';">Tahun</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="10%" style="text-align: center;font-size: 11pt;font-weight: bold;font-family: 'Times New Roman';">Masuk</td>
+                                        <td width="10%" style="text-align: center;font-size: 11pt;font-weight: bold;font-family: 'Times New Roman';">Lulus</td>
+                                    </tr>                   
+                                </thead>
+                                <tbody>
+                                    ${tbodyContent}
+                                </tbody>
+                            </table>
+                            <br>
+                            <table width="80%" >
+                                <tr>
+                                    <td width="10%" style="font-size: 11pt;text-align: left;font-family: 'Times New Roman';">2. Pendidikan Pesantren</td>
+                                </tr>                   
+                            </table>
+                            <table width="80%" class="bordered-table">
+                                <thead>
+                                    <tr>
+                                        <td width="10%" rowspan="2" style="font-size: 11pt;font-weight: bold;text-align: center;font-family: 'Times New Roman';">Tingkat</td>
+                                        <td width="15%" rowspan="2" style="font-size: 11pt;font-weight: bold;text-align: center;font-family: 'Times New Roman';">Nama Sekolah</td>
+                                        <td width="10%" colspan="2" style="font-size: 11pt;font-weight: bold;text-align: center;font-family: 'Times New Roman';">Tahun</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="10%" style="text-align: center;font-size: 11pt;font-weight: bold;font-family: 'Times New Roman';">Masuk</td>
+                                        <td width="10%" style="text-align: center;font-size: 11pt;font-weight: bold;font-family: 'Times New Roman';">Lulus</td>
+                                    </tr>                   
+                                </thead>
+                                <tbody>
+                                    ${tbodyContent1}
+                                </tbody>
+                            </table>
+                            <br>
+                            <table width="80%" style="">
+                                <tr>
+                                    <td width="10%" style="font-size: 11pt;font-weight: bold;text-align: left;font-family: 'Times New Roman';">C.PROGRAM TAHFIDZ</td>
+                                    <td width="14%"></td>
+                                </tr>
+                                <tr>
+                                    <td width="10%" style="text-align: left;font-size: 11pt;font-family: 'Times New Roman';">1. Kode Santri</td>
+                                    <td width="14%" style="text-align: left;font-size: 11pt;font-family: 'Times New Roman';">: ${this.data_header.kode_santri }</td>
+                                </tr>
+                                <tr>
+                                    <td width="10%" style="text-align: left;font-size: 11pt;font-family: 'Times New Roman';">2. Program Pondok</td>
+                                    <td width="14%" style="text-align: left;font-size: 11pt;font-family: 'Times New Roman';">: ${this.data_header.program_pondok_Nama }</td>
+                                </tr>
+                                <tr>
+                                    <td width="10%" style="text-align: left;font-size: 11pt;font-family: 'Times New Roman';">3. Masuk Pondok</td>
+                                    <td width="14%" style="text-align: left;font-size: 11pt;font-family: 'Times New Roman';">: ${this.data_header.masuk_pondok }</td>
+                                </tr>
+                                <tr>
+                                    <td width="10%" style="text-align: left;font-size: 11pt;font-family: 'Times New Roman';">4. Hafalan Ziyadah</td>
+                                    <td width="14%" style="text-align: left;font-size: 11pt;font-family: 'Times New Roman';">: ${this.data_header.hafalan_ziyadah }</td>
+                                </tr>
+                                <tr>
+                                    <td width="10%" style="text-align: left;font-size: 11pt;font-family: 'Times New Roman';">5. Hafalan Mutqin</td>
+                                    <td width="14%" style="text-align: left;font-size: 11pt;font-family: 'Times New Roman';">: ${this.data_header.hafalan_mutqin }</td>
+                                </tr>                  
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            </body>
+            </html>
+            `;
+            const word = `<html xmlns:o='urn:schemas-microsoft-com:office:office xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Export HTML to Word Document with JavaScript</title></head><body>${letterContent}</body></html>`;
+
+            const source = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(word);
+            const fileDownload = document.createElement('a');
+            document.body.appendChild(fileDownload);
+            fileDownload.href = source;
+            fileDownload.download = 'contoh_surat.doc'; // Nama berkas yang akan diunduh
+            fileDownload.click();
+            document.body.removeChild(fileDownload);
+        },
+
+
+
         onProgress(data) {
             this.progressData = data-30;
         },
@@ -679,7 +920,8 @@ export default {
             this.printingInProgress = true
             await html2pdf().set(options).from(pdfContent).toPdf().get('pdf').then((pdf) => {
                 const totalPages = pdf.internal.getNumberOfPages()
-                
+                const marginLeft = 8; // Jarak margin kiri
+                const marginRight = 8; // Jarak margin kanan      
                 for (let i = 1; i <= totalPages; i++) {
                     pdf.setPage(i)
                     
@@ -714,9 +956,9 @@ export default {
                     pdf.text('Jl. Raya Cipari Batulayang RT 01/RW 04, Kec. Cisarua, Kabupaten Bogor, Jawa Barat 16750', (pdf.internal.pageSize.getWidth() / 2), (pdf.internal.pageSize.getHeight() * 0.09), { align: 'center' });
                     
                     pdf.setLineWidth(0.03);
-                    pdf.line(9, (pdf.internal.pageSize.getHeight() * 0.10), pdf.internal.pageSize.getWidth() - 10, (pdf.internal.pageSize.getHeight() * 0.10));
+                    pdf.line(marginLeft, (pdf.internal.pageSize.getHeight() * 0.10), pdf.internal.pageSize.getWidth() - marginRight, (pdf.internal.pageSize.getHeight() * 0.10)); // Ganti dengan jarak margin kanan
                     pdf.setLineWidth(0.01);
-                    pdf.line(9, (pdf.internal.pageSize.getHeight() * 0.105), pdf.internal.pageSize.getWidth() - 10, (pdf.internal.pageSize.getHeight() * 0.105));
+                    pdf.line(marginLeft, (pdf.internal.pageSize.getHeight() * 0.105), pdf.internal.pageSize.getWidth() - marginRight, (pdf.internal.pageSize.getHeight() * 0.105)); // Ganti dengan jarak margin kanan
                 } 
             }).save()
             this.progressData = 100

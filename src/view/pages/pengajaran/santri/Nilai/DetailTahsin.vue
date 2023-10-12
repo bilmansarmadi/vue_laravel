@@ -11,17 +11,14 @@
         </div>
 
         <div class="d-flex justify-content-end mt-5 mb-5">
-            <v-btn
-            @click="openModalExport()"
-            rounded
-            class="text-white"
-            color="#ee8b3d">
-                <v-icon
-                color="white">
-                    mdi-file-pdf-box
-                </v-icon>
-                Export
-            </v-btn>  
+            <b-dropdown
+                block
+                variant="primary"
+                class="m-2 font-weight-bold rounded-lg"
+                text="Export">
+                <b-dropdown-item @click="openModalExport()">PDF</b-dropdown-item>
+                <b-dropdown-item @click="fetchDataAndExport()">Word</b-dropdown-item>
+            </b-dropdown>
         </div>
 
         <v-data-table 
@@ -451,7 +448,7 @@
                         </table>
                         <br>
 
-                        <div style="font-weight: bold;font-size: 10pt;">II.&emsp;&emsp;SYARIAH</div>
+                        <div style="font-weight: bold;font-size: 10pt;">II. SYARIAH</div>
                         <table class="forPdf" width="100%" style="font-size: 9;margin-top: 10px;border-color: black;" border="1" >
                             <thead>
                             <tr align="center">
@@ -476,7 +473,6 @@
                                     <td>{{ item.predikat }}</td>
                                 </tr>
                             </tbody>
-
                         </table>
 
                         <div class="html2pdf__page-break"/>
@@ -499,7 +495,7 @@
                             </tr>
                         </table>
                         <br>
-                        <div style="font-weight: bold;font-size: 10pt;">III.&emsp;&emsp;NASIHAT</div>
+                        <div style="font-weight: bold;font-size: 10pt;">IV.&emsp;&emsp;NASIHAT</div>
                         <table class="forPdfNasihat" width="100%" style="font-size: 9;margin-top: 10px;border-color: black;" border="1" >
                             <tr>
                                 <td class="text-justify p-5">
@@ -603,6 +599,7 @@ export default {
             data_tahsin: [],
             data_tahsin_I: [],
             data_tahsin_II: [],
+            logoPath: 'http://localhost:1907/media/logos/LogoAlJazary.png',
             search: '',
             progressBar: true,
             dialog: false,
@@ -838,6 +835,274 @@ export default {
         hasDownloaded(){
             this.printingInProgress = false;
             this.progressData = 0;
+        },
+
+        async fetchDataAndExport() {
+            try {
+                var SantriId = this.Santri_Id;
+                const res = await this.$store.dispatch(Fetch_R_Semester, { SantriId });
+                this.stateSemester = res.data[0];
+                this.stateSantri = this.$store.state.rhSantri.r_santri[0];
+                this.stateNilaiInti = this.$store.state.rhSantri.r_nilai_inti;
+                this.stateNilaiAkhlak = this.$store.state.rhSantri.r_nilai_akhlak;
+                this.stateNasihat = this.$store.state.rhSantri.r_nasihat[0];
+                this.exportToWord();
+            } catch (err) {
+                console.error(err);
+            }
+        },
+
+        exportToWord() {
+            const tbodyContent = this.data_tahsin_I.map((datas, i) => {
+                if (datas.predikat !== '-') {
+                    // Jika predikat bukan '-', tampilkan dua baris
+                    return `
+                    <tr align="center">
+                        <td>${i + 1}</td>
+                        <td align="left">${datas.mapel_nama}</td>
+                        <td :style="datas.predikat === '-' ? 'font-weight:bold;' : ''">${datas.praktek}</td>
+                        <td>${datas.predikat !== '-' ? datas.predikat : ''}</td>
+                    </tr>
+                    `;
+                } else {
+                    // Jika predikat adalah '-', gabungkan dua baris menjadi satu
+                    return `
+                    <tr align="center">
+                        <td>${i + 1}</td>
+                        <td align="left">${datas.mapel_nama}</td>
+                        <td colspan="2" :style="datas.predikat === '-' ? 'font-weight:bold;' : ''">${datas.praktek}</td>
+                    </tr>
+                    `;
+                }
+                }).join('');
+
+            const tbodyContentII = this.data_tahsin_II.map((datas, i) => `
+                <tr align="center">
+                    <td>${i + 1}</td>
+                    <td align="left">${datas.mapel_nama}</td>
+                    <td>${ datas.praktek }</td> 
+                    <td>${ datas.predikat }</td> 
+                </tr>
+                `).join('');
+
+            const tbodyContentIII = this.stateNilaiInti.map((datas, i) => {
+            if (datas.STATUS !== '' && datas.STATUS !== null) {
+                // Jika predikat bukan '-', tampilkan dua baris
+                return `
+                <tr align="center">
+                    <td>${i + 1}</td>
+                    <td align="left">${datas.mapel_nama}</td>
+                    <td>${datas.hasil_akhir }</td>
+                    <td>${datas.predikat }</td>
+                    <td>${datas.STATUS }</td>
+                </tr>
+                `;
+            } else {
+                // Jika predikat adalah '-', gabungkan dua baris menjadi satu
+                return `
+                <tr style="font-weight: bold;"align="center">
+                    <td colspan="2">${datas.mapel_nama }</td> 
+                    <td colspan="2">${datas.hasil_akhir }</td> 
+                    <td>${datas.predikat }</td>
+                </tr>
+                `;
+            }
+            }).join('');
+
+            const tbodyContentIV = this.stateNilaiAkhlak.map((datas, i) => `
+                <tr align="center">
+                    <td>${i + 1}</td>
+                    <td align="left">${datas.mapel_nama}</td>
+                    <td>${ datas.praktek }</td> 
+                    <td>${ datas.predikat }</td> 
+                    <td>${ datas.STATUS }</td> 
+                </tr>
+                `).join('');
+                
+
+            const letterContent = `
+            <html>
+            <head>
+            <style>
+            body {
+                    page: A4;
+                    size: 21cm 29.7cm; /* Ukuran A4 dalam centimeter */
+                    margin: 2cm;
+                    font-family: Times New Roman, sans-serif;
+                }
+
+            .line {
+                text-align: center; /* Meletakkan garis bawah di tengah */
+            }
+
+            .hr {
+                border: 1px solid black;
+                width: 80%; 
+                color: black; 
+                margin: 0; /* Menghilangkan margin atas dan bawah */
+                margin-bottom: -4px;
+            }
+            
+            .hr_01 {
+                border: 0px solid black;
+                width: 80%; 
+                margin-top: -4px;
+            }
+
+            .table {
+                width: 100%;
+            }
+
+            .logo {
+                max-width: 10px;
+                max-height: 10px;
+            }
+
+            .bordered-table {
+                border-collapse: collapse;
+                border-right: 1px solid black; /* Border kanan untuk tabel */
+                border-bottom: 1px solid black; /* Border bawah untuk tabel */
+            }
+
+            .bordered-table td, .bordered-table th {
+                border-top: 1px solid black;
+                border-left: 1px solid black;
+                padding: 5px; /* Penambahan padding untuk estetika */
+            }
+
+            .bordered-table tr:last-child td, .bordered-table tr:last-child th {
+                border-bottom: none; /* Menghapus border bawah untuk sel di baris terakhir, karena sudah ada pada tabel */
+            }
+
+            .bordered-table td:last-child, .bordered-table th:last-child {
+                border-right: none; /* Menghapus border kanan untuk sel di kolom terakhir, karena sudah ada pada tabel */
+            }
+
+            </style>
+            </head>
+            <body>
+            <div>
+                <table class="table">
+                    <tr>
+                        <td rowspan="4" width="25%" style="text-align: right;"><img src="${this.logoPath}" alt="Logo" class="logo" width="110" height="120"></td>
+                        <td style="font-family: 'Traditional Arabic', 'Scheherazade', 'Amiri', sans-serif; font-size: 30px; font-weight: bold; padding-left: 30px;"> معهد تحفيظ القرآن الجزري</td>
+                    </tr>
+                    <tr>
+                        <td style="font-family: 'Times New Roman'; font-size: 16px; font-weight: bold; padding-left: 25px;">PONDOK PESANTREN QUR’AN AL-JAZARY</td>
+                    </tr>
+                    <tr>
+                        <td style="font-family: 'Times New Roman'; font-size: 8px; font-weight: bold;">Jl. Al Hikmah, Gang Warung Nangka Kec. Bojongkerta, Bogor Selatan, Kota Bogor, Jawa Barat Kode Pos 16139 </td>
+                    </tr>
+                    <tr>
+                        <td style="font-family: 'Times New Roman'; font-size: 8px; font-weight: bold;"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><hr class="hr"></td>
+                    </tr>
+                </table>
+                <p style="font-family: 'Times New Roman'; font-size: 16px; font-weight: bold; text-align: center;text-transform: uppercase;">LAPORAN HASIL BELAJAR SEMESTER ${ this.stateSemester.ajaran }</p>
+
+                <table width="100%" style="font-size: 9;">
+                    <tr>
+                        <td width="100%" align="center">
+                            <table width="90%" style="font-family: 'Times New Roman';">
+                                <tr>
+                                    <td width="27%">Nama Santri</td>
+                                    <td width="2%">:</td>
+                                    <td width="45%">${ this.stateSemester.nama_lengkap_santri }</td>
+                                    <td width="27%">Semester</td>
+                                    <td width="1%">:</td>
+                                    <td width="45%">${ this.stateSemester.semester }</td>
+                                </tr>
+                                <tr>
+                                    <td width="22%">Nomor Induk</td>
+                                    <td>:</td>
+                                    <td> ${ this.stateSemester.no_induk }</td>
+                                    <td width="22%">Tahun Ajaran</td>
+                                    <td>:</td>
+                                    <td> ${ this.stateSemester.tahun_ajaran }</td>
+                                </tr>               
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+                <br>
+                <div style="font-weight: bold;font-size: 10pt;">I. KURIKULUM AL-QUR'AN</div>
+                <div style="font-weight: bold;font-size: 10pt;">&emsp;A. TAHFIDZ</div>
+                <table width="100%" class="bordered-table" >
+                    <thead>
+                        <tr align="center">
+                            <th width="5%">No.</th>
+                            <th width="35%">Aspek</th>
+                            <th width="30%">Nilai</th>
+                            <th width="30%">Predikat</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${tbodyContent}
+                    </tbody>
+                </table>
+                <br>
+                <div style="font-weight: bold;font-size: 10pt;">&emsp;B. QIRO'AH</div>
+                <table class="bordered-table" >
+                    <tr align="center">
+                        <th width="5%">No.</th>
+                        <th width="35%">Aspek</th>
+                        <th width="30%">Nilai</th>
+                        <th width="30%">Predikat</th>
+                    </tr>
+                    ${tbodyContentII}
+                </table>
+                <br>
+                <div style="font-weight: bold;font-size: 10pt;">II. YARIAH</div>
+                <table class="bordered-table" >
+                    <thead>
+                    <tr align="center">
+                        <th width="5%">No</th>
+                        <th width="40%">Aspek</th>
+                        <th width="15%">Nilai</th>
+                        <th width="20%">Predikat</th>
+                        <th width="20%">Deskripsi</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        ${tbodyContentIII}
+                    </tbody>
+                </table>
+                <br>
+                <div style="font-weight: bold;font-size: 10pt;">III. AHLAK</div>
+                <table class="bordered-table">
+                    <tr align="center">
+                        <th width="5%">No.</th>
+                        <th width="40%">Aspek</th>
+                        <th width="15%">Nilai</th>
+                        <th width="20%">Pedikat</th>
+                        <th width="20%">Deskripsi</th>
+                    </tr>
+                    ${tbodyContentIV}
+                </table>
+                <br>
+                <div style="font-weight: bold;font-size: 10pt;">IV. NASIHAT</div>
+                <table class="bordered-table" >
+                    <tr>
+                        <td style="font-size: 12pt;text-align: left;font-family: 'Times New Roman';">
+                            ${ this.stateNasihat.nasihat }
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            </body>
+            </html>
+            `;
+            const word = `<html xmlns:o='urn:schemas-microsoft-com:office:office xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Export HTML to Word Document with JavaScript</title></head><body>${letterContent}</body></html>`;
+
+            const source = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(word);
+            const fileDownload = document.createElement('a');
+            document.body.appendChild(fileDownload);
+            fileDownload.href = source;
+            fileDownload.download = 'Nilai.doc'; // Nama berkas yang akan diunduh
+            fileDownload.click();
+            document.body.removeChild(fileDownload);
         },
 
         formatDate (date) {
