@@ -434,6 +434,51 @@
                                             cols="12"
                                             md="6"
                                         >
+                                            <v-select
+                                                v-model="formInput.program_pondok"
+                                                :items="dropdown_program"
+                                                item-text="text"
+                                                item-value="value"
+                                                label="Program Pondok"
+                                                clearable
+                                                color="#ee8b3d"
+                                            ></v-select>
+                                        </v-col>
+                                        <v-col
+                                        cols="12"
+                                        md="6"
+                                        >
+                                        <v-menu
+                                            ref="menu2"
+                                            v-model="menu2"
+                                            :close-on-content-click="false"
+                                            transition="scale-transition"
+                                            offset-y
+                                            max-width="290px"
+                                            min-width="auto"
+                                        >
+                                            <template v-slot:activator="{ on, attrs }">
+                                            <v-text-field
+                                                v-model="dateProgram"
+                                                label="Tanggal Masuk Pondok"
+                                                persistent-hint
+                                                prepend-icon="mdi-calendar"
+                                                v-bind="attrs"
+                                                @blur="dateProg = parseDate(dateProgram)"
+                                                v-on="on"
+                                            ></v-text-field>
+                                            </template>
+                                            <v-date-picker
+                                            v-model="dateProg"
+                                            no-title
+                                            @input="menu2 = false"
+                                            ></v-date-picker>
+                                        </v-menu>
+                                        </v-col>
+                                        <v-col
+                                            cols="12"
+                                            md="6"
+                                        >
                                         <h6>Foto</h6>
                                             <div class="input_images">
                                                 <div class="file_upload">
@@ -628,6 +673,7 @@ export default {
                 nama_ayah: "",
                 nama_ibu: "",
                 status: "",
+                program_pondok: "",
             },
             formFilter: {
                 kode_santri: "",
@@ -763,6 +809,20 @@ export default {
                     sortable: false 
                 },
                 { 
+                    text: 'Program Pondok', 
+                    value: 'program_pondok_Nama',
+                    align: 'start',
+                    width: "150px",
+                    sortable: false 
+                },
+                { 
+                    text: 'Masuk Pondok', 
+                    value: 'masuk_pondok',
+                    align: 'start',
+                    width: "150px",
+                    sortable: false 
+                },
+                { 
                     text: 'Aksi', 
                     value: 'actions', 
                     align: 'center',
@@ -773,6 +833,10 @@ export default {
             dropdown_jenkel: [
                 { value: 'L', text: "Ikhwan" },
                 { value: 'P', text: "Akhwat " },
+            ],
+            dropdown_program: [
+                { value: 0, text: "Non Reguler" },
+                { value: 1, text: "Reguler" },
             ],
             dropdown_status: [
                 { value: 0, text: "Tidak Aktif" },
@@ -787,8 +851,11 @@ export default {
             images: "",
             img: "",
             menu1: false,
+            menu2: false,
             date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+            dateProg: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
             dateFormatted: formatDate((new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)),
+            dateProgram: formatDate((new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)),
             accessList: []
         }
     },
@@ -829,6 +896,10 @@ export default {
     watch: {
         date (val) {
             this.dateFormatted = this.formatDate(this.date)
+        },
+
+        dateProg (val) {
+            this.dateProgram = this.formatDate(this.dateProg)
         },
     },
 
@@ -925,6 +996,8 @@ export default {
                 formData.append("hafalan_mutqin", this.add_data_santri.hafalan_mutqin)
                 formData.append("tempat_lahir", this.add_data_santri.tempat_lahir)
                 formData.append("tanggal_lahir", this.dateFormatted)
+                formData.append("masuk_pondok", this.dateProgram)
+                formData.append("program_pondok", this.add_data_santri.program_pondok)
                 formData.append("jenis_kelamin", this.add_data_santri.jenis_kelamin)
                 formData.append("anak_ke", this.add_data_santri.anak_ke)
                 formData.append("berat_badan", this.add_data_santri.berat_badan)
@@ -977,6 +1050,7 @@ export default {
             this.editedIndex = this.data_santri.indexOf(item)
             this.editedItem = Object.assign({}, item)
             this.dateFormatted = item.tanggal_lahir
+            this.dateProgram = item.masuk_pondok
             this.data_item = item
             this.dialog = true
         },
@@ -1063,6 +1137,7 @@ export default {
                 this.add_data_santri.hp_ortu = ""
                 this.add_data_santri.nama_ayah = ""
                 this.add_data_santri.nama_ibu = ""
+                this.add_data_santri.program_pondok = ""
                 this.images = ""
                 this.img = ""
                 this.editedItem = Object.assign({}, this.defaultItem)
@@ -1093,6 +1168,8 @@ export default {
                 formData.append("hafalan_mutqin", this.editedItem.hafalan_mutqin)
                 formData.append("tempat_lahir", this.editedItem.tempat_lahir)
                 formData.append("tanggal_lahir", this.dateFormatted)
+                formData.append("masuk_pondok", this.dateProgram)
+                formData.append("program_pondok", this.editedItem.program_pondok)
                 formData.append("jenis_kelamin", this.editedItem.jenis_kelamin)
                 formData.append("anak_ke", this.editedItem.anak_ke)
                 formData.append("berat_badan", this.editedItem.berat_badan)

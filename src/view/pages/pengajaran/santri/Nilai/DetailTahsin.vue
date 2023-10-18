@@ -1141,6 +1141,7 @@ export default {
 
         getMasterMapel(){
             this.master_data_mapel = this.$store.state.mMapel.master_mapel;
+            this.master_data_mapel =this.master_data_mapel.filter(item => item.kategori_nama === 'QIRO’AH' || item.kategori_nama === 'TAHFIDZ');
         },
 
         async getDetailCache(idHeader) {

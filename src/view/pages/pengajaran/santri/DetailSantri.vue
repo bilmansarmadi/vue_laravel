@@ -366,6 +366,51 @@
                                             color="#ee8b3d"
                                         ></v-text-field>
                                     </v-col>
+                                    <v-col
+                                        cols="12"
+                                        md="6"
+                                    >
+                                        <v-select
+                                            v-model="data_header.program_pondok"
+                                            :items="dropdown_program"
+                                            item-text="text"
+                                            item-value="value"
+                                            label="Program Pondok"
+                                            clearable
+                                            color="#ee8b3d"
+                                        ></v-select>
+                                    </v-col>
+                                    <v-col
+                                    cols="12"
+                                    md="6"
+                                    >
+                                    <v-menu
+                                        ref="menu2"
+                                        v-model="menu2"
+                                        :close-on-content-click="false"
+                                        transition="scale-transition"
+                                        offset-y
+                                        max-width="290px"
+                                        min-width="auto"
+                                    >
+                                        <template v-slot:activator="{ on, attrs }">
+                                        <v-text-field
+                                            v-model="data_header.masuk_pondok"
+                                            label="Mausuk Pondok"
+                                            persistent-hint
+                                            prepend-icon="mdi-calendar"
+                                            v-bind="attrs"
+                                            @blur="dateProgram = parseDate(data_header.masuk_pondok)"
+                                            v-on="on"
+                                        ></v-text-field>
+                                        </template>
+                                        <v-date-picker
+                                        v-model="dateProgram"
+                                        no-title
+                                        @input="menu2 = false"
+                                        ></v-date-picker>
+                                    </v-menu>
+                                    </v-col>
                                 </v-row>
                                 <div class="d-flex justify-content-end">
                                 <button
@@ -633,8 +678,14 @@ export default {
                 { value: 0, text: "Tidak Aktif" },
                 { value: 1, text: "Aktif" },
             ],
+            dropdown_program: [
+                { value: 0, text: "Non Reguler" },
+                { value: 1, text: "Reguler" },
+            ],
+            menu2: false,
             menu1: false,
             date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+            dateProgram: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
             accessList: [],
             getPath: ""
         }
@@ -646,6 +697,10 @@ export default {
 
         date (val) {
             this.data_header.tanggal_lahir = this.formatDate(this.date)
+        },
+
+        dateProgram (val) {
+            this.data_header.masuk_pondok = this.formatDate(this.dateProgram)
         },
     },
     mounted(){
@@ -1071,7 +1126,7 @@ export default {
                 formData.append("UID", localStorage.getLocalStorage("uid"))
                 formData.append("Token", localStorage.getLocalStorage("token"))
                 formData.append("Trigger", 'U')
-                formData.append("Route", "DEFAULT")
+                formData.append("Route", "Update_RH")
                 formData.append("santri_id", this.Santri_Id)
                 formData.append("kode_santri", this.data_header.kode_santri)
                 formData.append("nama_lengkap_santri", this.data_header.nama_lengkap_santri)
@@ -1089,6 +1144,9 @@ export default {
                 formData.append("hp_ortu", this.data_header.hp_ortu)
                 formData.append("nama_ayah", this.data_header.nama_ayah)
                 formData.append("nama_ibu", this.data_header.nama_ibu)
+                formData.append("program_pondok", this.data_header.program_pondok)
+                formData.append("masuk_pondok", this.data_header.masuk_pondok)
+                
 
                 let contentType = `application/x-www-form-urlencoded`;
 
