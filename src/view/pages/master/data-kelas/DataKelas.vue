@@ -83,6 +83,20 @@
                                         md="12"
                                     >
                                         <v-text-field
+                                            v-model="formInput.kkm_kelas"
+                                            label="KKM Kelas"
+                                            type="number"
+                                            :rules="rulesNotNull"
+                                            required
+                                            clearable
+                                            color="#ee8b3d"
+                                        ></v-text-field>
+                                    </v-col>
+                                    <v-col
+                                        cols="12"
+                                        md="12"
+                                    >
+                                        <v-text-field
                                             v-model="formInput.deskripsi_kelas"
                                             label="Keterangan"
                                             :rules="rulesNotNull"
@@ -211,7 +225,8 @@ export default {
             add_data_kelas: {
                 nama_kelas: "",
                 deskripsi_kelas: "",
-                status_kelas: ""
+                status_kelas: "",
+                kkm_kelas: ""
             },
             dropdown_status: [
                 { value: 0, text: "Tidak Aktif" },
@@ -221,6 +236,13 @@ export default {
                 { 
                     text: 'Nama Kelas', 
                     value: 'nama_kelas',
+                    align: 'start',
+                    width: "150px",
+                    sortable: false 
+                },
+                { 
+                    text: 'KKM Kelas', 
+                    value: 'kkm_kelas',
                     align: 'start',
                     width: "150px",
                     sortable: false 
@@ -349,6 +371,7 @@ export default {
                     Trigger: "C",
                     Route: "DEFAULT",
                     nama_kelas: this.add_data_kelas.nama_kelas,
+                    kkm_kelas: this.add_data_kelas.kkm_kelas,
                     deskripsi_kelas: this.add_data_kelas.deskripsi_kelas,
                     status_kelas: this.add_data_kelas.status_kelas
                 };
@@ -469,6 +492,7 @@ export default {
             this.dialog = false
             this.$nextTick(() => {
                 this.add_data_kelas.nama_kelas = ""
+                this.add_data_kelas.kkm_kelas = ""
                 this.add_data_kelas.status_kelas = ""
                 this.add_data_kelas.deskripsi_kelas = ""
                 this.editedItem = Object.assign({}, this.defaultItem)
@@ -485,6 +509,7 @@ export default {
                     Route: "DEFAULT",
                     kelas_id: this.data_item.kelas_id,
                     nama_kelas: this.editedItem.nama_kelas,
+                    kkm_kelas: this.editedItem.kkm_kelas,
                     deskripsi_kelas: this.editedItem.deskripsi_kelas,
                     status_kelas: this.editedItem.status_kelas
                 };
