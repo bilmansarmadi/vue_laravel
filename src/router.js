@@ -57,6 +57,11 @@ export default new Router({
           name: "master-mata-pelajaran",
           component: () => import("@/view/pages/master/mata-pelajaran/MataPelajaran.vue")
         },
+        {
+          path: "/master/porsi_nilai",
+          name: "master-mata-pelajaran",
+          component: () => import("@/view/pages/master/data-porsinilai/DataPorsinilai.vue")
+        },
 
 
         {

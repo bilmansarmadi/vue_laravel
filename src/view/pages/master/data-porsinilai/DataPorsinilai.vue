@@ -3,12 +3,12 @@
         <div class="card cardHover" v-show="accessList.R">
             <v-data-table responsive show-empty
                 :headers="headers"
-                :items="data_kelas"
+                :items="data_porsinilai"
                 :search="search"
                 :loading="progressBar"
                 loading-text="Loading... Please wait"
                 :items-per-page="5"
-                item-key="kelas_id"
+                item-key="rumus_id"
                 class="elevation-1"
                 :footer-props="{
                 showFirstLastPage: false,
@@ -35,7 +35,7 @@
                         max-width="500px"
                         persistent
                     >
-                    <template v-slot:activator="{ on, attrs }">
+                    <!-- <template v-slot:activator="{ on, attrs }">
                         <v-btn
                         color="#73a4ef"
                         dark
@@ -47,7 +47,7 @@
                         <i class="flaticon-add-circular-button mr-1 text-white"></i>
                             <span class="hideText">Tambah Data</span> 
                         </v-btn>
-                    </template>
+                    </template> -->
                     <v-card>
                         <v-card-title class="border">
                             <span class="text-h5">{{ formTitle }}</span>
@@ -70,8 +70,23 @@
                                         md="12"
                                     >
                                         <v-text-field
-                                            v-model="formInput.nama_kelas"
-                                            label="Nama Kelas"
+                                            v-model="formInput.persentase_abs"
+                                            label="Perentase Absen"
+                                            :rules="rulesNotNull"
+                                            type="number"
+                                            required
+                                            clearable
+                                            color="#ee8b3d"
+                                        ></v-text-field>
+                                    </v-col>
+                                    <v-col
+                                        cols="12"
+                                        md="12"
+                                    >
+                                        <v-text-field
+                                            v-model="formInput.persentase_tgs"
+                                            label="Persentase Tugas"
+                                            type="number"
                                             :rules="rulesNotNull"
                                             required
                                             clearable
@@ -83,9 +98,10 @@
                                         md="12"
                                     >
                                         <v-text-field
-                                            v-model="formInput.deskripsi_kelas"
-                                            label="Keterangan"
+                                            v-model="formInput.persentase_uts"
+                                            label="Persentase UTS"
                                             :rules="rulesNotNull"
+                                            type="number"
                                             required
                                             clearable
                                             color="#ee8b3d"
@@ -95,16 +111,31 @@
                                         cols="12"
                                         md="12"
                                     >
-                                        <v-select
-                                            v-model="formInput.status_kelas"
-                                            :items="dropdown_status"
-                                            item-text="text"
-                                            item-value="value"
-                                            label="Status Kelas"
+                                        <v-text-field
+                                            v-model="formInput.persentase_uas"
+                                            label="Persentase UAS"
+                                            :rules="rulesNotNull"
+                                            type="number"
+                                            required
                                             clearable
                                             color="#ee8b3d"
-                                        ></v-select>
+                                        ></v-text-field>
                                     </v-col>
+                                    <v-col
+                                        cols="12"
+                                        md="12"
+                                    >
+                                        <v-text-field
+                                            v-model="formInput.kkm_kelas"
+                                            label="KKM Kelas"
+                                            :rules="rulesNotNull"
+                                            type="number"
+                                            required
+                                            clearable
+                                            color="#ee8b3d"
+                                        ></v-text-field>
+                                    </v-col>
+                                    
                                 </v-row>
                             </v-container>
                         </v-card-text>
@@ -150,7 +181,7 @@
                     </template>
                 <span>Ubah Data</span>
                 </v-tooltip>
-                <v-tooltip top>
+                <!-- <v-tooltip top>
                     <template v-slot:activator="{ on, attrs }">
                         <v-btn
                             fab
@@ -168,7 +199,7 @@
                         </v-btn>
                     </template>
                 <span>Hapus Data</span>
-                </v-tooltip>
+                </v-tooltip> -->
                 </template>
             </v-data-table>
         </div>
@@ -186,17 +217,16 @@ import Services from "@/core/services/aljazary-api/Services";
 import ApiService from "@/core/services/api.service";
 import Swal from 'sweetalert2'
 import localStorage from "@/core/services/store/localStorage";
-import { Fetch_MKelas} from "@/core/services/store/mKelas.module";
 
 export default {
-    name:"master-kelas",
+    name:"master-porsinilai",
     mounted() {
         this.load();
     },
 
     data(){
         return {
-            data_kelas: [],
+            data_porsinilai: [],
             search: '',
             progressBar: true,
             dialog: false,
@@ -205,36 +235,48 @@ export default {
             editedItem: {},
             defaultItem: {},
             submitted: false,
-            create_data_kelas: [],
-            update_data_kelas: [],
-            delete_data_kelas: [],
-            add_data_kelas: {
-                nama_kelas: "",
-                deskripsi_kelas: "",
-                status_kelas: ""
+            create_data_porsinilai: [],
+            update_data_porsinilai: [],
+            delete_data_porsinilai: [],
+            add_data_porsinilai: {
+                persentase_abs: "",
+                persentase_tgs: "",
+                persentase_uts: "",
+                persentase_uas: "",
+                kkm_kelas: ""
             },
-            dropdown_status: [
-                { value: 0, text: "Tidak Aktif" },
-                { value: 1, text: "Aktif" },
-            ],
             headers: [
                 { 
-                    text: 'Nama Kelas', 
-                    value: 'nama_kelas',
+                    text: 'Absen', 
+                    value: 'persentase_abs',
                     align: 'start',
-                    width: "150px",
+                    width: "100px",
                     sortable: false 
                 },
                 { 
-                    text: 'Keterangan', 
-                    value: 'deskripsi_kelas',
+                    text: 'Tugas',  
+                    value: 'persentase_tgs',
                     align: 'start',
-                    width: "150px",
+                    width: "100px",
                     sortable: false 
                 },
                 { 
-                    text: 'Status Kelas', 
-                    value: 'Status',
+                    text: 'UTS', 
+                    value: 'persentase_uts',
+                    align: 'start',
+                    width: "100px",
+                    sortable: false 
+                },
+                { 
+                    text: 'UAS', 
+                    value: 'persentase_uas',
+                    align: 'center',
+                    width: "100px",
+                    sortable: false 
+                },
+                { 
+                    text: 'KKM Kelas', 
+                    value: 'kkm_kelas',
                     align: 'center',
                     width: "100px",
                     sortable: false 
@@ -259,7 +301,7 @@ export default {
             val || this.close()
         },
 
-        data_kelas(){
+        data_porsinilai(){
             this.progressBar = false
         }
     },
@@ -269,15 +311,15 @@ export default {
             return this.editedIndex === -1 ? 'Tambah Data' : 'Ubah Data'
         },
         formInput() {
-            return this.editedIndex === -1 ? this.add_data_kelas : this.editedItem;
+            return this.editedIndex === -1 ? this.add_data_porsinilai : this.editedItem;
         },
         formSubmit() {
             return this.editedIndex === -1
-                ? this.createDataKelas
-                : this.updateDataKelas;
+                ? this.createDataPorsiNilai
+                : this.updateDataPorsiNilai;
         },
         isDisabledSimpan(){
-            return !this.formInput.nama_kelas
+            return !this.formInput.persentase_abs
         }
     },
 
@@ -312,13 +354,13 @@ export default {
             });
         },
 
-        getMasterDataKelas(){
+        getMasterDataPorsiNilai(){
             return new Promise(resolve => {
                 var mydata = {
                     UID: localStorage.getLocalStorage("uid"),
                     Token: localStorage.getLocalStorage("token"),
                     Trigger: "R",
-                    Route: "DEFAULT"
+                    Route: "selectbyrumus"
                 };
 
                 let contentType = `application/x-www-form-urlencoded`;
@@ -327,12 +369,12 @@ export default {
 
                 Services.PostData(
                     ApiService,
-                    "Master/Kelas",
+                    "Master/Rumus",
                     qs.stringify(mydata),
                     contentType,
                     response => {
                         resolve(response.data);
-                        this.data_kelas = response.data;
+                        this.data_porsinilai = response.data;
                     },
                     err => {
                         err;
@@ -341,16 +383,18 @@ export default {
             });
         },
 
-        createDataKelas(){
+        createDataPorsiNilai(){
             return new Promise(resolve => {
                 var mydata = {
                     UID: localStorage.getLocalStorage("uid"),
                     Token: localStorage.getLocalStorage("token"),
                     Trigger: "C",
                     Route: "DEFAULT",
-                    nama_kelas: this.add_data_kelas.nama_kelas,
-                    deskripsi_kelas: this.add_data_kelas.deskripsi_kelas,
-                    status_kelas: this.add_data_kelas.status_kelas
+                    persentase_abs: this.add_data_porsinilai.persentase_abs,
+                    persentase_tgs: this.add_data_porsinilai.persentase_tgs,
+                    persentase_uts: this.add_data_porsinilai.persentase_uts,
+                    persentase_uas: this.add_data_porsinilai.persentase_uas,
+                    kkm_kelas: this.add_data_porsinilai.kkm_kelas
                 };
 
                 let contentType = `application/x-www-form-urlencoded`;
@@ -359,7 +403,7 @@ export default {
 
                 Services.PostData(
                 ApiService,
-                "Master/Kelas",
+                "Master/Rumus",
                 qs.stringify(mydata),
                 contentType,
                 response => {
@@ -381,11 +425,10 @@ export default {
                             timer: 1500
                         });
                     }
-                    this.create_data_kelas = response.data;
+                    this.create_data_porsinilai = response.data;
                     this.submitted = true;
-                    this.save("add_data_kelas");
-                    this.getMasterDataKelas();
-                    this.$store.dispatch(Fetch_MKelas)
+                    this.save("add_data_porsinilai");
+                    this.getMasterDataPorsiNilai();
                 },
                 err => {
                     err;
@@ -395,7 +438,7 @@ export default {
         },
 
         editItem (item) {
-            this.editedIndex = this.data_kelas.indexOf(item)
+            this.editedIndex = this.data_porsinilai.indexOf(item)
             this.editedItem = Object.assign({}, item)
             this.data_item = item
             this.dialog = true
@@ -420,7 +463,7 @@ export default {
                         Token: localStorage.getLocalStorage("token"),
                         Trigger: "D",
                         Route: "DEFAULT",
-                        kelas_id: item.kelas_id
+                        rumus_id: item.rumus_id
                     };
 
                     let contentType = `application/x-www-form-urlencoded`;
@@ -428,7 +471,7 @@ export default {
 
                     Services.PostData(
                         ApiService,
-                        'Master/Kelas',
+                        'Master/Rumus',
                         qs.stringify(mydata),
                         contentType,
                         response => {
@@ -450,11 +493,10 @@ export default {
                                     timer: 1500
                                 });
                             }
-                            this.delete_data_kelas = response.data;
+                            this.delete_data_porsinilai = response.data;
                             this.submitted = true;
-                            this.data_kelas.splice(this.deletedIndex, 1);
-                            this.getMasterDataKelas()
-                            this.$store.dispatch(Fetch_MKelas)
+                            this.data_porsinilai.splice(this.deletedIndex, 1);
+                            this.getMasterDataPorsiNilai()
                         },
                         err => {
                             err;
@@ -468,25 +510,29 @@ export default {
         close () {
             this.dialog = false
             this.$nextTick(() => {
-                this.add_data_kelas.nama_kelas = ""
-                this.add_data_kelas.status_kelas = ""
-                this.add_data_kelas.deskripsi_kelas = ""
+                this.add_data_porsinilai.persentase_abs = ""
+                this.add_data_porsinilai.persentase_tgs = ""
+                this.add_data_porsinilai.persentase_uas = ""
+                this.add_data_porsinilai.persentase_uts = ""
+                this.add_data_porsinilai.kkm_kelas = ""
                 this.editedItem = Object.assign({}, this.defaultItem)
                 this.editedIndex = -1
             })
         },
 
-        updateDataKelas() {
+        updateDataPorsiNilai() {
             return new Promise(resolve => {
                 var mydata = {
                     UID: localStorage.getLocalStorage("uid"),
                     Token: localStorage.getLocalStorage("token"),
                     Trigger: "U",
                     Route: "DEFAULT",
-                    kelas_id: this.data_item.kelas_id,
-                    nama_kelas: this.editedItem.nama_kelas,
-                    deskripsi_kelas: this.editedItem.deskripsi_kelas,
-                    status_kelas: this.editedItem.status_kelas
+                    rumus_id: this.data_item.rumus_id,
+                    persentase_abs: this.editedItem.persentase_abs,
+                    persentase_tgs: this.editedItem.persentase_tgs,
+                    persentase_uts: this.editedItem.persentase_uts,
+                    persentase_uas: this.editedItem.persentase_uas,
+                    kkm_kelas: this.editedItem.kkm_kelas
                 };
 
                 let contentType = `application/x-www-form-urlencoded`;
@@ -495,7 +541,7 @@ export default {
 
                 Services.PostData(
                     ApiService,
-                    'Master/Kelas',
+                    'Master/Rumus',
                     qs.stringify(mydata),
                     contentType,
                     response => {
@@ -517,11 +563,10 @@ export default {
                                 timer: 1500
                             });
                         }
-                        this.update_data_kelas = response.data;
+                        this.update_data_porsinilai = response.data;
                         this.submitted = true;
-                        this.save("edit_data_kelas");
-                        this.getMasterDataKelas();
-                        this.$store.dispatch(Fetch_MKelas)
+                        this.save("edit_data_porsinilai");
+                        this.getMasterDataPorsiNilai();
                     },
                     err => {
                         err;
@@ -531,20 +576,20 @@ export default {
         },
 
         save(formInput) {
-            if (formInput == "add_data_kelas") {
+            if (formInput == "add_data_porsinilai") {
                 if (this.editedIndex > -1) {
                 Object.assign(
-                    this.data_kelas[this.editedIndex],
-                    this.add_data_kelas
+                    this.data_porsinilai[this.editedIndex],
+                    this.add_data_porsinilai
                 );
                 } else {
-                    this.data_kelas.push(this.add_data_kelas);
+                    this.data_porsinilai.push(this.add_data_porsinilai);
                 }
-            } else if (formInput == "edit_data_kelas") {
+            } else if (formInput == "edit_data_porsinilai") {
                 if (this.editedIndex > -1) {
-                    Object.assign(this.data_kelas[this.editedIndex], this.editedItem);
+                    Object.assign(this.data_porsinilai[this.editedIndex], this.editedItem);
                 } else {
-                    this.data_kelas.push(this.editedItem);
+                    this.data_porsinilai.push(this.editedItem);
                 }
             }
             this.close();
@@ -553,7 +598,7 @@ export default {
         async load() {
             Promise.all([
                 await this.asyncAccess(),
-                await this.getMasterDataKelas()
+                await this.getMasterDataPorsiNilai()
             ]).then(function(results) {
                 results;
             });
