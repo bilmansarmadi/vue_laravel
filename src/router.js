@@ -97,6 +97,11 @@ export default new Router({
           component: () => import("@/view/pages/pengajaran/jadwal/Jadwal.vue")
         },
         {
+          path: "/pengajaran/wali_kelas",
+          name: "pengajaran-wali-kelas",
+          component: () => import("@/view/pages/pengajaran/walikelas/wali-kelas.vue")
+        },
+        {
           path: "/pengajaran/kelompok_kelas",
           name: "pengajaran-kelompok-kelas",
           component: () => import("@/view/pages/pengajaran/kelompok/Kelompok.vue")

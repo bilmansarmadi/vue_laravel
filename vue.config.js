@@ -37,5 +37,7 @@ module.exports = {
   transpileDependencies: ["vuetify"],
   devServer: {
     port: 1907, // Ganti dengan port yang Anda inginkan
+    public: "https://1990-180-242-58-176.ngrok-free.app",
+    disableHostCheck: true
   },
 };

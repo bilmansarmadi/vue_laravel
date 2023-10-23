@@ -3,12 +3,12 @@
         <div class="card cardHover" v-show="accessList.R">
             <v-data-table responsive show-empty
                 :headers="headers"
-                :items="tahun_ajaran"
+                :items="data_walikelas"
                 :search="search"
                 :loading="progressBar"
                 loading-text="Loading... Please wait"
                 :items-per-page="5"
-                item-key="tahun_id"
+                item-key="walikelas_id"
                 class="elevation-1"
                 :footer-props="{
                 showFirstLastPage: false,
@@ -67,46 +67,32 @@
                                 <v-row>
                                     <v-col
                                             cols="12"
-                                            md="12"
+                                            md="6"
                                         >
                                             <v-autocomplete
-                                                v-model="formInput.kelas_id"
-                                                :items="master_data_kelas"
-                                                item-text="nama_kelas"
-                                                item-value="kelas_id"
-                                                label="Kelas"
+                                                v-model="formInput.pengajar_id"
+                                                :items="master_data_pengajar"
+                                                item-text="nama_lengkap"
+                                                item-value="pengajar_id"
+                                                label="Guru"
                                                 clearable
                                                 color="#ee8b3d"
                                             ></v-autocomplete>
                                         </v-col>
                                     <v-col
-                                        cols="12"
-                                        md="12"
-                                    >
-                                        <v-text-field
-                                            v-model="formInput.tahun_ajaran"
-                                            label="Tahun"
-                                            placeholder="2023/2024"
-                                            :rules="rulesNotNull"
-                                            required
-                                            clearable
-                                            color="#ee8b3d"
-                                        ></v-text-field>
-                                    </v-col>
-                                    <v-col
-                                        cols="12"
-                                        md="12"
-                                    >
-                                        <v-select
-                                            v-model="formInput.tipe_ajaran"
-                                            :items="dropdown_semester"
-                                            item-text="text"
-                                            item-value="value"
-                                            label="Semester"
-                                            clearable
-                                            color="#ee8b3d"
-                                        ></v-select>
-                                    </v-col>
+                                            cols="12"
+                                            md="12"
+                                        >
+                                            <v-autocomplete
+                                                v-model="formInput.tahun_id"
+                                                :items="master_data_tahunAjaran"
+                                                item-text="tahun_ajaran_nama"
+                                                item-value="tahun_id"
+                                                label="Kelas"
+                                                clearable
+                                                color="#ee8b3d"
+                                            ></v-autocomplete>
+                                        </v-col>
                                 </v-row>
                             </v-container>
                         </v-card-text>
@@ -188,17 +174,16 @@ import Services from "@/core/services/aljazary-api/Services";
 import ApiService from "@/core/services/api.service";
 import Swal from 'sweetalert2'
 import localStorage from "@/core/services/store/localStorage";
-import { Fetch_MThn_Ajaran_ComboBox, Fetch_MThn_Ajaran} from "@/core/services/store/m_ThnAjaran.module";
 
 export default {
-    name:"master-tahun-ajaran",
+    name:"riwayat-walikelas",
     mounted() {
         this.load();
     },
 
     data(){
         return {
-            tahun_ajaran: [],
+            data_walikelas: [],
             search: '',
             progressBar: true,
             dialog: false,
@@ -207,38 +192,27 @@ export default {
             editedItem: {},
             defaultItem: {},
             submitted: false,
-            create_tahun_ajaran: [],
-            update_tahun_ajaran: [],
-            delete_tahun_ajaran: [],
-            add_tahun_ajaran: {
-                kelas_id: "",
-                tahun_ajaran: "",
-                tipe_ajaran: ""
+            create_data_walikelas: [],
+            update_data_walikelas: [],
+            delete_data_walikelas: [],
+            add_data_walikelas: {
+                pengajar_id: "",
+                tahun_id: "",
+                walikelas_id: "",
             },
-            dropdown_semester: [
-                { value: 1, text: "Ganjil" },
-                { value: 2, text: "Genap" },
-            ],
             headers: [
                 { 
-                    text: 'Nama Kelas', 
-                    value: 'nama_kelas',
+                    text: 'Nama Wali', 
+                    value: 'nama_lengkap',
                     align: 'start',
-                    width: "100px",
+                    width: "150px",
                     sortable: false 
                 },
                 { 
-                    text: 'Tahun Ajaran', 
-                    value: 'tahun_ajaran',
+                    text: 'Kelas', 
+                    value: 'tahun_ajaran_nama',
                     align: 'start',
-                    width: "100px",
-                    sortable: false 
-                },
-                { 
-                    text: 'Semester', 
-                    value: 'semester',
-                    align: 'center',
-                    width: "100px",
+                    width: "150px",
                     sortable: false 
                 },
                 { 
@@ -252,8 +226,9 @@ export default {
             rulesNotNull: [
                 value => !!value || 'Tidak boleh kosong.',
             ],
-            accessList: [],
-            master_data_kelas: []
+            master_data_tahunAjaran: [],
+            master_data_pengajar: [],
+            accessList: []
         }
     },
 
@@ -262,7 +237,7 @@ export default {
             val || this.close()
         },
 
-        tahun_ajaran(){
+        data_walikelas(){
             this.progressBar = false
         }
     },
@@ -272,15 +247,15 @@ export default {
             return this.editedIndex === -1 ? 'Tambah Data' : 'Ubah Data'
         },
         formInput() {
-            return this.editedIndex === -1 ? this.add_tahun_ajaran : this.editedItem;
+            return this.editedIndex === -1 ? this.add_data_walikelas : this.editedItem;
         },
         formSubmit() {
             return this.editedIndex === -1
-                ? this.createTahunAjaran
-                : this.updateTahunAjaran;
+                ? this.createDataWaliKelas
+                : this.updateDataWaliKelas;
         },
         isDisabledSimpan(){
-            return !this.formInput.tahun_ajaran || !this.formInput.tipe_ajaran || !this.formInput.kelas_id
+            return !this.formInput.pengajar_id
         }
     },
 
@@ -316,23 +291,76 @@ export default {
         },
 
         getMasterTahunAjaran(){
-            this.tahun_ajaran = this.$store.state.mThnAjaran.master_tahun_ajaran_combobox
+            this.master_data_tahunAjaran = this.$store.state.mThnAjaran.master_tahun_ajaran_combobox
         },
 
-        getMasterKelas(){
-            this.master_data_kelas = this.$store.state.mKelas.master_kelas
+        getMasterPengajar(){
+            return new Promise(resolve => {
+                var mydata = {
+                    UID: localStorage.getLocalStorage("uid"),
+                    Token: localStorage.getLocalStorage("token"),
+                    Trigger: "R",
+                    Route: "Read_Pengajar"
+                };
+
+                let contentType = `application/x-www-form-urlencoded`;
+
+                const qs = require("qs");
+
+                Services.PostData(
+                    ApiService,
+                    "Master/Pengajar",
+                    qs.stringify(mydata),
+                    contentType,
+                    response => {
+                        resolve(response.data);
+                        this.master_data_pengajar = response.data;
+                    },
+                    err => {
+                        err;
+                    }
+                );
+            });
         },
 
-        createTahunAjaran(){
+        getRiwayatDataWaliKelas(){
+            return new Promise(resolve => {
+                var mydata = {
+                    UID: localStorage.getLocalStorage("uid"),
+                    Token: localStorage.getLocalStorage("token"),
+                    Trigger: "R",
+                    Route: "DEFAULT"
+                };
+
+                let contentType = `application/x-www-form-urlencoded`;
+
+                const qs = require("qs");
+
+                Services.PostData(
+                    ApiService,
+                    "Riwayat/Wali_kelas",
+                    qs.stringify(mydata),
+                    contentType,
+                    response => {
+                        resolve(response.data);
+                        this.data_walikelas = response.data;
+                    },
+                    err => {
+                        err;
+                    }
+                );
+            });
+        },
+
+        createDataWaliKelas(){
             return new Promise(resolve => {
                 var mydata = {
                     UID: localStorage.getLocalStorage("uid"),
                     Token: localStorage.getLocalStorage("token"),
                     Trigger: "C",
                     Route: "DEFAULT",
-                    tahun_ajaran: this.add_tahun_ajaran.tahun_ajaran,
-                    tipe_ajaran: this.add_tahun_ajaran.tipe_ajaran,
-                    kelas_id: this.add_kelompok_kelas.kelas_id
+                    pengajar_id: this.add_data_walikelas.pengajar_id,
+                    tahun_id: this.add_data_walikelas.tahun_id
                 };
 
                 let contentType = `application/x-www-form-urlencoded`;
@@ -341,7 +369,7 @@ export default {
 
                 Services.PostData(
                 ApiService,
-                "Master/TahunAjaran",
+                "Riwayat/Wali_kelas",
                 qs.stringify(mydata),
                 contentType,
                 response => {
@@ -363,12 +391,10 @@ export default {
                             timer: 1500
                         });
                     }
-                    this.create_tahun_ajaran = response.data;
+                    this.create_data_walikelas = response.data;
                     this.submitted = true;
-                    this.save("add_tahun_ajaran");
-                    this.getMasterTahunAjaran();
-                    this.$store.dispatch(Fetch_MThn_Ajaran_ComboBox)
-                    this.$store.dispatch(Fetch_MThn_Ajaran)
+                    this.save("add_data_walikelas");
+                    this.getRiwayatDataWaliKelas();
                 },
                 err => {
                     err;
@@ -378,7 +404,7 @@ export default {
         },
 
         editItem (item) {
-            this.editedIndex = this.tahun_ajaran.indexOf(item)
+            this.editedIndex = this.data_walikelas.indexOf(item)
             this.editedItem = Object.assign({}, item)
             this.data_item = item
             this.dialog = true
@@ -403,7 +429,7 @@ export default {
                         Token: localStorage.getLocalStorage("token"),
                         Trigger: "D",
                         Route: "DEFAULT",
-                        tahun_id: item.tahun_id
+                        walikelas_id: item.walikelas_id
                     };
 
                     let contentType = `application/x-www-form-urlencoded`;
@@ -411,7 +437,7 @@ export default {
 
                     Services.PostData(
                         ApiService,
-                        'Master/TahunAjaran',
+                        'Riwayat/Wali_kelas',
                         qs.stringify(mydata),
                         contentType,
                         response => {
@@ -433,12 +459,10 @@ export default {
                                     timer: 1500
                                 });
                             }
-                            this.delete_tahun_ajaran = response.data;
+                            this.delete_data_walikelas = response.data;
                             this.submitted = true;
-                            this.tahun_ajaran.splice(this.deletedIndex, 1);
-                            this.getMasterTahunAjaran()
-                            this.$store.dispatch(Fetch_MThn_Ajaran_ComboBox)
-                            this.$store.dispatch(Fetch_MThn_Ajaran)
+                            this.data_walikelas.splice(this.deletedIndex, 1);
+                            this.getRiwayatDataWaliKelas()
                         },
                         err => {
                             err;
@@ -452,24 +476,24 @@ export default {
         close () {
             this.dialog = false
             this.$nextTick(() => {
-                this.add_tahun_ajaran.tahun_ajaran = ""
-                this.add_tahun_ajaran.tipe_ajaran = ""
+                this.add_data_walikelas.tahun_id = ""
+                this.add_data_walikelas.pengajar_id = ""
+                this.add_data_walikelas.walikelas_id = ""
                 this.editedItem = Object.assign({}, this.defaultItem)
                 this.editedIndex = -1
             })
         },
 
-        updateTahunAjaran() {
+        updateDataWaliKelas() {
             return new Promise(resolve => {
                 var mydata = {
                     UID: localStorage.getLocalStorage("uid"),
                     Token: localStorage.getLocalStorage("token"),
                     Trigger: "U",
                     Route: "DEFAULT",
-                    tahun_id: this.data_item.tahun_id,
-                    tahun_ajaran: this.editedItem.tahun_ajaran,
-                    tipe_ajaran: this.editedItem.tipe_ajaran,
-                    kelas_id: this.editedItem.kelas_id
+                    walikelas_id: this.data_item.walikelas_id,
+                    pengajar_id: this.editedItem.pengajar_id,
+                    tahun_id: this.editedItem.tahun_id
                 };
 
                 let contentType = `application/x-www-form-urlencoded`;
@@ -478,7 +502,7 @@ export default {
 
                 Services.PostData(
                     ApiService,
-                    'Master/TahunAjaran',
+                    'Riwayat/Wali_kelas',
                     qs.stringify(mydata),
                     contentType,
                     response => {
@@ -500,12 +524,10 @@ export default {
                                 timer: 1500
                             });
                         }
-                        this.update_tahun_ajaran = response.data;
+                        this.update_data_walikelas = response.data;
                         this.submitted = true;
-                        this.save("edit_tahun_ajaran");
-                        this.getMasterTahunAjaran();
-                        this.$store.dispatch(Fetch_MThn_Ajaran_ComboBox)
-                        this.$store.dispatch(Fetch_MThn_Ajaran)
+                        this.save("edit_data_walikelas");
+                        this.getRiwayatDataWaliKelas();
                     },
                     err => {
                         err;
@@ -515,20 +537,20 @@ export default {
         },
 
         save(formInput) {
-            if (formInput == "add_tahun_ajaran") {
+            if (formInput == "add_data_walikelas") {
                 if (this.editedIndex > -1) {
                 Object.assign(
-                    this.tahun_ajaran[this.editedIndex],
-                    this.add_tahun_ajaran
+                    this.data_walikelas[this.editedIndex],
+                    this.add_data_walikelas
                 );
                 } else {
-                    this.tahun_ajaran.push(this.add_tahun_ajaran);
+                    this.data_walikelas.push(this.add_data_walikelas);
                 }
-            } else if (formInput == "edit_tahun_ajaran") {
+            } else if (formInput == "edit_data_walikelas") {
                 if (this.editedIndex > -1) {
-                    Object.assign(this.tahun_ajaran[this.editedIndex], this.editedItem);
+                    Object.assign(this.data_walikelas[this.editedIndex], this.editedItem);
                 } else {
-                    this.tahun_ajaran.push(this.editedItem);
+                    this.data_walikelas.push(this.editedItem);
                 }
             }
             this.close();
@@ -537,8 +559,9 @@ export default {
         async load() {
             Promise.all([
                 await this.asyncAccess(),
-                await this.getMasterKelas(),
-                await this.getMasterTahunAjaran()
+                await this.getMasterPengajar(),
+                await this.getMasterTahunAjaran(),
+                await this.getRiwayatDataWaliKelas()
             ]).then(function(results) {
                 results;
             });

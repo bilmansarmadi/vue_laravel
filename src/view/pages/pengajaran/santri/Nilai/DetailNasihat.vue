@@ -42,7 +42,7 @@
                 v-bind="attrs"
                 v-on="on"
                 rounded
-                v-show="accessList.C"
+                v-show="accessList.C || data_akses === 1"
                 >
                 <i class="flaticon-add-circular-button mr-1 text-white"></i>
                     <span class="hideText">Tambah Data</span> 
@@ -117,7 +117,7 @@
                     v-bind="attrs"
                     v-on="on"
                     @click="editItem(item)"
-                    v-show="accessList.U"
+                    v-show="accessList.U || data_akses === 1"
                     >
                     <i class="flaticon2-pen text-white"></i>
                 </v-btn>
@@ -134,7 +134,7 @@
                     v-bind="attrs"
                     v-on="on"
                     @click="deleteItem(item)"
-                    v-show="accessList.D"
+                    v-show="accessList.D || data_akses === 1"
                     >
                     <v-icon dark>
                     mdi-delete
@@ -208,7 +208,8 @@ export default {
             rulesNotNull: [
                 value => !!value || 'Tidak boleh kosong.',
             ],
-            CustomMessage: ""
+            CustomMessage: "",
+            data_akses:''
         }
     },
 
@@ -270,9 +271,40 @@ export default {
                 .catch((err) => err);
         },
 
+        getDataWaliKelas(){
+            return new Promise(resolve => {
+                var mydata = {
+                    UID: localStorage.getLocalStorage("uid"),
+                    Token: localStorage.getLocalStorage("token"),
+                    tahun_id: this.idHeader,
+                    Trigger: "R",
+                    Route: "Read_Akses"
+                };
+
+                let contentType = `application/x-www-form-urlencoded`;
+
+                const qs = require("qs");
+
+                Services.PostData(
+                    ApiService,
+                    "Riwayat/Wali_kelas",
+                    qs.stringify(mydata),
+                    contentType,
+                    response => {
+                        resolve(response.data);
+                        this.data_akses = response.data[0].akses;
+                    },
+                    err => {
+                        err;
+                    }
+                );
+            });
+        },
+
         async getDetailCache(idHeader) {
             Promise.all([
-                await this.getMasterRiwayatNilai(idHeader)
+                await this.getMasterRiwayatNilai(idHeader),
+                await this.getDataWaliKelas()
             ])
             .then(async (results) => {
                 this.progressBar = false
