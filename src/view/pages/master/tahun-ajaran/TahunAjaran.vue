@@ -332,7 +332,7 @@ export default {
                     Route: "DEFAULT",
                     tahun_ajaran: this.add_tahun_ajaran.tahun_ajaran,
                     tipe_ajaran: this.add_tahun_ajaran.tipe_ajaran,
-                    kelas_id: this.add_kelompok_kelas.kelas_id
+                    kelas_id: this.add_tahun_ajaran.kelas_id
                 };
 
                 let contentType = `application/x-www-form-urlencoded`;
