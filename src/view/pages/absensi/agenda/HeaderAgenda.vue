@@ -110,7 +110,7 @@
                 loading-text="Loading... Please wait"
                 :items-per-page="5"
                 item-key="tahun_id"
-                class="elevation-1"
+                class="elevation-1 cursor-pointer"
                 :footer-props="{
                 showFirstLastPage: false,
                     'items-per-page-text':'Data Per Halaman'

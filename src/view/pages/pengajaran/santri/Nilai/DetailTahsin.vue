@@ -65,7 +65,7 @@
                     v-bind="attrs"
                     v-on="on"
                     rounded
-                    v-show="accessList.C || data_akses === 1"
+                    v-show="accessList.C || Akses_Nilai"
                     >
                     <i class="flaticon-add-circular-button mr-1 text-white"></i>
                         <span class="hideText">Tambah Data</span> 
@@ -151,7 +151,7 @@
                         v-bind="attrs"
                         v-on="on"
                         @click="editItem(item)"
-                        v-show="accessList.U || data_akses === 1"
+                        v-show="accessList.U || Akses_Nilai"
                         >
                         <i class="flaticon2-pen text-white"></i>
                     </v-btn>
@@ -168,7 +168,7 @@
                         v-bind="attrs"
                         v-on="on"
                         @click="deleteItem(item)"
-                        v-show="accessList.D || data_akses === 1"
+                        v-show="accessList.D || Akses_Nilai"
                         >
                         <v-icon dark>
                         mdi-delete
@@ -575,6 +575,7 @@ export default {
     mounted() {
         this.Santri_Id  = this.$route.query.id;
         this.load();
+        console.log(this.Akses_Nilai);
     },
 
     components: {
@@ -583,6 +584,11 @@ export default {
 
     props: {
         idHeader: {
+            type: [String, Number],
+            required: false,
+            default: ''
+        },
+        Akses_Nilai: {
             type: [String, Number],
             required: false,
             default: ''
@@ -696,7 +702,6 @@ export default {
             stateNilaiAkhlak: [],
             stateNasihat: [],
             stateSemester: [],
-            data_akses:''
         }
     },
 
@@ -1145,36 +1150,6 @@ export default {
             this.master_data_mapel =this.master_data_mapel.filter(item => item.kategori_nama === 'QIRO’AH' || item.kategori_nama === 'TAHFIDZ');
         },
 
-        getDataWaliKelas(){
-            return new Promise(resolve => {
-                var mydata = {
-                    UID: localStorage.getLocalStorage("uid"),
-                    Token: localStorage.getLocalStorage("token"),
-                    tahun_id: this.idHeader,
-                    Trigger: "R",
-                    Route: "Read_Akses"
-                };
-
-                let contentType = `application/x-www-form-urlencoded`;
-
-                const qs = require("qs");
-
-                Services.PostData(
-                    ApiService,
-                    "Riwayat/Wali_kelas",
-                    qs.stringify(mydata),
-                    contentType,
-                    response => {
-                        resolve(response.data);
-                        this.data_akses = response.data[0].akses;
-                    },
-                    err => {
-                        err;
-                    }
-                );
-            });
-        },
-
         async getDetailCache(idHeader) {
             Promise.all([
                 await this.getMasterRiwayatTahsin(idHeader)
@@ -1421,7 +1396,6 @@ export default {
         async load() {
             Promise.all([
                 await this.getMasterMapel(),
-                await this.getDataWaliKelas()
             ]).then(function(results) {
                 results;
             });

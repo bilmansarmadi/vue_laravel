@@ -114,112 +114,11 @@
           hide-details
           ></v-text-field>
           <v-spacer></v-spacer>
-          <v-dialog
-              v-model="dialogCreate"
-              max-width="600px"
-              persistent
-            >
-              <template v-slot:activator="{ on, attrs }">
-                  <v-btn
-                  color="#73a4ef"
-                  dark
-                  v-bind="attrs"
-                  v-on="on"
-                  rounded
-                  v-show="accessList.C"
-                  >
-                  <i class="flaticon-add-circular-button mr-1 text-white"></i>
-                      <span class="hideText">Tambah Data</span> 
-                  </v-btn>
-              </template>
-                <v-card>
-                  <v-card-title class="border">
-                    <span class="text-h5">{{ formTitle }}</span>
-                    <v-spacer></v-spacer>
-                    <v-icon
-                      class="rounded-circle p-2 shadow-sm"
-                      small
-                      @click="closeCreate"
-                      color="#000"
-                    >
-                      mdi-close
-                    </v-icon>
-                  </v-card-title>
-        
-                    <v-card-text>
-                      <v-container>
-                        <v-row>
-                          <v-col
-                          cols="12"
-                          md="12"
-                          >
-                            <v-menu
-                              ref="menu2"
-                              v-model="menu2"
-                              :close-on-content-click="false"
-                              transition="scale-transition"
-                              offset-y
-                              max-width="290px"
-                              min-width="auto"
-                            >
-                              <template v-slot:activator="{ on, attrs }">
-                                <v-text-field
-                                  v-model="dateFormatted2"
-                                  label="Tanggal"
-                                  persistent-hint
-                                  prepend-icon="mdi-calendar"
-                                  v-bind="attrs"
-                                  @blur="date2 = parseDate2(dateFormatted2)"
-                                  v-on="on"
-                                ></v-text-field>
-                              </template>
-                              <v-date-picker
-                                v-model="date2"
-                                no-title
-                                @input="menu2 = false"
-                              ></v-date-picker>
-                            </v-menu>
-                          </v-col>
-                          <v-col
-                            cols="12"
-                            md="12"
-                          >
-                            <v-textarea
-                              v-model="formInput.deskripsi"
-                              label="Deskripsi"
-                              required
-                              clearable
-                              color="#ee8b3d"
-                              rows="2"
-                            ></v-textarea>
-                          </v-col>
-                        </v-row>
-                      </v-container>
-                    </v-card-text>
-        
-                    <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <button
-                      @click="formSubmit"
-                      class="btn btn-primary btn-sm font-weight-bolder text-md-body-1 rounded-lg py-2 mb-3 mr-3 w-100px"
-                    >
-                      Simpan
-                    </button>
-                    <button
-                      type="button"
-                      @click="closeCreate"
-                      class="btn btn-light-primary btn-sm font-weight-bolder text-md-body-1 rounded-lg py-2 mb-3 w-100px"
-                    >
-                      Batal
-                    </button>
-                    </v-card-actions>
-                </v-card>
-            </v-dialog>
           <div>
             <b-dropdown
               block
               variant="primary"
-              class="m-2 font-weight-bold rounded-lg"
+              class="mr-3 font-weight-bold rounded-lg"
               text="CETAK">
               <b-dropdown-item @click="openModalExport()">PDF</b-dropdown-item>
               <b-dropdown-item>
@@ -235,6 +134,106 @@
               </b-dropdown-item>
             </b-dropdown>
           </div>
+          <v-dialog
+            v-model="dialogCreate"
+            max-width="600px"
+            persistent
+          >
+            <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                color="#73a4ef"
+                dark
+                v-bind="attrs"
+                v-on="on"
+                v-show="accessList.C"
+                >
+                <i class="flaticon-add-circular-button mr-1 text-white"></i>
+                    <span class="hideText">Tambah Data</span> 
+                </v-btn>
+            </template>
+              <v-card>
+                <v-card-title class="border">
+                  <span class="text-h5">{{ formTitle }}</span>
+                  <v-spacer></v-spacer>
+                  <v-icon
+                    class="rounded-circle p-2 shadow-sm"
+                    small
+                    @click="closeCreate"
+                    color="#000"
+                  >
+                    mdi-close
+                  </v-icon>
+                </v-card-title>
+      
+                  <v-card-text>
+                    <v-container>
+                      <v-row>
+                        <v-col
+                        cols="12"
+                        md="12"
+                        >
+                          <v-menu
+                            ref="menu2"
+                            v-model="menu2"
+                            :close-on-content-click="false"
+                            transition="scale-transition"
+                            offset-y
+                            max-width="290px"
+                            min-width="auto"
+                          >
+                            <template v-slot:activator="{ on, attrs }">
+                              <v-text-field
+                                v-model="dateFormatted2"
+                                label="Tanggal"
+                                persistent-hint
+                                prepend-icon="mdi-calendar"
+                                v-bind="attrs"
+                                @blur="date2 = parseDate2(dateFormatted2)"
+                                v-on="on"
+                              ></v-text-field>
+                            </template>
+                            <v-date-picker
+                              v-model="date2"
+                              no-title
+                              @input="menu2 = false"
+                            ></v-date-picker>
+                          </v-menu>
+                        </v-col>
+                        <v-col
+                          cols="12"
+                          md="12"
+                        >
+                          <v-textarea
+                            v-model="formInput.deskripsi"
+                            label="Deskripsi"
+                            required
+                            clearable
+                            color="#ee8b3d"
+                            rows="2"
+                          ></v-textarea>
+                        </v-col>
+                      </v-row>
+                    </v-container>
+                  </v-card-text>
+      
+                  <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <button
+                    @click="formSubmit"
+                    class="btn btn-primary btn-sm font-weight-bolder text-md-body-1 rounded-lg py-2 mb-3 mr-3 w-100px"
+                  >
+                    Simpan
+                  </button>
+                  <button
+                    type="button"
+                    @click="closeCreate"
+                    class="btn btn-light-primary btn-sm font-weight-bolder text-md-body-1 rounded-lg py-2 mb-3 w-100px"
+                  >
+                    Batal
+                  </button>
+                  </v-card-actions>
+              </v-card>
+          </v-dialog>
           </v-toolbar>
         </template>
         <template v-slot:[`item.actions`]="{ item }">

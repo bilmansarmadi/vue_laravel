@@ -396,7 +396,7 @@
                                         <template v-slot:activator="{ on, attrs }">
                                         <v-text-field
                                             v-model="data_header.masuk_pondok"
-                                            label="Mausuk Pondok"
+                                            label="Masuk Pondok"
                                             persistent-hint
                                             prepend-icon="mdi-calendar"
                                             v-bind="attrs"
@@ -687,7 +687,26 @@ export default {
             date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
             dateProgram: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
             accessList: [],
-            getPath: ""
+            getPath: "",
+            htmlToPdfAllOptions: {
+                margin: [1.4, 0.7, 1.4, 0.7],
+                image: {
+                    type: 'jpeg', 
+                    quality: 1
+                },
+                filename: "KHS",
+                html2canvas: {
+                    dpi: 192,
+                    scale:4,
+                    letterRendering: true,
+                    useCORS: true
+                },
+                jsPDF: {
+                    unit: "in",
+                    format: "a4",
+                    orientation: "portrait"
+                }
+            },
         }
     },
     watch: {
@@ -964,8 +983,6 @@ export default {
             fileDownload.click();
             document.body.removeChild(fileDownload);
         },
-
-
 
         onProgress(data) {
             this.progressData = data-30;

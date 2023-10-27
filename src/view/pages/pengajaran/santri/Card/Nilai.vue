@@ -1,7 +1,7 @@
 <template>
     <div>
         <div v-show="accessList.R">
-            <div class="card mt-4 shadow-xs cardHover mb-5" v-show="accessList.R">
+            <div class="card mt-4 shadow-xs cardHover mb-5">
                 <div class="d-block px-3 py-3" data-toggle="collapse" style="background-color: #FFF;"
                     role="button" aria-expanded="true" v-b-toggle.collapse-2 variant="primary">
                     <div class="card-toolbar">
@@ -63,6 +63,7 @@
                 class="without-min-height" 
                 v-bind:idHeader="idHeader"
                 v-bind:accessList="accessList"
+                v-bind:Akses_Nilai="Akses_Nilai"
                 ></table-tahsin>
             </div>
             <div v-show="showDetail">
@@ -70,6 +71,7 @@
                 class="without-min-height" 
                 v-bind:idHeader="idHeader"
                 v-bind:accessList="accessList"
+                v-bind:Akses_Nilai="Akses_Nilai"
                 ></table-detail>
             </div>
             <div v-show="showDetail">
@@ -77,6 +79,7 @@
                 class="without-min-height" 
                 v-bind:idHeader="idHeader"
                 v-bind:accessList="accessList"
+                v-bind:Akses_Nilai="Akses_Nilai"
                 ></table-akhlak>
             </div>
             <div v-show="showDetail">
@@ -84,6 +87,7 @@
                 class="without-min-height" 
                 v-bind:idHeader="idHeader"
                 v-bind:accessList="accessList"
+                v-bind:Akses_Nilai="Akses_Nilai"
                 ></table-nasihat>
             </div>
         </div>
@@ -102,6 +106,9 @@ import TableDetail from "@/view/pages/pengajaran/santri/Nilai/DetailNilai";
 import TableAkhlak from "@/view/pages/pengajaran/santri/Nilai/DetailAkhlak";
 import TableNasihat from "@/view/pages/pengajaran/santri/Nilai/DetailNasihat";
 import { Fetch_MThn_Ajaran_By_Santri } from "@/core/services/store/m_ThnAjaran.module";
+import Services from "@/core/services/aljazary-api/Services";
+import ApiService from "@/core/services/api.service";
+import localStorage from "@/core/services/store/localStorage";
 
 export default {
     components: {
@@ -124,7 +131,8 @@ export default {
             },
             master_data_tahunAjaran: [],
             getData: "",
-            Santri_Id: ""
+            Santri_Id: "",
+            Akses_Nilai: ""
         }
     },
     props: {
@@ -142,6 +150,36 @@ export default {
                 .catch((err) => err);
         },
 
+        getDataWaliKelas(tahun_id){
+            return new Promise(resolve => {
+                var mydata = {
+                    UID: localStorage.getLocalStorage("uid"),
+                    Token: localStorage.getLocalStorage("token"),
+                    tahun_id: tahun_id,
+                    Trigger: "R",
+                    Route: "Read_Akses"
+                };
+
+                let contentType = `application/x-www-form-urlencoded`;
+
+                const qs = require("qs");
+
+                Services.PostData(
+                    ApiService,
+                    "Riwayat/Wali_kelas",
+                    qs.stringify(mydata),
+                    contentType,
+                    response => {
+                        resolve(response.data);
+                        this.Akses_Nilai = response.data[0].akses;
+                    },
+                    err => {
+                        err;
+                    }
+                );
+            });
+        },
+
         hideDetail(item){
             if(item)
             this.showDetail = false
@@ -153,9 +191,10 @@ export default {
             // this.idHeader = ""
         },
 
-        filterData(){
+        async filterData(){
             this.getData = this.formFilter.tahun_id;
             if(this.getData){
+                await this.getDataWaliKelas(this.getData)
                 this.idHeader = this.getData
                 this.showDetail = true
             }else{

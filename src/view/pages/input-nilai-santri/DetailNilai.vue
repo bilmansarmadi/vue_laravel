@@ -131,7 +131,7 @@
               <b-dropdown
                 block
                 variant="primary"
-                class="mr-4 font-weight-bold rounded-xl"
+                class="mr-3 font-weight-bold rounded-xl"
                 text="CETAK">
                 <b-dropdown-item @click="openModalExport">PDF</b-dropdown-item>
                 <b-dropdown-item>
