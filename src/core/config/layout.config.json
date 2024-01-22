@@ -3,13 +3,13 @@
   "self": {
     "layout": "default",
     "logo": {
-      "default": "media/logos/LogoAlJazary.png",
-      "sticky": "media/logos/LogoAlJazary.png"
+      "default": "media/logos/logoperpus.png",
+      "sticky": "media/logos/logoperpus.png"
     }
   },
   "loader": {
     "type": "spinner-logo",
-    "logo": "media/logos/LogoAlJazary.png",
+    "logo": "media/logos/logoperpus.png",
     "message": "Please wait..."
   },
   "breakpoints": {

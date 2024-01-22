@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div v-show="accessList.R">
+        <div v-show="accessList == 0">
             <div class="card mt-4 shadow-xs cardHover mb-5">
                 <div class="d-block px-3 py-3" data-toggle="collapse" style="background-color: #FFF;"
                     role="button" aria-expanded="true" v-b-toggle.collapse-2 variant="primary">
@@ -26,41 +26,37 @@
                                 cols="12"
                                 md="6"
                             >
-                                <v-autocomplete
-                                    v-model="formFilter.kode_user"
-                                    :items="data_kode_user"
-                                    :item-text="getTextKodeUser"
-                                    item-value="kode_user"
-                                    label="Nomor Identitas"
+                            <v-text-field
+                                    v-model="formFilter.user_nama"
+                                    item-value="user_nama"
+                                    label="Nama"
                                     clearable
                                     color="#ee8b3d"
                                 >
-                                </v-autocomplete>
+                                ></v-text-field>
                             </v-col>
                             <v-col
                                 cols="12"
                                 md="6"
                             >
-                                <v-autocomplete
-                                    v-model="formFilter.role_id"
-                                    :items="data_role_user"
-                                    item-text="role_nama"
-                                    item-value="role_id"
-                                    label="Akses"
+                            <v-text-field
+                                    v-model="formFilter.user_email"
+                                    item-value="user_email"
+                                    label="Email"
                                     clearable
                                     color="#ee8b3d"
-                                ></v-autocomplete>
+                                    ></v-text-field>
                             </v-col>
                             <v-col
                                 cols="12"
                                 md="6"
                             >
                                 <v-select
-                                    v-model="formFilter.status"
-                                    :items="dropdown_status"
+                                    v-model="formFilter.user_level"
+                                    :items="dropdown_user_level"
                                     item-text="text"
                                     item-value="value"
-                                    label="Status"
+                                    label="user level"
                                     clearable
                                     color="#ee8b3d"
                                 ></v-select>
@@ -96,7 +92,7 @@
                     :loading="progressBar"
                     loading-text="Loading... Please wait"
                     :items-per-page="5"
-                    item-key="User_Id"
+                    item-key="user_id"
                     class="elevation-1"
                     :footer-props="{
                     showFirstLastPage: false,
@@ -131,7 +127,7 @@
                             v-bind="attrs"
                             v-on="on"
                             rounded
-                            v-show="accessList.C"
+                            v-show="accessList == 0"
                             >
                             <i class="flaticon-add-circular-button mr-1 text-white"></i>
                                 <span class="hideText">Tambah Data</span> 
@@ -158,41 +154,38 @@
                                             cols="12"
                                             md="6"
                                         >
-                                            <v-autocomplete
-                                                v-model="formInput.kode_user"
-                                                :items="data_kode_user"
-                                                :item-text="getTextKodeUser"
-                                                item-value="kode_user"
-                                                label="Nomor Identitas"
+                                        <v-text-field
+                                                v-model="formInput.user_nama"
+                                                item-value="user_nama"
+                                                label="Nama User"
                                                 clearable
                                                 color="#ee8b3d"
                                             >
-                                            </v-autocomplete>
+                                            ></v-text-field>
                                         </v-col>
                                         <v-col
                                             cols="12"
                                             md="6"
                                         >
-                                            <v-autocomplete
-                                                v-model="formInput.role_id"
-                                                :items="data_role_user"
-                                                item-text="role_nama"
-                                                item-value="role_id"
-                                                label="Akses"
+                                        <v-text-field
+                                                v-model="formInput.user_email"
+                                                item-text="user_email"
+                                                item-value="user_email"
+                                                label="Email"
                                                 clearable
                                                 color="#ee8b3d"
-                                            ></v-autocomplete>
+                                                ></v-text-field>
                                         </v-col>
                                         <v-col
                                             cols="12"
                                             md="6"
                                         >
                                             <v-select
-                                                v-model="formInput.status"
-                                                :items="dropdown_status"
+                                                v-model="formInput.user_level"
+                                                :items="dropdown_user_level"
                                                 item-text="text"
                                                 item-value="value"
-                                                label="Status"
+                                                label="user level"
                                                 clearable
                                                 color="#ee8b3d"
                                             ></v-select>
@@ -247,7 +240,7 @@
                                 v-bind="attrs"
                                 v-on="on"
                                 @click="editItem(item)"
-                                v-show="accessList.U"
+                                v-show="accessList == 0"
                                 >
                                 <i class="flaticon2-pen text-white"></i>
                             </v-btn>
@@ -264,7 +257,7 @@
                                 v-bind="attrs"
                                 v-on="on"
                                 @click="deleteItem(item)"
-                                v-show="accessList.D"
+                                v-show="accessList == 0"
                                 >
                                 <v-icon dark>
                                 mdi-delete
@@ -280,17 +273,11 @@
                 </v-data-table>
             </div>
         </div>
-
-        <div v-show="accessList.R == 0">
-            <div class="d-flex justify-content-center">
-                <img src="media/bg/access.png" alt="Tidak Ada Access" width="35%">
-            </div>
-        </div>
     </div>
 </template>
 
 <script>
-import Services from "@/core/services/aljazary-api/Services";
+import Services from "@/core/services/employee-api/Services";
 import ApiService from "@/core/services/api.service";
 import Swal from 'sweetalert2'
 import localStorage from "@/core/services/store/localStorage";
@@ -316,22 +303,22 @@ export default {
             update_data_user: [],
             delete_data_user: [],
             add_data_user: {
-                kode_user: "",
-                role_id: "",
+                user_nama: "",
+                user_email: "",
                 password: "",
-                status: ""
+                user_level: ""
             },
             formFilter: {
-                kode_user: "",
-                role_id: "",
-                status: ""
+                user_nama: "",
+                user_email: "",
+                user_level: ""
             },
             data_role_user: [],
-            data_kode_user: [],
+            data_user_nama: [],
             headers: [
                 { 
-                    text: 'Nomor Identitas', 
-                    value: 'user_fullname',
+                    text: 'Nama user', 
+                    value: 'user_nama',
                     align: 'start',
                     width: "150px",
                     sortable: false 
@@ -344,15 +331,8 @@ export default {
                     sortable: false 
                 },
                 { 
-                    text: 'Akses', 
-                    value: 'role_nama',
-                    align: 'start',
-                    width: "120px",
-                    sortable: false 
-                },
-                { 
-                    text: 'Status', 
-                    value: 'Status_Aktif',
+                    text: 'user level', 
+                    value: 'level_nama',
                     align: 'center',
                     width: "100px",
                     sortable: false 
@@ -368,11 +348,11 @@ export default {
             rulesNotNull: [
                 value => !!value || 'Tidak boleh kosong.',
             ],
-            dropdown_status: [
-                { value: '0', text: "Tidak Aktif" },
-                { value: '1', text: "Aktif" },
+            dropdown_user_level: [
+                { value: '0', text: "Admin" },
+                { value: '1', text: "Users" },
             ],
-            accessList: []
+            accessList: ''
         }
     },
 
@@ -399,41 +379,12 @@ export default {
                 : this.updateDataUser;
         },
         isDisabledSimpan(){
-            return !this.formInput.kode_user || !this.formInput.password
-            || !this.formInput.role_id
+            return !this.formInput.user_nama || !this.formInput.password
+            || !this.formInput.user_email
         }
     },
 
     methods:{
-        asyncAccess(){
-            return new Promise(resolve => {
-                var mydata = {
-                    UID: localStorage.getLocalStorage("uid"),
-                    Token: localStorage.getLocalStorage("token"),
-                    Trigger: "R",
-                    Route: "READ_AKSES",
-                    menu_url: this.$router.currentRoute.path
-                };
-
-                let contentType = `application/x-www-form-urlencoded`;
-
-                const qs = require("qs");
-
-                Services.PostData(
-                    ApiService,
-                    "Master/Privilege",
-                    qs.stringify(mydata),
-                    contentType,
-                    response => {
-                        resolve(response.data);
-                        this.accessList = response.data[0];
-                    },
-                    err => {
-                        err;
-                    }
-                );
-            });
-        },
 
         getMasterUsers(){
             return new Promise(resolve => {
@@ -442,9 +393,9 @@ export default {
                     Token: localStorage.getLocalStorage("token"),
                     Trigger: "R",
                     Route: "DEFAULT",
-                    kode_user: this.formFilter.kode_user,
-                    role_id: this.formFilter.role_id,
-                    status: this.formFilter.status
+                    user_nama: this.formFilter.user_nama,
+                    user_email: this.formFilter.user_email,
+                    user_level: this.formFilter.user_level
                 };
 
                 let contentType = `application/x-www-form-urlencoded`;
@@ -467,76 +418,30 @@ export default {
             });
         },
 
-        getKodeUser(){
-            return new Promise(resolve => {
-                var mydata = {
-                    UID: localStorage.getLocalStorage("uid"),
-                    Token: localStorage.getLocalStorage("token"),
-                    Trigger: "R",
-                    Route: "COMBO_USER"
-                };
+        getFormattedDate() {
+                const currentDate = new Date();
+                const day = currentDate.getDate();
+                const month = currentDate.getMonth() + 1; // January is 0!
+                const year = currentDate.getFullYear();
 
-                let contentType = `application/x-www-form-urlencoded`;
+                // Format tanggal seperti dd-MM-yyyy
+                return `${day}-${month}-${year}`;
+            },
 
-                const qs = require("qs");
-
-                Services.PostData(
-                    ApiService,
-                    "Master/Pengajar",
-                    qs.stringify(mydata),
-                    contentType,
-                    response => {
-                        resolve(response.data);
-                        this.data_kode_user = response.data;
-                    },
-                    err => {
-                        err;
-                    }
-                );
-            });
-        },
-
-        getRoleUser(){
-            return new Promise(resolve => {
-                var mydata = {
-                    UID: localStorage.getLocalStorage("uid"),
-                    Token: localStorage.getLocalStorage("token"),
-                    Trigger: "R",
-                    Route: "DEFAULT"
-                };
-
-                let contentType = `application/x-www-form-urlencoded`;
-
-                const qs = require("qs");
-
-                Services.PostData(
-                    ApiService,
-                    "Master/RoleUser",
-                    qs.stringify(mydata),
-                    contentType,
-                    response => {
-                        resolve(response.data);
-                        this.data_role_user = response.data;
-                    },
-                    err => {
-                        err;
-                    }
-                );
-            });
-        },
 
         createDataUser(){
             return new Promise(resolve => {
                 var mydata = {
-                    UID: localStorage.getLocalStorage("uid"),
-                    Token: localStorage.getLocalStorage("token"),
-                    Trigger: "C",
-                    Route: "DEFAULT",
-                    kode_user: this.add_data_user.kode_user,
-                    user_password: this.add_data_user.password,
-                    role_id: this.add_data_user.role_id,
-                    status: this.add_data_user.status
-                };
+                UID: localStorage.getLocalStorage("uid"),
+                Token: localStorage.getLocalStorage("token"),
+                Trigger: "C",
+                Route: "DEFAULT",
+                user_nama: this.add_data_user.user_nama,
+                user_password: this.add_data_user.password,
+                user_email: this.add_data_user.user_email,
+                user_level: this.add_data_user.user_level,
+                tgl_terdaftar: this.getFormattedDate(),
+            };
 
                 let contentType = `application/x-www-form-urlencoded`;
 
@@ -549,7 +454,7 @@ export default {
                 contentType,
                 response => {
                     resolve(response.data);
-                    if (response.status == 1000) {
+                    if (response.user_level == 1000) {
                         Swal.fire({
                             title: "",
                             text: "Berhasil menambahkan data.",
@@ -560,7 +465,7 @@ export default {
                     } else {
                         Swal.fire({
                             title: "",
-                            text: response.message,
+                            text: response.message_opt,
                             icon: "info",
                             heightAuto: true,
                             timer: 1500
@@ -604,7 +509,7 @@ export default {
                         Token: localStorage.getLocalStorage("token"),
                         Trigger: "D",
                         Route: "DEFAULT",
-                        user_id: item.User_Id
+                        user_id: item.user_id
                     };
 
                     let contentType = `application/x-www-form-urlencoded`;
@@ -617,7 +522,7 @@ export default {
                         contentType,
                         response => {
                             resolve(response.data);
-                            if (response.status == 1000) {
+                            if (response.user_level == 1000) {
                                 Swal.fire({
                                     title: "",
                                     text: "Berhasil menghapus data.",
@@ -651,10 +556,10 @@ export default {
         close () {
             this.dialog = false
             this.$nextTick(() => {
-                this.add_data_user.kode_user = ""
-                this.add_data_user.role_id = ""
+                this.add_data_user.user_nama = ""
+                this.add_data_user.user_email = ""
                 this.add_data_user.password = ""
-                this.add_data_user.status = ""
+                this.add_data_user.user_level = ""
                 this.editedItem = Object.assign({}, this.defaultItem)
                 this.editedIndex = -1
             })
@@ -667,11 +572,10 @@ export default {
                     Token: localStorage.getLocalStorage("token"),
                     Trigger: "U",
                     Route: "DEFAULT",
-                    user_id: this.data_item.User_Id,
-                    kode_user: this.editedItem.kode_user,
+                    user_id: this.data_item.user_id,
+                    user_nama: this.editedItem.user_nama,
                     user_email: this.editedItem.user_email,
-                    role_id: this.editedItem.role_id,
-                    status: this.editedItem.status,
+                    user_level: this.editedItem.user_level,
                     user_password: this.editedItem.password
                 };
 
@@ -686,7 +590,7 @@ export default {
                     contentType,
                     response => {
                         resolve(response.data);
-                        if (response.status == 1000) {
+                        if (response.user_level == 1000) {
                             Swal.fire({
                                 title: "",
                                 text: "Berhasil mengubah data.",
@@ -736,9 +640,9 @@ export default {
         },
 
         clearFilter(){
-            this.formFilter.kode_user = ""
-            this.formFilter.role_id = ""
-            this.formFilter.status = ""
+            this.formFilter.user_nama = ""
+            this.formFilter.user_email = ""
+            this.formFilter.user_level = ""
             this.getMasterUsers()
         },
 
@@ -749,9 +653,9 @@ export default {
                     Token: localStorage.getLocalStorage("token"),
                     Trigger: "R",
                     Route: "DEFAULT",
-                    kode_user: this.formFilter.kode_user,
-                    role_id: this.formFilter.role_id,
-                    status: this.formFilter.status
+                    user_nama: this.formFilter.user_nama,
+                    user_email: this.formFilter.user_email,
+                    user_level: this.formFilter.user_level
                 };
 
                 let contentType = `application/x-www-form-urlencoded`;
@@ -778,13 +682,11 @@ export default {
 
         async load() {
             Promise.all([
-                await this.asyncAccess(),
-                await this.getRoleUser(),
-                await this.getKodeUser(),
                 await this.getMasterUsers()
             ]).then(function(results) {
                 results;
             });
+            this.accessList = localStorage.getLocalStorage("user_level")
         },
     }
 }

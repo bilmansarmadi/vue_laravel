@@ -6,12 +6,10 @@ import auth from "./auth.module";
 import htmlClass from "./htmlclass.module";
 import config from "./config.module";
 import breadcrumbs from "./breadcrumbs.module";
-import profile from "./profile.module";
-import mThnAjaran from './m_ThnAjaran.module';
-import mKelas from './mKelas.module';
-import mMapel from './mMapel.module';
-import rhSantri from './rhSantri.module';
-import mPrivilege from './mPrivilege.module';
+import mCity from './mCity.module';
+import mBank from './mBank.module';
+import mPositions from './mPositions.module';
+import mProvinces from './mProvinces.module';
 
 Vue.use(Vuex);
 
@@ -21,12 +19,11 @@ export default new Vuex.Store({
     htmlClass,
     config,
     breadcrumbs,
-    profile,
-    mThnAjaran,
-    mKelas,
-    mMapel,
-    rhSantri,
-    mPrivilege
+    mCity,
+    mBank,
+    mPositions,
+    mProvinces
+
   },
   plugins: [createPersistedState()],
 });

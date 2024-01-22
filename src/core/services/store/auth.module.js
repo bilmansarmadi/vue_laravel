@@ -1,10 +1,11 @@
 import ApiService from "@/core/services/api.service";
 import JwtService from "@/core/services/jwt.service";
-import { Fetch_MThn_Ajaran, Fetch_MThn_Ajaran_ComboBox } from "@/core/services/store/m_ThnAjaran.module";
-import { Fetch_MKelas} from "@/core/services/store/mKelas.module";
-import { Fetch_mMapel} from "@/core/services/store/mMapel.module";
+import { Fetch_MCity} from "@/core/services/store/mCity.module";
+import { Fetch_MBank} from "@/core/services/store/mBank.module";
+import { Fetch_MProvinces} from "@/core/services/store/mProvinces.module";
+import { Fetch_MPositions} from "@/core/services/store/mPositions.module";
 
-import Service from '@/core/services/aljazary-api/Services';
+import Service from '@/core/services/employee-api/Services';
 import localStorage from './localStorage'
 import Swal from 'sweetalert2'
 
@@ -40,41 +41,35 @@ const actions = {
   [LOGIN](context, credentials) {
     return new Promise(resolve => {
       var mydata = {
-        Trigger             : "R",
-        Route               : 'LOGIN',
-        Token               : '_:>$%#%&%$522*(*&^%',
-        UID                 : 'R',
-        user_email          : credentials.user_email,
-        user_password       : credentials.user_password
+        users_email: credentials.user_email,
+        users_password: credentials.user_password
       };
-
+  
       let contentType = `application/x-www-form-urlencoded`;
-
+  
       const qs = require("qs");
-
+  
       Service.PostData(
         ApiService,
-        "Master/Users",
+        "users/login",
         qs.stringify(mydata),
         contentType,
         response => {
           resolve(response);
-          if (response.status == 1000) {
-            context.commit(SET_AUTH, response.data[0]);
+          console.log(response, 'oi');
+          if (response.success) {
+            context.commit(SET_AUTH, response.data);
+  
             const timestamp = Date.now();
             localStorage.setLocalStorage('loginTimestamp', timestamp);
-            localStorage.setLocalStorage('role_id', response.data[0].role_id);
-            localStorage.setLocalStorage('uid', response.data[0].User_Id);
-            localStorage.setLocalStorage('kode_user', response.data[0].kode_user);
-            localStorage.setLocalStorage('user_fullname', response.data[0].nama);
-            localStorage.setLocalStorage('token', response.data[0].token);
-            localStorage.setLocalStorage('jenis_user', response.data[0].jenis_user);
-
-            context.dispatch(Fetch_MThn_Ajaran)
-            context.dispatch(Fetch_MThn_Ajaran_ComboBox)
-            context.dispatch(Fetch_MKelas)
-            context.dispatch(Fetch_mMapel)
-
+            localStorage.setLocalStorage('users_token', response.data.users_token);
+            localStorage.setLocalStorage('users_name', response.data.users_nama);
+            localStorage.setLocalStorage('users_email', response.data.users_level);
+            ApiService.init();
+            context.dispatch(Fetch_MCity)
+            context.dispatch(Fetch_MBank)
+            context.dispatch(Fetch_MProvinces)
+            context.dispatch(Fetch_MPositions)
             const Toast = Swal.mixin({
               toast: true,
               position: 'top-end',
@@ -86,12 +81,12 @@ const actions = {
                 toast.addEventListener('mouseleave', Swal.resumeTimer)
               }
             })
-            
+  
             Toast.fire({
               icon: 'success',
               title: 'Berhasil login...'
             })
-          } else{
+          } else {
             Swal.fire({
               title: response.message,
               icon: "warning",
@@ -114,6 +109,7 @@ const actions = {
       );
     });
   },
+  
   [LOGOUT](context) {
     localStorage.deleteLocalStorage("uid");
     localStorage.deleteLocalStorage("token");
@@ -125,17 +121,80 @@ const actions = {
     context.commit(PURGE_AUTH);
   },
   [REGISTER](context, credentials) {
-    return new Promise(resolve => {
-      ApiService.post("login", credentials)
-        .then(({ data }) => {
-          context.commit(SET_AUTH, data);
-          resolve(data);
-        })
-        .catch(({ response }) => {
-          context.commit(SET_ERROR, response.data.errors);
-        });
+    return new Promise((resolve, reject) => {
+      const currentDate = new Date();
+      const day = currentDate.getDate().toString().padStart(2, '0');
+      const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+      const year = currentDate.getFullYear();
+      const formattedDate = `${day}-${month}-${year}`;
+  
+      var mydata = {
+        Trigger: "C",
+        Route: 'DEFAULT',
+        Token: '_:>$%#%&%$522*(*&^%',
+        UID: 'C',
+        user_email: credentials.user_email,
+        user_password: credentials.user_password,
+        user_nama: credentials.user_nama,
+        user_level: 1,
+        tgl_terdaftar: formattedDate
+      };
+  
+      let contentType = `application/x-www-form-urlencoded`;
+      const qs = require("qs");
+  
+      Service.PostData(
+        ApiService,
+        "Master/Users",
+        qs.stringify(mydata),
+        contentType,
+        response => {
+          if (response.status == 1000) {
+            const timestamp = Date.now();
+            const Toast = Swal.mixin({
+              toast: true,
+              position: 'top-end',
+              showConfirmButton: false,
+              timer: 3000,
+              timerProgressBar: true,
+              didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer);
+                toast.addEventListener('mouseleave', Swal.resumeTimer);
+              }
+            });
+  
+            Toast.fire({
+              icon: 'success',
+              title: 'Berhasil Register...'
+            });
+            resolve(response);
+          } else {
+            console.log('Hellloos',response);  
+            Swal.fire({
+              title: response.message_opt,
+              icon: "warning",
+              confirmButtonClass: "btn btn-secondary",
+              heightAuto: true,
+              timer: 3000
+            });
+            reject(response);
+          }
+        },
+        err => {
+          console.log('hello', err); // Cetak kesalahan ke konsol
+          Swal.fire({
+            title: "Gagal Regiter",
+            icon: "error",
+            confirmButtonClass: "btn btn-secondary",
+            heightAuto: true,
+            timer: 1500
+          });
+          context.commit(SET_ERROR, err);
+          reject(err);
+        }
+      );
     });
-  },
+  },  
   [VERIFY_AUTH](context) {
     if (JwtService.getToken()) {
       if(context.state.user.data > 0){

@@ -13,7 +13,7 @@
         <div class="d-flex flex-row-fluid flex-column justify-content-between">
           <!--begin: Aside header -->
           <a href="#" class="flex-column-auto">
-            <img src="media/logos/LogoAlJazary.png" class="h-25" />
+            <img src="media/logos/logoperpus.png" class="h-25" />
           </a>
           <!--end: Aside header -->
           <!--begin: Aside content -->

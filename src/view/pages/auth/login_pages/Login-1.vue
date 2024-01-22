@@ -17,7 +17,7 @@
           <div class="d-flex flex-column-auto flex-column pt-lg-20 pt-10">
             <a href="#" class="text-center mb-5">
               <img
-                src="media/logos/LogoAlJazary.png"
+                src="media/logos/logoperpus.png"
                 class="max-h-150px"
                 alt=""
               />
@@ -26,8 +26,7 @@
               class="font-weight-bolder text-center font-size-h4 font-size-h1-lg mb-10"
               style="color: #000;"
             >
-            Pondok Pesantren Qur'an<br>Al Jazary
-            </h3>
+           Employee Data             </h3>
           </div>
           <div
             class="aside-img d-flex flex-row-fluid bgi-no-repeat bgi-position-y-bottom bgi-position-x-center"
@@ -51,10 +50,10 @@
                   <h3
                     class="font-weight-bolder text-dark font-size-h4 font-size-h4-lg"
                   >
-                    Welcome to Web Al Jazary
+                    Welcome to Web Employee
                   </h3>
                   <span class="text-muted font-weight-bold font-size-h6"
-                    >Pondok Pesantren Qur'an</span
+                    >Login Here</span
                   >
                 </div>
                 <v-row>
@@ -101,92 +100,94 @@
                   >
                     Sign In
                   </button>
-                </div>
+                </div>                
+                  <div class="text-center mb-10">
+                  Don't have an account? <a @click="showForm('signup')"  style="cursor: pointer;">Register here</a>
+                  </div>
               </form>
             </div>
             <!--end::Signin-->
             <!--begin::Signup-->
-            <div class="login-form login-signup">
+            <div class="card cardHover login-form login-signup">
               <form
-                class="form"
+                class="form p-10 mt-10"
                 novalidate="novalidate"
                 id="kt_login_signup_form"
               >
-                <div class="pb-13 pt-lg-0 pt-5">
+                <div class="pb-7 pt-lg-0 pt-5">
                   <h3
-                    class="font-weight-bolder text-dark font-size-h4 font-size-h1-lg"
+                    class="font-weight-bolder text-dark font-size-h4 font-size-h4-lg"
                   >
-                    Sign Up
+                    Register Login
                   </h3>
-                  <p class="text-muted font-weight-bold font-size-h4">
-                    Enter your details to create your account
-                  </p>
+                  <span class="text-muted font-weight-bold font-size-h6"
+                    >silahkan lakukan registrasi</span
+                  >
                 </div>
-                <div class="form-group">
-                  <input
-                    class="form-control form-control-solid h-auto py-7 px-6 rounded-lg font-size-h6"
-                    type="text"
-                    placeholder="Fullname"
-                    name="fullname"
-                    ref="fullname"
-                    autocomplete="off"
-                  />
-                </div>
-                <div class="form-group">
-                  <input
-                    class="form-control form-control-solid h-auto py-7 px-6 rounded-lg font-size-h6"
-                    type="email"
-                    placeholder="Email"
-                    name="email"
-                    ref="remail"
-                    autocomplete="off"
-                  />
-                </div>
-                <div class="form-group">
-                  <input
-                    class="form-control form-control-solid h-auto py-7 px-6 rounded-lg font-size-h6"
-                    type="password"
-                    placeholder="Password"
-                    name="password"
-                    ref="rpassword"
-                    autocomplete="off"
-                  />
-                </div>
-                <div class="form-group">
-                  <input
-                    class="form-control form-control-solid h-auto py-7 px-6 rounded-lg font-size-h6"
-                    type="password"
-                    placeholder="Confirm password"
-                    name="cpassword"
-                    ref="cpassword"
-                    autocomplete="off"
-                  />
-                </div>
-                <div class="form-group">
-                  <label class="checkbox mb-0">
-                    <input type="checkbox" name="agree" />
-                    <span class="mr-2"></span>
-                    I Agree the
-                    <a href="#" class="ml-2">terms and conditions</a>.
-                  </label>
-                </div>
-                <div class="form-group d-flex flex-wrap pb-lg-0 pb-3">
+                <v-row>
+                  <v-col
+                    cols="12"
+                    sm="12"
+                  >
+                    <v-text-field
+                      class="rounded"
+                      v-model="form.user_nama"
+                      label="Nama"
+                      color="#ee8b3d"
+                      :rules="rulesNama"
+                      hide-details="auto"
+                      shaped
+                      clearable
+                    ></v-text-field>
+                  </v-col>
+
+                  <v-col
+                    cols="12"
+                    sm="12"
+                  >
+                    <v-text-field
+                      class="rounded"
+                      v-model="form.user_email"
+                      label="Email"
+                      color="#ee8b3d"
+                      :rules="rulesEmail"
+                      hide-details="auto"
+                      shaped
+                      clearable
+                    ></v-text-field>
+                  </v-col>
+  
+                  <v-col
+                    cols="12"
+                    sm="12"
+                  >
+                    <v-text-field 
+                      class="rounded"
+                      v-model="form.user_password"
+                      :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+                      :type="show ? 'text' : 'password'"
+                      :rules="rulesPwd"
+                      hide-details="auto"
+                      color="#ee8b3d"
+                      shaped
+                      label="Password"
+                      clearable
+                      @click:append="show = !show"
+                    ></v-text-field>
+                  </v-col>
+                </v-row>
+                <div class="d-flex justify-content-center mb-10">
                   <button
+                    :disabled='isDisabled'
                     ref="kt_login_signup_submit"
-                    class="btn btn-primary font-weight-bolder font-size-h6 px-8 py-4 my-3 mr-4"
-                    style="width:150px;"
+                    class="btn btn-primary btn-sm font-weight-bolder font-size-h6 rounded-lg py-3 mt-8"
                   >
-                    Submit
+                    Register
                   </button>
-                  <button
-                    type="button"
-                    id="kt_login_signup_cancel"
-                    class="btn btn-light-primary font-weight-bolder font-size-h6 px-8 py-4 my-3"
-                    @click="showForm('signin')"
-                  >
-                    Cancel
-                  </button>
-                </div>
+                </div>     
+                <div class="text-center mb-10">
+                  Already? <a @click="showForm('signin')"  style="cursor: pointer;">Signin here</a>
+                  </div>           
               </form>
             </div>
             <!--end::Signup-->
@@ -288,13 +289,17 @@ export default {
       // Remove this dummy login info
       form: {
         user_email: "",
-        user_password: ""
+        user_password: "",
+        user_nama: ""
       },
       rulesEmail: [
         value => !!value || 'Email Tidak boleh kosong.',
         value => (value && this.reg.test(value)) || 'Format email salah'
       ],
       rulesPwd: [
+        value => !!value || 'Tidak boleh kosong.'
+      ],
+      rulesNama: [
         value => !!value || 'Tidak boleh kosong.'
       ],
       reg: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/
@@ -459,8 +464,9 @@ export default {
     });
 
     this.fv1.on("core.form.valid", () => {
-      const email = this.$refs.remail.value;
-      const password = this.$refs.rpassword.value;
+      var user_email = this.form.user_email;
+      var user_password = this.form.user_password;
+      var user_nama = this.form.user_nama;
 
       // clear existing errors
       this.$store.dispatch(LOGOUT);
@@ -472,12 +478,9 @@ export default {
       // dummy delay
       setTimeout(() => {
         // send register request
-        this.$store
-          .dispatch(REGISTER, {
-            email: email,
-            password: password
-          })
-          .then(() => this.$router.push({ name: "dashboard" }));
+        this.$store.dispatch(REGISTER, { user_email, user_password, user_nama })
+          .then(() => this.$router.push({ name: "dashboard" }))
+          .catch(() => {});
 
         submitButton.classList.remove(
           "spinner",

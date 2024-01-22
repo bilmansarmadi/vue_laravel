@@ -1,6 +1,7 @@
 import Vue from "vue";
 import axios from "axios";
 import VueAxios from "vue-axios";
+import localStorage from "@/core/services/store/localStorage";
 import JwtService from "@/core/services/jwt.service";
 
 /**
@@ -9,7 +10,8 @@ import JwtService from "@/core/services/jwt.service";
 const ApiService = {
   init() {
     Vue.use(VueAxios, axios);
-    Vue.axios.defaults.baseURL = "http://localhost:3000/api/";
+    Vue.axios.defaults.baseURL = "http://localhost:8000/api/";
+    this.setHeader(); // Panggil setHeader di sini
   },
 
   /**
@@ -18,7 +20,7 @@ const ApiService = {
   setHeader() {
     Vue.axios.defaults.headers.common[
       "Authorization"
-    ] = `${JwtService.getToken()}`;
+    ] = `${localStorage.getLocalStorage("users_token")}`;
   },
 
   query(resource, params) {

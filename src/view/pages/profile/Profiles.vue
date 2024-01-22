@@ -93,7 +93,7 @@
 </template>
 
 <script>
-import Services from "@/core/services/aljazary-api/Services";
+import Services from "@/core/services/employee-api/Services";
 import ApiService from "@/core/services/api.service";
 import localStorage from "@/core/services/store/localStorage";
 import Swal from 'sweetalert2'

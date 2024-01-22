@@ -4,15 +4,6 @@
       <div class="container">
         <div class="d-none d-lg-flex align-items-center mr-3">
           <!--begin::Logo-->
-          <div class="mr-5">
-            <router-link to="/">
-              <img
-                alt="Logo"
-                :src="layoutConfig('self.logo.default')"
-                class="max-h-65px"
-              />
-            </router-link>
-          </div>
           <!--end::Logo-->
           <!-- <ul
             class="header-tabs nav align-self-end font-size-lg"
@@ -71,7 +62,7 @@
             class="font-weight-boldest text-center font-size-h3 "
             style="color: #FFFFF0;"
           >
-            Pondok Pesantren Qur'an Al Jazary
+            Employee Data
           </h4>
         </div>
         <KTTopbar></KTTopbar>
@@ -84,19 +75,6 @@
           id="kt_header_navs"
           ref="kt_header_navs"
         >
-          <div v-if="$route.name != 'dashboard'">
-            <div class="tab-pane show active">
-              <!--begin::Menu-->
-              <div
-                id="kt_header_menu"
-                ref="kt_header_menu"
-                class="header-menu header-menu-mobile header-menu-layout-default"
-              >
-                <KTMenu></KTMenu>
-              </div>
-              <!--end::Menu-->
-            </div>
-          </div>
         </div>
       </div>
     </div>
@@ -109,12 +87,14 @@ import KTTopbar from "@/view/layout/header/Topbar.vue";
 import KTLayoutHeader from "@/assets/js/layout/base/header.js";
 import KTLayoutHeaderMenu from "@/assets/js/layout/base/header-menu.js";
 import KTMenu from "@/view/layout/header/Menu.vue";
+import localStorage from "@/core/services/store/localStorage";
 
 export default {
   name: "KTHeader",
   data() {
     return {
-      tabIndex: 0
+      tabIndex: 0,
+      akses: ''
     };
   },
   components: {
@@ -127,6 +107,7 @@ export default {
       this.$refs["kt_header"],
       this.$refs["kt_header_mobile"]
     );
+    
 
     // Init Header Menu
     KTLayoutHeaderMenu.init(
@@ -182,19 +163,25 @@ export default {
      */
     widthFluid() {
       return this.layoutConfig("header.self.width") === "fluid";
-    }
+    },
+
+    shouldShowDaftarUser() {
+      this.akses = localStorage.getLocalStorage('user_level');
+      return this.akses == 0;
+    },
   },
   methods: {
     /**
      * Set current active on click
      * @param event
      */
+    
     setActiveTab(event) {
       let target = event.target;
       if (!event.target.classList.contains("nav-link")) {
         target = event.target.closest(".nav-link");
       }
-
+      
       const tab = target.closest('[role="tablist"]');
       const links = tab.querySelectorAll(".nav-link");
       // remove active tab links
